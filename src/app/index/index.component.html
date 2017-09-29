@@ -1,0 +1,94 @@
+<root-container
+  [headerFixed]="setting.headerFixed"
+  [asideFixed]="setting.asideFixed"
+  [asideFolded]="setting.asideFolded"
+  [asideDock]="setting.asideDock"
+  [container]="setting.container"
+  [offScreen]="setting.offScreen">
+  <header>
+    <header-left>
+      <button class="pull-right visible-xs" (click)="headerRight.toggleDropDown()" >
+        <i class="glyphicon glyphicon-cog"></i>
+      </button>
+      <button class="pull-right visible-xs"   (click)="toggleOffScreen()">
+        <i class="glyphicon glyphicon-align-justify"></i>
+      </button>
+      <a class="navbar-brand text-lt">
+        <i class="fa fa-btc logo"></i>
+        <span class="hidden-folded m-l-xs ng-binding">风控管理</span>
+      </a>
+    </header-left>
+    <header-right  #headerRight>
+      <div class="nav navbar-nav hidden-xs" (click)="toggleAsideFolded()">
+        <a  class="btn no-shadow navbar-btn" >
+          <i class="fa fa-fw" [ngClass]="{'fa-dedent':!setting.asideFolded,'fa-indent':setting.asideFolded}" ></i>
+        </a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        
+        <li class="dropdown" toggleClass="open" [opt-revokable]="true">
+          <a  class="dropdown-toggle clear"  aria-haspopup="true" aria-expanded="false">
+              
+            <span class="hidden-sm hidden-md">{{userName}}</span> <b class="caret"></b>
+          </a>
+          <!-- dropdown -->
+          <ul class="dropdown-menu animated fadeInRight w">
+            <li>
+              <a (click)="logOut()">退出</a>
+            </li>
+          </ul>
+          <!-- / dropdown -->
+        </li>
+      </ul>
+    </header-right>
+  </header>
+  <aside-left>
+    <nav-wrap>
+      <nav-item icon="glyphicon glyphicon-briefcase" text="首页" >
+          <sub-nav-item text="消息区" link="/home/message"></sub-nav-item>
+      </nav-item>
+      <nav-item icon="glyphicon glyphicon-user" text="审批事项">
+          <sub-nav-item text="认证审批" link="/check/authentication" ></sub-nav-item>
+          <sub-nav-item text="授信审批" link="/check/credit" ></sub-nav-item>
+          <sub-nav-item text="展期审批" link="/check/spread"></sub-nav-item>
+      </nav-item>
+
+
+      <nav-item icon="glyphicon glyphicon-th-list" text="风控管理">
+          
+          <sub-nav-item text="会员画像" link="/manage/memberPortrayal"></sub-nav-item>
+          <sub-nav-item text="上游画像" link="/manage/upsteamPortrayal"></sub-nav-item>
+          <sub-nav-item  text="风控要求" >
+              <thirth-nav-item text="供应链" link="/manage/demand/chain"></thirth-nav-item>
+              <thirth-nav-item text="标准信用类" link="/manage/demand/standard"></thirth-nav-item>
+          </sub-nav-item>
+      </nav-item>
+      
+      
+      <nav-item icon="glyphicon glyphicon-list-alt" text="模型配置" >
+          <sub-nav-item text="资料定义" link="/model/info" ></sub-nav-item>
+          <sub-nav-item text="信用模型" link="/model/creditModel" ></sub-nav-item>
+          <sub-nav-item text="供应链模型" link="/model/chainModel" ></sub-nav-item>
+      </nav-item>
+
+      
+
+
+      
+    </nav-wrap>
+  </aside-left>
+  <div class="app-content" (click)="cancelOffScreen()">
+    <router-outlet></router-outlet>
+  </div>
+</root-container>
+
+
+
+
+
+
+
+
+
+
+

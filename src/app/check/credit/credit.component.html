@@ -1,0 +1,83 @@
+<div class="page-location">
+  <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
+  <a class="page-location-item active">产品授信审批列表</a>
+</div>
+<div class="wrapper">
+  <div class="wrapper bg-white clearfix">
+    <div class="col-md-3 ">
+      <button class="btn" [class.btn-info]="authApplyReplyNum==1" (click)="getList(1)">待审批</button>
+      <button class="btn" [class.btn-info]="authApplyReplyNum==2" (click)="getList(2)">已审批</button>
+    </div>
+    
+  </div>
+  <div>
+  	<p-dataTable tableStyleClass="table-style" [value]="dataList" emptyMessage="{{loading?'正在加载...':'暂无数据'}}" [loading]="loading">
+      
+      <p-column field="creditAuthId" header="申请ID"></p-column>
+      <p-column field="memberName" header="会员名称"></p-column>
+      <p-column field="productName" header="产品"></p-column>
+      <p-column field="addCreditValue" header="申请额度(元)">
+        <ng-template let-operation="rowData" pTemplate="body" styleClass="text-right">
+          <div class="text-right">
+            {{operation.addCreditValue | yuanFormat}}
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="oldCreditValue" header="原授信额度(元)">
+        <ng-template let-operation="rowData" pTemplate="body" styleClass="text-right">
+          <div class="text-right">
+            {{operation.oldCreditValue | yuanFormat}}
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="statusDic" header="状态"></p-column>
+
+      <p-column field="serviceMan" header="服务经理"></p-column>
+      <p-column field="createTime" header="申请时间" styleClass="text-center"></p-column>
+      <p-column field="ooo" header="操作">
+        <ng-template let-operation="rowData" pTemplate="body" styleClass="text-center s-width">
+          <div class="text-center s-width">
+            <button *ngIf="authApplyReplyNum==1" class="btn btn-info" (click)='check(operation)'>审批</button>
+            <button *ngIf="authApplyReplyNum==1" class="btn btn-info" (click)='history(operation)'>授信历史</button>
+            <button *ngIf="authApplyReplyNum==2" class="btn btn-info" (click)='detail(operation)'>查看</button>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-footer>
+        <div class="clearfix">
+          <div class="pull-right">
+            <paginator [(index)]="page" [count]="count" [changePageSizeAble]="true" [(pageSize)]="rows" (onChangePage)="getList(authApplyReplyNum)" size="sm" [showTotal]="true"></paginator>
+          </div>
+        </div>
+      </p-footer>
+    </p-dataTable>
+  </div>
+</div>
+<!-- 授信历史模态框部分 -->
+<modal [(visible)]="creditModal" size="lg">
+  <modal-header>
+    <h4 class="modal-title">授信历史————{{modalMemberName}}</h4>
+  </modal-header>
+  <modal-body>
+    <div class="">
+      <table class="table m-b-none" border="1" *ngIf="modalCreditList">
+        <tbody>
+          <tr *ngFor="let item of modalCreditList;let i=index">
+            <td class="text-center">{{i+1}}</td>
+            <td>{{item.productName}}</td>
+            <td>{{item.productTypeName}}</td>
+            <td>{{item.creditValue | yuanFormat}}</td>
+            <td>{{item.expiryDateBegin | effDateFormat}} 至 {{item.expiryDateEnd | effDateFormat}}</td>
+            <td>{{item.updateTime}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-center" *ngIf="!modalCreditList">
+        无数据
+      </div>
+    </div>
+  </modal-body>
+  <modal-footer>
+    <button class="btn btn-default" type="button" (click)="closeModal()">关闭</button>
+  </modal-footer>
+</modal>
