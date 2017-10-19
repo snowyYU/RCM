@@ -2,7 +2,7 @@ import {Injectable}     from '@angular/core';
 import {HttpClient,HttpHeaders,HttpParams}     from '@angular/common/http';
 
 
-import {API, host} from '../config/app.config';
+import {API, HOST} from '../config/app.config';
 import {Observable} from "rxjs/Observable";
 export interface MyHttpAPIOptions {
   url: string;
@@ -56,7 +56,7 @@ export class MyHttpClient {
           url += '?' + urlParams;
         }
       }
-      url = host + url;
+      url = HOST + url;
       return url;
     }
   }
