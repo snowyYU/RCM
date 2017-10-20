@@ -15,7 +15,7 @@ export class IndexComponent {
   constructor(
     private router:Router,
     private settingService:SettingService,
-    private authRoleService:AuthRoleService
+    public authRoleService:AuthRoleService
     ){
     this.setting=this.settingService.getSetting();
     // this.role=this.authRoleService.role;

@@ -22,8 +22,8 @@
       <p-column field="ooo" header="操作">
         <ng-template let-operation="rowData" pTemplate="body" styleClass="text-center">
           <div class="text-center">
-            <button *ngIf="authApplyReplyNum==1" class="btn btn-info" (click)='check(operation)'>审批</button>
-            <button *ngIf="authApplyReplyNum==2" class="btn btn-info" (click)='detail(operation)'>查看</button>
+            <a *ngIf="authApplyReplyNum==1" class="table-btn" (click)='check(operation)'>审批</a>
+            <button *ngIf="authApplyReplyNum==2" class="table-btn" (click)='detail(operation)'>查看</button>
           </div>
         </ng-template>
       </p-column>
