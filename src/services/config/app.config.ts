@@ -11,9 +11,17 @@ export const HOST = {
   prod: 'http://192.168.10.10:9090/rcm/'
   //测试路径
 };
+
+export const host = environment.production?HOST.prod:HOST.dev
+
+
 export const API = {
   login: {
     url: 'oauth/login',
+    method: 'post'
+  },
+  setPassword:{//修改密码/审核口令
+    url:'/iam/employee/setPwd',
     method: 'post'
   },
   /*-----------------------------------刷新Token---------------------------------------*/
