@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core'
-import { MyHttp } from '../../../../services/myHttp/myhttp.service'
+import { MyHttpClient } from '../../../../services/myHttp/myhttpClient.service'
 
 
 @Injectable()
 export class CreditDetailService{
 	constructor(
-		private myHttp:MyHttp
+		private myHttp:MyHttpClient
 		){}
 
 	getData(id:number):Promise<any>{
@@ -15,7 +15,7 @@ export class CreditDetailService{
 				creditAuthId:id
 			}
 		}).toPromise().then(res=>{
-			let data=res.json();
+			let data=res;
 			if (data.status==200) {
 				 return Promise.resolve(data)
 			}else{

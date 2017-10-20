@@ -9,6 +9,8 @@ import {CheckboxComponent} from 'dolphinng';
 import {RadioComponent} from 'dolphinng';
 import {ToggleComponent} from 'dolphinng';
 import {PaginatorComponent} from 'dolphinng';
+import {HTML5ValidateDirective}   from '../../directives/HTML5Validate/HTML5Validate.directive';
+
 
 import { UploaderModule } from '../../utils/uploader/uploader.module'
 
@@ -36,7 +38,8 @@ import { ModalComponent,ModalHeaderComponent,ModalBodyComponent,ModalFooterCompo
     ModalFooterComponent,
     YuanFormatPipe,
     EffDateFormatPipe,
-    GalleryComponent
+    GalleryComponent,
+    HTML5ValidateDirective
   ],
   exports:      [
     FormsModule,
@@ -56,7 +59,8 @@ import { ModalComponent,ModalHeaderComponent,ModalBodyComponent,ModalFooterCompo
     ModalFooterComponent,
     YuanFormatPipe,
     EffDateFormatPipe,
-    GalleryComponent
+    GalleryComponent,
+    HTML5ValidateDirective
   ]
 })
 export class SharedModule { }

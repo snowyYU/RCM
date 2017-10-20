@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { MyHttp } from '../../../../services/myHttp/myhttp.service'
+import { MyHttpClient } from '../../../../services/myHttp/myhttpClient.service'
 
 export class SendData{
 	creditAuthId
@@ -14,7 +14,7 @@ export class SendData{
 @Injectable()
 export class CreditCheckService{
 	constructor(
-		private myHttp:MyHttp
+		private myHttp:MyHttpClient
 		){}
 
 	getData(id:number):Promise<any>{
@@ -24,7 +24,7 @@ export class CreditCheckService{
 				creditAuthId:id
 			}
 		}).toPromise().then(res=>{
-			let data=res.json();
+			let data=res;
 			if (data.status==200) {
 				 return Promise.resolve(data)
 			}else{
@@ -38,7 +38,7 @@ export class CreditCheckService{
 			api:this.myHttp.api.creditAuthApplyReply,
 			query:data
 		}).toPromise().then(res=>{
-			let data=res.json();
+			let data=res;
 			if (data.status==200) {
 				 return Promise.resolve(data)
 			}else{

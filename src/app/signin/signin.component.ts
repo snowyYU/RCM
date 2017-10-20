@@ -2,6 +2,8 @@ import { Component} from '@angular/core';
 
 import { Router } from '@angular/router';
 import { SignInService } from './signin.service';
+import {environment} from '../../environments/environment'
+
 // import { AuthTokenService } from '../../services/authToken/authToken.service';
 import { AuthRoleService } from '../../services/authRole/authRole.service'
 import { PopService } from 'dolphinng'
@@ -19,6 +21,11 @@ export class SigninComponent {
   submiting:boolean=false;
   msg:string;
 
+  banners:{
+    title?:string,
+    link?:string,
+    active?:boolean
+  }[];
 
   constructor(
   	private router:Router,
@@ -27,6 +34,35 @@ export class SigninComponent {
     private authRoleService:AuthRoleService,
     private pop:PopService
     ){
+
+    this.banners=[{
+      title:'金融业务处理系统',
+      link:this.createBannerLink('fbps')
+    },{
+      title:'客户关系处理系统',
+      link:this.createBannerLink('crm'),
+      active:true
+    },{
+      title:'金融风控管理系统',
+      link:this.createBannerLink('rcm')
+    },{
+      title:'后台综合管理系统',
+      link:this.createBannerLink('ims')
+    }/*,{
+      title:'',
+      link:''
+    },{
+      title:'',
+      link:''
+    }*/]
+  }
+
+  private createBannerLink(sysName:string):string{
+    if(environment.production){
+      return '';
+    }else{
+      return 'http://192.168.10.10:9091/'+sysName;
+    }
   }
 
   signIn():void{
@@ -65,7 +101,7 @@ export class SigninComponent {
         // this.authTokenService.expiresT=response.body.expiresIn*500
         this.authRoleService.userName=this.user;
   			this.authRoleService.token=res.body.accessToken
-        // this.authRoleService.employeeId=res.body.employeeId
+        this.authRoleService.employeeId=res.body.employeeId
         
         let roles:any[]=[]
         res.body.roles.forEach(e=>{
@@ -76,7 +112,8 @@ export class SigninComponent {
         res.body.subsysFuncs.forEach(e=>{
           subsysFuncs.push(e.functionPoint)
         })
-        // this.authRoleService.subsysFuncs=JSON.stringify(subsysFuncs)
+        this.authRoleService.subsysFuncs=JSON.stringify(subsysFuncs)
+        
         // console.log(this.authRoleService.subsysFuncs)
         // if (this.authRoleService.roleIn(['007','008'])) {
         //   this.router.navigate(['/business/customerList'])
