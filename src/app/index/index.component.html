@@ -36,7 +36,7 @@
 
 
       <nav-item icon="glyphicon glyphicon-th-list" text="风控管理">
-          
+
           <sub-nav-item text="会员画像" link="/manage/memberPortrayal"></sub-nav-item>
           <sub-nav-item text="上游画像" link="/manage/upsteamPortrayal"></sub-nav-item>
           <sub-nav-item  text="风控要求" >
@@ -44,21 +44,24 @@
               <thirth-nav-item text="标准信用类" link="/manage/demand/standard"></thirth-nav-item>
           </sub-nav-item>
       </nav-item>
-      
-      
+
+
       <nav-item icon="glyphicon glyphicon-list-alt" text="模型配置" >
           <sub-nav-item text="资料定义" link="/model/info" ></sub-nav-item>
           <sub-nav-item text="信用模型" link="/model/creditModel" ></sub-nav-item>
           <sub-nav-item text="供应链模型" link="/model/chainModel" ></sub-nav-item>
       </nav-item>
 
-      
 
 
-      
+
+
     </nav-wrap>
   </aside-left>
   <div class="app-content" (click)="cancelOffScreen()">
     <router-outlet></router-outlet>
+    <div class="footer">
+      <div class="copyright">Copyright © 2017 HaiTun56. All rights reserved</div>
+    </div>
   </div>
 </root-container>
