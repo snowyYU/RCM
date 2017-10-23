@@ -9,11 +9,16 @@ import {CheckboxComponent} from 'dolphinng';
 import {RadioComponent} from 'dolphinng';
 import {ToggleComponent} from 'dolphinng';
 import {PaginatorComponent} from 'dolphinng';
+import {TextMaxLengthDirective} from 'dolphinng';
+import {HTML5ValidateDirective}   from '../../directives/HTML5Validate/HTML5Validate.directive';
+
 
 import { UploaderModule } from '../../utils/uploader/uploader.module'
 
 import { YuanFormatPipe } from '../../pipe/yuan-format/yuan-format.pipe'
 import { EffDateFormatPipe } from '../../pipe/eff-date-format/eff-date-format.pipe'
+import { FilterNullPipe } from '../../pipe/filter-null/filter-null.pipe'
+import { FilterMultiplyPipe } from '../../pipe/filter-multiply/filter-multiply.pipe'
 
 import { GalleryComponent } from 'dolphinng'
 //导入模态框
@@ -36,7 +41,11 @@ import { ModalComponent,ModalHeaderComponent,ModalBodyComponent,ModalFooterCompo
     ModalFooterComponent,
     YuanFormatPipe,
     EffDateFormatPipe,
-    GalleryComponent
+    FilterNullPipe,
+    FilterMultiplyPipe,
+    GalleryComponent,
+    HTML5ValidateDirective,
+    TextMaxLengthDirective
   ],
   exports:      [
     FormsModule,
@@ -56,7 +65,11 @@ import { ModalComponent,ModalHeaderComponent,ModalBodyComponent,ModalFooterCompo
     ModalFooterComponent,
     YuanFormatPipe,
     EffDateFormatPipe,
-    GalleryComponent
+    FilterNullPipe,
+    FilterMultiplyPipe,
+    GalleryComponent,
+    HTML5ValidateDirective,
+    TextMaxLengthDirective
   ]
 })
 export class SharedModule { }

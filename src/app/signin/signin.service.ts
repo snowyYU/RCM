@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http,Response } from '@angular/http';
-import { MyHttp } from '../../services/myHttp/myhttp.service';
+import { MyHttpClient } from '../../services/myHttp/myhttpClient.service';
 import { HOST,API } from '../../services/config/app.config'
 
 import 'rxjs/add/operator/toPromise';
@@ -11,7 +11,7 @@ let param ={
 
 @Injectable()
 export class SignInService{
-	constructor(private httpService:MyHttp){}
+	constructor(private httpService:MyHttpClient){}
 
 	loginIn(loginInfo:any):Promise<any>{
 	  	return this.httpService.post({
@@ -19,7 +19,7 @@ export class SignInService{
 	  		// api:this.httpService.api.login,
 	  		body:loginInfo
 	  	}).toPromise().then(res=>{
-	  		let data=res.json()
+	  		let data=res
 	  		console.log(data)
 	  		if (data.status==200) {
 	  			return Promise.resolve(data)

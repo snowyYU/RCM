@@ -65,4 +65,12 @@ export class SpreadComponent implements OnInit {
 	detail(data){
 		this.router.navigate(['check/spread/spreadDetail',data.rolloverApplyId])
 	}
+
+	replaceDate(date:string):string{
+    if(typeof date==='string'){
+      return date.replace(/-/g,'/');
+    }else{
+      return date;
+    }
+  }
 }

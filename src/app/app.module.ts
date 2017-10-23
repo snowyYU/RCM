@@ -21,12 +21,23 @@ import { FocusDirective } from '../directives/focus/focus.directive';
 
 import { CookieService } from 'ng2-cookies'
 
-import { MyHttp } from '../services/myHttp/myhttp.service';
+// import { MyHttp } from '../services/myHttp/myhttp.service';
+
 import { AuthRoleService } from '../services/authRole/authRole.service';
 import { SignInService } from './signin/signin.service';
 import { PopService } from 'dolphinng'
 
+import { LoginGuard } from '../services/guard/login.guard'
+import { OauthGuard } from '../services/guard/oauth.guard'
 
+import {Toaster} from 'dolphinng';
+
+import { ModifyPasswordComponent } from './modifyPassword/modifyPassword.component';
+import { MyHttpClientInterceptor } from '../services/myHttp/myhttpClient.interceptor'
+import { MyHttpClient } from '../services/myHttp/myhttpClient.service'
+
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -41,7 +52,8 @@ import { PopService } from 'dolphinng'
     NavWrapComponent,
     NavItemComponent,
     SubNavItemComponent,
-    ThirthNavItemComponent,
+    ThirthNavItemComponent, 
+    ModifyPasswordComponent,
     FocusDirective,
   ],
   imports: [
@@ -51,10 +63,23 @@ import { PopService } from 'dolphinng'
     HttpModule,
     SharedModule,
     BrowserAnimationsModule,
-
+    HttpClientModule
     
   ],
-  providers: [MyHttp,SignInService,AuthRoleService,PopService,CookieService],
+  providers: [
+              SignInService,
+              AuthRoleService,
+              PopService,
+              CookieService,
+              LoginGuard,
+              OauthGuard,
+              Toaster,
+              {
+                provide: HTTP_INTERCEPTORS,
+                useClass: MyHttpClientInterceptor,
+                multi: true,
+              },
+              MyHttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

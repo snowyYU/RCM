@@ -13,6 +13,7 @@ import { CreditDetailComponent } from './credit/credit-detail/credit-detail.comp
 
 import { SpreadComponent } from './spread/spread.component'
 import { SpreadDetailComponent } from './spread/spread-detail/spread-detail.component'
+import { SpreadCheckComponent } from './spread/spread-check/spread-check.component'
 
 //导入table组件
 import {DataTableModule as PDataTableModule,SharedModule as PSharedModule} from 'primeng/primeng';
@@ -33,7 +34,8 @@ import {routing} from './check.routes'
 		CreditCheckComponent,
 		CreditDetailComponent,
 		SpreadComponent,
-		SpreadDetailComponent
+		SpreadDetailComponent,
+		SpreadCheckComponent
 		],
 	imports:[
 		SharedModule,
