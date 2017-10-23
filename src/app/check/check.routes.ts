@@ -12,6 +12,7 @@ import { CreditDetailComponent } from './credit/credit-detail/credit-detail.comp
 
 import { SpreadComponent } from './spread/spread.component'
 import { SpreadDetailComponent } from './spread/spread-detail/spread-detail.component'
+import { SpreadCheckComponent } from './spread/spread-check/spread-check.component'
 
 const routes: Routes =[
 	{
@@ -58,7 +59,11 @@ const routes: Routes =[
 		component:SpreadDetailComponent
 
 	},
-	
+	{
+		path:'spread/spreadCheck/:id',
+		component:SpreadCheckComponent
+
+	},
 ]
 
 export const routing = RouterModule.forChild(routes);

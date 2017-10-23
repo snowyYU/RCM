@@ -98,7 +98,7 @@ export const API = {
    },
 
    spreadLoanDetail:{//根据ID获取展期贷款详情
-     url:'lms/rolloverLoan/getById',
+     url:'lms/rolloverLoan/getDetials',
      method:'get'
    },
 

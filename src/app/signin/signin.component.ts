@@ -40,11 +40,12 @@ export class SigninComponent {
       link:this.createBannerLink('fbps')
     },{
       title:'客户关系处理系统',
-      link:this.createBannerLink('crm'),
-      active:true
+      link:this.createBannerLink('crm')
+      
     },{
       title:'金融风控管理系统',
-      link:this.createBannerLink('rcm')
+      link:this.createBannerLink('rcm'),
+      active:true
     },{
       title:'后台综合管理系统',
       link:this.createBannerLink('ims')
