@@ -8,7 +8,7 @@
     <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent">
       <div class=" col-md-6">
         <div class="form-group">
-          <label class="control-label  pull-left" >申请ID：</label>
+          <label class="control-label  pull-left">申请ID：</label>
           <div class="form-control-static pull-left">
             {{creditAuthId}}
           </div>
@@ -23,44 +23,49 @@
         </div>
       </div>
     </section>
-
-    <section class="panel-body group mar-b-sm" >
+    <section class="panel-body group mar-b-sm">
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
           <label class="control-label pull-left">会员名称：</label>
           <div class="form-control-static pull-left">
-             {{memberName|filterNull}} <span *ngIf="memberId">({{memberId}})</span>
+            {{memberName|filterNull}} <span *ngIf="memberId">({{memberId}})</span>
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">申请产品：</label>
-          <div class="pull-left form-control-static" >
+          <div class="pull-left form-control-static">
             {{productName|filterNull}}
+          </div>
+        </div>
+        <div class="form-group ">
+          <label class="control-label pull-left">服务经理：</label>
+          <div class="pull-left form-control-static">
+            {{serviceMan|filterNull}}
           </div>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group">
-          <label class="control-label pull-left">服务经理：</label>
-          <span class="form-control-static pull-left">  {{serviceMan | filterNull}}</span>
+        <div class="form-group no-b-margin">
+          <label class="control-label pull-left">状态：</label>
+          <span class="form-control-static pull-left">  {{statusDic | filterNull}}</span>
         </div>
         <div class="form-group no-b-margin">
           <label class="control-label pull-left">产品类别：</label>
           <span class="form-control-static pull-left">  {{productTypeName | filterNull}}</span>
         </div>
       </div>
-    </section >
-    <section class="panel-body group mar-b-sm" >
+    </section>
+    <section class="panel-body group mar-b-sm">
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
           <label class="control-label pull-left">申请额度：</label>
           <div class="form-control-static pull-left">
-             {{addCreditValue|yuanFormat}}
+            {{addCreditValue|yuanFormat}}
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">有效期：</label>
-          <div class="pull-left form-control-static" >
+          <div class="pull-left form-control-static">
             {{expiryDateBegin}} 至 {{expiryDateEnd}}
           </div>
         </div>
@@ -75,12 +80,11 @@
           <span class="form-control-static pull-left">  {{authRemark | filterNull}}</span>
         </div>
       </div>
-    </section >
+    </section>
     <section class="panel-body group mar-b-sm" *ngIf="statusDic!='认证中'">
-
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
-          <label class="control-label pull-left">审核人：</label>
+          <label class="control-label pull-left">审核员：</label>
           <span class="form-control-static pull-left">{{auditBy | filterNull}}</span>
         </div>
       </div>
@@ -96,12 +100,10 @@
           <span class="form-control-static pull-left">  {{auditRemark | filterNull}}</span>
         </div>
       </div>
-    </section >
-
+    </section>
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
         <button class="btn-def" (click)="back()">返回<i class="fa fa-arrow-circle-o-left"></i></button>
-
       </div>
     </section>
   </form>
