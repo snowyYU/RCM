@@ -5,8 +5,9 @@
 </div>
 <div class="wrapper">
   <form #form>
-    <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent">
-      <div class=" col-md-6">
+    <!-- <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent"> -->
+      <section class="panel-body group mar-b-sm">
+      <div class=" col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label  pull-left">申请ID：</label>
           <div class="form-control-static pull-left">
@@ -14,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 ">
+      <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label  pull-left">申请时间：</label>
           <div class="form-control-static pull-left">
@@ -60,7 +61,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">申请额度：</label>
           <div class="form-control-static pull-left">
-            {{addCreditValue|yuanFormat}}
+            {{addCreditValue|yuanFormat:2:true}}<span *ngIf="addCreditValue">元</span>
           </div>
         </div>
         <div class="form-group ">
@@ -73,7 +74,7 @@
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">原授信额度：</label>
-          <span class="form-control-static pull-left">  {{oldCreditValue | yuanFormat}}</span>
+          <span class="form-control-static pull-left">  {{oldCreditValue | yuanFormat:2:true}}</span><span *ngIf="oldCreditValue">元</span>
         </div>
         <div class="form-group no-b-margin">
           <label class="control-label pull-left">申请原因：</label>
