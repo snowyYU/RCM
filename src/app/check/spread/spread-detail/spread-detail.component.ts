@@ -30,6 +30,8 @@ rolloverLoan:{
 	auditTwoTime?	//二审时间
 	auditTwoBy?	//二审员
 	auditTwoRemarks?	//二审员意见
+	rolloverAmount?		//展期金额
+	rolloverDay?		//最长期限
 }={}
 
 financeApply:{
