@@ -33,14 +33,14 @@
           <p-column field="addCreditValue" header="申请额度(元)" [style]="{'width':'130px'}">
             <ng-template let-operation="rowData" pTemplate="body" styleClass="text-right">
               <div class="text-right">
-                {{operation.addCreditValue | yuanFormat}}
+                {{operation.addCreditValue | yuanFormat:2:true}}
               </div>
             </ng-template>
           </p-column>
           <p-column field="oldCreditValue" header="原授信额度(元)" [style]="{'width':'130px'}">
             <ng-template let-operation="rowData" pTemplate="body" styleClass="text-right">
               <div class="text-right">
-                {{operation.oldCreditValue | yuanFormat}}
+                {{operation.oldCreditValue | yuanFormat:2:true}}
               </div>
             </ng-template>
           </p-column>
@@ -61,7 +61,7 @@
               <div class="table-btn-group">
                 <button *ngIf="authApplyReplyNum==1" class="table-btn" (click)='check(operation)'>审批</button>
                 <button *ngIf="authApplyReplyNum==1" class="table-btn" (click)='history(operation)'>授信历史</button>
-                <button *ngIf="authApplyReplyNum==2" class="table-btn" (click)='detail(operation)'>查看</button>
+                <button *ngIf="authApplyReplyNum==2" class="table-btn" (click)='detail(operation)'>详情</button>
               </div>
             </ng-template>
           </p-column>
