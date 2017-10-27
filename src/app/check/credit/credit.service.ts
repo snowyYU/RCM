@@ -14,7 +14,7 @@ export class CreditService{
 		private myHttp:MyHttpClient,
 		){}
 	getListData(sData:SendData):Promise<any>{
-		return this.myHttp.get({
+		return this.myHttp.post({
 			api:this.myHttp.api.creditAuthList,
 			query:sData
 		}).toPromise().then(res=>{
@@ -28,7 +28,7 @@ export class CreditService{
 	}
 
 	getHistoryData(memberId):Promise<any>{
-		return this.myHttp.get({
+		return this.myHttp.post({
 			api:this.myHttp.api.creditAuthHistory,
 			query:{
 				memberId:memberId

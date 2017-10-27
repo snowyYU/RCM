@@ -1,6 +1,7 @@
 <div class="page-location">
+  <a class="h4 pad-r-xs font-bold">产品授信审批</a>
   <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
-  <a class="page-location-item active">会员认证审批<i class="pad-l-min fa fa-angle-right"></i></a>
+  <a class="page-location-item active">产品授信审批<!-- <i class="pad-l-min fa fa-angle-right"></i> --></a>
 </div>
 <div class="wrapper">
   <form #form>
@@ -75,7 +76,7 @@
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">原授信额度：</label>
-          <span class="form-control-static pull-left">  {{oldCreditValue | yuanFormat:2:true}}</span><span *ngIf="oldCreditValue">元</span>
+          <span class="form-control-static pull-left">  {{oldCreditValue | yuanFormat:2:true}}</span><span class="form-control-static pull-left"  *ngIf="oldCreditValue">元</span>
         </div>
         <div class="form-group no-b-margin">
           <label class="control-label pull-left">申请原因：</label>
@@ -107,9 +108,9 @@
 
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <a (click)="back()" class="text-info">返回</a>
-        <button class="btn-def m-l btn-def-danger" (click)="creditAuthApplyReply(-1)">不通过<i class="fa fa-ban"></i></button>
         <button class="btn-def m-l btn-def-success" (click)="creditAuthApplyReply(1)">通过<i class="fa fa-check-circle-o"></i></button>
+        <button class="btn-def m-l btn-def-danger" (click)="creditAuthApplyReply(-1)">拒绝<i class="fa fa-ban"></i></button>
+        <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
 
     </section>
