@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http,Response } from '@angular/http';
 import { MyHttpClient } from '../../services/myHttp/myhttpClient.service';
-import { HOST,API } from '../../services/config/app.config'
+import { API } from '../../services/config/app.config'
 
 import 'rxjs/add/operator/toPromise';
 
