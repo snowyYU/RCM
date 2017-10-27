@@ -36,13 +36,13 @@
         <div class="form-group ">
           <label class="control-label pull-left">展期金额：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            {{rolloverLoan.rolloverAmount|filterNull|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">展期保证金：</label>
           <div class="pull-left form-control-static" >
-            {{appName|filterNull}}<span *ngIf="appName">元</span><!--没有数据-->
+            {{appName|filterNull|yuanFormat:2:true}}<span *ngIf="appName">元</span><!--没有数据-->
           </div>
         </div>
         <div class="form-group ">
@@ -54,7 +54,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">本期利息：</label>
           <div class="pull-left form-control-static" >
-            {{appName|filterNull}}<span *ngIf="appName">元</span><!--没有数据-->
+            {{appName|filterNull|yuanFormat:2:true}}<span *ngIf="appName">元</span><!--没有数据-->
           </div>
         </div>
         <div class="form-group ">
@@ -143,10 +143,10 @@
               <tbody>
                   <tr *ngFor="let item of repaymentPlan" [class.bg-warning]="item.statusDic=='未还款'">
                       <td>{{'第'+item.repaymentPlan+'期'}}</td>
-                      <td>{{item.repaymentPlanDate | effDateFormat}}</td>
+                      <td class="text-center">{{item.repaymentPlanDate | effDateFormat}}</td>
                       <td class="text-right">{{item.repaymentPrinciple}}</td>
                       <td class="text-right">{{item.repaymentInterest}}</td>
-                      <td class="text-left">{{item.statusDic}}</td>
+                      <td>{{item.statusDic}}</td>
                   </tr>
                   <tr *ngIf="!repaymentPlan||repaymentPlan.length===0">
                     <td colspan="4" class="text-disabled text-center"> 无</td>
