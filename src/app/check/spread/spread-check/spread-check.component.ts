@@ -30,10 +30,12 @@ export class SpreadCheckComponent implements OnInit{
 	statusDic?	//状态，中文
 	auditOneTime?	//一审时间
 	auditOneBy?	//一审员
-	auditOneRemark?	//一审意见
+	auditOneRemarks?	//一审意见
 	auditTwoTime?	//二审时间
 	auditTwoBy?	//二审员
 	auditTwoRemarks?	//二审员意见
+	rolloverAmount?		//展期金额
+	rolloverDay?	//最长期限
 }={}
 
 financeApply:{
@@ -41,6 +43,7 @@ financeApply:{
 	borrowHowlong?	//借款周期
 	productId?	//产品Id
 	productName?	//产品名称
+	borrowApplyId?	//借款单ID
 }={}
 
 productsAttach:{
