@@ -14,7 +14,7 @@ export class SpreadService{
 		private myHttp:MyHttpClient,
 		){}
 	getListData(sData:SendData):Promise<any>{
-		return this.myHttp.get({
+		return this.myHttp.post({
 			api:this.myHttp.api.spreadLoanList,
 			query:sData
 		}).toPromise().then(res=>{

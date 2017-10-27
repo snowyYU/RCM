@@ -21,6 +21,7 @@ export class AuthenticationComponent implements OnInit{
 	count:number
 	rows:number=10;
 	authApplyReplyNum:number
+	status:string="1"
 	constructor(
 		private authList:AuthenticationService,
 		private router:Router,
@@ -32,7 +33,10 @@ export class AuthenticationComponent implements OnInit{
 
 	ngOnInit(){
 		// this.authApplyReplyNum=this.route.params['value']['count'];
-		this.getList(1)
+		if (this.route.queryParams['value']['status']) {
+			this.status=this.route.queryParams['value']['status']
+		}
+		this.getList(this.status)
 
 	}
 	getList(type){

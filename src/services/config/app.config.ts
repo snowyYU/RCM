@@ -88,9 +88,9 @@ export const config :{
 
 //项目主接口地址
 export  const host=new Host(
-  'http://192.168.10.10:8090/crm/',//dev
-  'http://192.168.10.10:9090/crm/',//test
-  'http://192.168.10.10:9090/crm/'//prod
+  'http://192.168.10.10:8090/rcm/',//dev
+  'http://192.168.10.10:9090/rcm/',//test
+  'http://192.168.10.10:9090/rcm/'//prod
 ).getCurrentHost(config.env);
 
 //认证相关接口地址

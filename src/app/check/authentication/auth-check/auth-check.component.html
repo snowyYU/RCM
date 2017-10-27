@@ -34,7 +34,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">获客途径：</label>
           <div class="pull-left form-control-static" >
-            {{guestFrom|filterNull}}
+            {{guestFromDic|filterNull}}
           </div>
         </div>
         <div class="form-group ">
@@ -180,7 +180,7 @@
             <label class="control-label">审核意见：</label>
           </td>
           <td >
-            <textarea name="auditRemark"  rows="5" class="form-control" [(ngModel)]="auditRemark"></textarea>
+            <textarea name="auditRemark"  rows="5" class="form-control" placeholder="小于200字" [(ngModel)]="auditRemark"></textarea>
           </td>
         </tr>
       </table>
@@ -188,9 +188,9 @@
 
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <a (click)="back()" class="text-info">返回</a>
-        <button class="btn-def m-l btn-def-danger" (click)="memberAuthApplyReply(-1)">不通过<i class="fa fa-ban"></i></button>
         <button class="btn-def m-l btn-def-success" (click)="memberAuthApplyReply(1)">通过<i class="fa fa-check-circle-o"></i></button>
+        <button class="btn-def m-l btn-def-danger" (click)="memberAuthApplyReply(-1)">拒绝<i class="fa fa-ban"></i></button>
+        <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
     </section>
   </form>
