@@ -82,7 +82,8 @@ export class CreditDetailComponent implements OnInit{
 	
 
 	back(){
-		window.history.back()
+		this.router.navigate(['check/credit'],{queryParams:{status:'2'}})
+		
 	}
 
 }

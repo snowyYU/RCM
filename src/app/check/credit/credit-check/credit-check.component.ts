@@ -89,7 +89,7 @@ export class CreditCheckComponent implements OnInit{
 
 
 	back(){
-		window.history.back()
+		this.router.navigate(['check/credit'],{queryParams:{status:'1'}})
 	}
 
 	creditAuthApplyReply(result){

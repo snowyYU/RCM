@@ -26,6 +26,7 @@ export class CreditComponent implements OnInit{
 	modalMemberName
 	modalCreditList:any[]
 
+	status:string="1"
 	constructor(
 		private authList:CreditService,
 		private router:Router,
@@ -37,7 +38,10 @@ export class CreditComponent implements OnInit{
 
 	ngOnInit(){
 		// this.authApplyReplyNum=this.route.params['value']['count'];
-		this.getList(1)
+		if (this.route.queryParams['value']['status']) {
+			this.status=this.route.queryParams['value']['status']
+		}
+		this.getList(this.status)
 
 	}
 	getList(type){
