@@ -28,7 +28,7 @@ export class CreditDetailComponent implements OnInit{
     auditRemark:string;		//审核意见
     auditDate:string;		//审核时间
 	
-    statusDic
+    statusDic               //状态，中文
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
@@ -75,14 +75,15 @@ export class CreditDetailComponent implements OnInit{
 		this.authRemark=res.body.authRemark
 		this.auditBy=res.body.auditBy;			//审核人
 	    this.auditRemark=res.body.auditRemark;		//审核意见
-	    this.statusDic=res.body.statusDic
+	    this.statusDic=res.body.statusDic       //状态，中文
 	}
 
 
 	
 
 	back(){
-		window.history.back()
+		this.router.navigate(['check/credit'],{queryParams:{status:'2'}})
+		
 	}
 
 }

@@ -33,6 +33,8 @@ export class AuthCheckComponent implements OnInit{
 	auditBy:string;			//审核人
     auditDate:string;		//审核时间
     auditRemark:string;		//审核意见
+    guestFrom:string;       //获客途径
+    guestFromDic:string;    //获客途径,中文
 
     attch1Loadid
 	attch1Type
@@ -91,12 +93,13 @@ export class AuthCheckComponent implements OnInit{
 		this.createTime=res.body.createTime;		//申请时间	
 		this.companyName=res.body.companyName;		//客户名称
 		this.statusDic=res.body.statusDic;		//状态
+		this.guestFromDic=res.body.guestFromDic  //获客途径
 		this.appName=res.body.appName;			//来源渠道
 		this.memberTypeDic=res.body.memberTypeDic;	//会员类别
 		this.serviceMan=res.body.serviceMan;		//服务经理
 	    this.companyTypeDic=res.body.companyTypeDic;	//公司类型
 	    this.foundTime=res.body.foundTime;		//成立时间
-		this.registerCapital=res.body.registerCapital*0.0001; //注册资金
+		this.registerCapital=res.body.registerCapital; //注册资金
 		this.licenceNum=res.body.licenceNum;		//营业执照号
 		this.companyAddress=res.body.companyAddress;	//公司地址
 		this.linkName=res.body.linkName;		//联系人
@@ -135,7 +138,7 @@ export class AuthCheckComponent implements OnInit{
 	}
 
 	back(){
-		window.history.back()
+		this.router.navigate(['check/authentication'],{queryParams:{status:"1"}})
 	}
 
 	memberAuthApplyReply(result){

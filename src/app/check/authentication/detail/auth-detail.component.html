@@ -5,8 +5,9 @@
 </div>
 <div class="wrapper">
   <form #form>
-    <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent">
-      <div class=" col-md-6">
+    <!-- <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent"> -->
+      <section class="panel-body group mar-b-sm" >
+      <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label  pull-left" >申请ID：</label>
           <div class="form-control-static pull-left">
@@ -14,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 ">
+      <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label  pull-left">申请时间：</label>
           <div class="form-control-static pull-left">
@@ -31,24 +32,30 @@
           <span class="form-control-static pull-left">{{companyName | filterNull}}</span>
         </div>
         <div class="form-group ">
-          <label class="control-label pull-left">类别：</label>
+          <label class="control-label pull-left">获客途径：</label>
           <div class="pull-left form-control-static" >
-            {{memberTypeDic|filterNull}}
+            {{guestFromDic|filterNull}}
+          </div>
+        </div>
+        <div class="form-group ">
+          <label class="control-label pull-left">归属渠道：</label>
+          <div class="pull-left form-control-static" >
+            {{appName|filterNull}}
           </div>
         </div>
         <div class="form-group no-b-margin">
-          <label class="control-label pull-left">状态：</label>
-          <span class="pull-left form-control-static">  {{statusDic}}</span>
+          <label class="control-label pull-left">服务经理：</label>
+          <span class="pull-left form-control-static">  {{serviceMan}}</span>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
-          <label class="control-label pull-left">归属渠道：</label>
-          <span class="form-control-static pull-left">  {{appName | filterNull}}</span>
+          <label class="control-label pull-left">状态：</label>
+          <span class="form-control-static pull-left">  {{memberTypeDic | filterNull}}</span>
         </div>
         <div class="form-group no-b-margin">
-          <label class="control-label pull-left">服务经理：</label>
-          <span class="form-control-static pull-left">  {{serviceMan | filterNull}}</span>
+          <label class="control-label pull-left">类别：</label>
+          <span class="form-control-static pull-left">  {{statusDic | filterNull}}</span>
         </div>
       </div>
     </section >

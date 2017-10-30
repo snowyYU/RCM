@@ -34,3 +34,7 @@ li{
 .bottmFixFather{
 	transform: scale3d(1, 1, 1);
 }
+
+.dol .page-location-item,.dol .page-location a{
+  cursor: default;
+}
