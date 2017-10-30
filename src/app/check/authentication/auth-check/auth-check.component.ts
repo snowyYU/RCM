@@ -99,7 +99,7 @@ export class AuthCheckComponent implements OnInit{
 		this.serviceMan=res.body.serviceMan;		//服务经理
 	    this.companyTypeDic=res.body.companyTypeDic;	//公司类型
 	    this.foundTime=res.body.foundTime;		//成立时间
-		this.registerCapital=res.body.registerCapital; //注册资金
+		this.registerCapital=res.body.registerCapital/10000; //注册资金
 		this.licenceNum=res.body.licenceNum;		//营业执照号
 		this.companyAddress=res.body.companyAddress;	//公司地址
 		this.linkName=res.body.linkName;		//联系人
