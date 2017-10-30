@@ -29,30 +29,30 @@
         <div class="form-group ">
           <label class="control-label pull-left">会员名称：</label>
           <div class="form-control-static pull-left">
-            {{memberName|filterNull}} <span *ngIf="memberId">({{memberId}})</span>
+            {{memberName|filterNull:false}} <span *ngIf="memberId">({{memberId}})</span>
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">申请产品：</label>
           <div class="pull-left form-control-static">
-            {{productName|filterNull}}
+            {{productName|filterNull:false}}
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">服务经理：</label>
           <div class="pull-left form-control-static">
-            {{serviceMan|filterNull}}
+            {{serviceMan|filterNull:false}}
           </div>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group no-b-margin">
           <label class="control-label pull-left">状态：</label>
-          <span class="form-control-static pull-left">  {{statusDic | filterNull}}</span>
+          <span class="form-control-static pull-left">  {{statusDic | filterNull:false}}</span>
         </div>
         <div class="form-group no-b-margin">
           <label class="control-label pull-left">产品类别：</label>
-          <span class="form-control-static pull-left">  {{productTypeName | filterNull}}</span>
+          <span class="form-control-static pull-left">  {{productTypeName | filterNull:false}}</span>
         </div>
       </div>
     </section>
@@ -61,7 +61,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">申请额度：</label>
           <div class="form-control-static pull-left">
-            {{addCreditValue|yuanFormat:2:true}}<span *ngIf="addCreditValue">元</span>
+            {{addCreditValue| filterNull:false | yuanFormat:2:true}}<span *ngIf="addCreditValue">元</span>
           </div>
         </div>
         <div class="form-group ">
@@ -74,11 +74,12 @@
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">原授信额度：</label>
-          <span class="form-control-static pull-left">  {{oldCreditValue | yuanFormat:2:true}}</span><span *ngIf="oldCreditValue">元</span>
-        </div>
+          <div class="form-control-static pull-left">
+            {{oldCreditValue | filterNull:false | yuanFormat:2:true}}<span *ngIf="oldCreditValue">元</span></div>
+          </div>
         <div class="form-group no-b-margin">
           <label class="control-label pull-left">申请原因：</label>
-          <span class="form-control-static pull-left col-md-9">  {{authRemark | filterNull}}</span>
+          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  {{authRemark | filterNull:false}}</span>
         </div>
       </div>
     </section>
@@ -86,19 +87,19 @@
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
           <label class="control-label pull-left">审核员：</label>
-          <span class="form-control-static pull-left">{{auditBy | filterNull}}</span>
+          <span class="form-control-static pull-left">{{auditBy | filterNull:false}}</span>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">审核时间：</label>
-          <span class="form-control-static pull-left">  {{auditDate | filterNull}}</span>
+          <span class="form-control-static pull-left">  {{auditDate | filterNull:false}}</span>
         </div>
       </div>
       <div class="col-md-12 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">审核意见：</label>
-          <span class="form-control-static pull-left">  {{auditRemark | filterNull}}</span>
+          <span class="form-control-static pull-left">  {{auditRemark | filterNull:false}}</span>
         </div>
       </div>
     </section>
