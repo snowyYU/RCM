@@ -33,6 +33,7 @@ import { OauthGuard } from '../services/guard/oauth.guard'
 import {Toaster} from 'dolphinng';
 
 import { ModifyPasswordComponent } from './modifyPassword/modifyPassword.component';
+import { MyHttp } from '../services/myHttp/myhttp.service'
 import { MyHttpClientInterceptor } from '../services/myHttp/myhttpClient.interceptor'
 import { MyHttpClient } from '../services/myHttp/myhttpClient.service'
 
@@ -52,7 +53,7 @@ import {HttpClientModule} from '@angular/common/http';
     NavWrapComponent,
     NavItemComponent,
     SubNavItemComponent,
-    ThirthNavItemComponent, 
+    ThirthNavItemComponent,
     ModifyPasswordComponent,
     FocusDirective,
   ],
@@ -64,7 +65,7 @@ import {HttpClientModule} from '@angular/common/http';
     SharedModule,
     BrowserAnimationsModule,
     HttpClientModule
-    
+
   ],
   providers: [
               SignInService,
@@ -79,6 +80,7 @@ import {HttpClientModule} from '@angular/common/http';
                 useClass: MyHttpClientInterceptor,
                 multi: true,
               },
+              MyHttp,
               MyHttpClient],
   bootstrap: [AppComponent]
 })

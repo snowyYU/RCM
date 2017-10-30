@@ -41,7 +41,6 @@ export class SigninComponent {
     },{
       title:'客户关系处理系统',
       link:this.createBannerLink('crm')
-      
     },{
       title:'金融风控管理系统',
       link:this.createBannerLink('rcm'),
@@ -74,12 +73,11 @@ export class SigninComponent {
 
   	this.submiting=true;
   	//发送数据
-  	
+
   	let reqBody={
   		loginName:this.user,
   		loginPwd:this.password,
       loginSysCode:'04'
-
   	}
   	this.signInService
   		.loginIn(reqBody)
@@ -95,7 +93,7 @@ export class SigninComponent {
       })
 
   }
-  
+
 
   	extractData(res: any){
         this.authRoleService.eTime=res.body.expiresIn*500
@@ -103,7 +101,7 @@ export class SigninComponent {
         this.authRoleService.userName=this.user;
   			this.authRoleService.token=res.body.accessToken
         this.authRoleService.employeeId=res.body.employeeId
-        
+
         let roles:any[]=[]
         res.body.roles.forEach(e=>{
           roles.push(e.roleCode)
@@ -114,12 +112,16 @@ export class SigninComponent {
           subsysFuncs.push(e.functionPoint)
         })
         this.authRoleService.subsysFuncs=JSON.stringify(subsysFuncs)
-        
+        setInterval(e=>{
+          this.authRoleService.refreshToken();
+        },res.body.expiresIn*500);
+
+
         // console.log(this.authRoleService.subsysFuncs)
         // if (this.authRoleService.roleIn(['007','008'])) {
         //   this.router.navigate(['/business/customerList'])
         this.router.navigate(['/check/authentication'])
-        
+
         // }else if (this.authRoleService.roleIn(['002'])) {
         //   this.router.navigate(['/memberM/memberManage'])
         //   // code...
