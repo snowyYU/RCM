@@ -86,19 +86,19 @@
     <section class="panel-body group mar-b-sm" *ngIf="statusDic!='认证中'">
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
-          <label class="control-label pull-left">审核员：</label>
+          <label class="control-label pull-left">审批员：</label>
           <span class="form-control-static pull-left">{{auditBy | filterNull:false}}</span>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
-          <label class="control-label pull-left">审核时间：</label>
+          <label class="control-label pull-left">审批时间：</label>
           <span class="form-control-static pull-left">  {{auditDate | filterNull:false}}</span>
         </div>
       </div>
       <div class="col-md-12 form-horizontal form-label-7">
         <div class="form-group">
-          <label class="control-label pull-left">审核意见：</label>
+          <label class="control-label pull-left">审批意见：</label>
           <span class="form-control-static pull-left">  {{auditRemark | filterNull:false}}</span>
         </div>
       </div>
