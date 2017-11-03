@@ -103,7 +103,7 @@
             <td>{{item.productTypeName}}</td>
             <td class="text-right">{{item.creditValue | yuanFormat:2:true}}</td>
             <td class="text-center">{{item.expiryDateBegin | effDateFormat}} 至 {{item.expiryDateEnd | effDateFormat}}</td>
-            <td class="text-center">{{item.updateTime}}</td>
+            <td class="text-center">{{item.updateTime | effDateFormat}}</td>
           </tr>
         </tbody>
       </table>

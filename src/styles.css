@@ -6,6 +6,18 @@
   color:inherit;
 }
 
+label.required{
+  position: relative;
+}
+label.required:before{
+  content: '*';
+  display: block;
+  position: absolute;
+  left: -14px;
+  color:#f05050;
+  line-height: 1.6;
+}
+
 .table-style{
 	table-layout: auto !important;
 }
