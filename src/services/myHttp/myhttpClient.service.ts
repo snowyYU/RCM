@@ -162,7 +162,7 @@ export class MyHttpClient {
      * @return {Observable<any>}        [description]
      */
     sShow(fileId:number,mode:number){
-        let url=this.api.fileServer+'/fileserver/file/download?fileId='+fileId+'&mode='+mode
+        let url=this.api.fileServer+'download?fileId='+fileId+'&mode='+mode
         return url
     }
 
@@ -172,7 +172,7 @@ export class MyHttpClient {
      * @return {Observable<any>}        [description]
      */
     sDelete(fileId):Observable<any>{
-        let url=this.api.fileServer+'/fileserver/file/delete?fileId='+fileId
+        let url=this.api.fileServer+'delete?fileId='+fileId
         return this.http.post(url,null)
     }
   
