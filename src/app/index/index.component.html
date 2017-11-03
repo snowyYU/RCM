@@ -28,10 +28,10 @@
       <!-- <nav-item icon="glyphicon glyphicon-briefcase" text="首页" >
           <sub-nav-item text="消息区" link="/home/message"></sub-nav-item>
       </nav-item> -->
-      <nav-item icon="glyphicon glyphicon-user" text="审批事项">
-          <sub-nav-item text="认证审批" link="/check/authentication" ></sub-nav-item>
-          <sub-nav-item text="授信审批" link="/check/credit" ></sub-nav-item>
-          <sub-nav-item text="展期审批" link="/check/spread"></sub-nav-item>
+      <nav-item icon="glyphicon glyphicon-user" text="审批事项" *ngIf="authRoleService.fnIn(['10','11','12','13'])">
+          <sub-nav-item text="认证审批" link="/check/authentication" *ngIf="authRoleService.fnIn(['11'])"></sub-nav-item>
+          <sub-nav-item text="授信审批" link="/check/credit" *ngIf="authRoleService.fnIn(['12'])"></sub-nav-item>
+          <sub-nav-item text="展期审批" link="/check/spread" *ngIf="authRoleService.fnIn(['13'])"></sub-nav-item>
       </nav-item>
 
 
