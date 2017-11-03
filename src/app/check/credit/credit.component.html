@@ -19,7 +19,7 @@
         <p-dataTable  [value]="dataList" emptyMessage="{{loading?'':'暂无数据'}}"
                      [loading]="loading" scrollable="true" scrollHeight="375px">
 
-          <p-column field="creditAuthId" header="申请ID" [style]="{'width':'120px'}"></p-column>
+          <p-column field="creditAuthId" header="申请单号" [style]="{'width':'120px'}"></p-column>
           <p-column field="memberName" header="会员名称" [style]="{'width':'150px'}">
             <ng-template let-data="rowData" pTemplate="body">
               <div textMaxLength="200px" title="{{data.memberName}}">{{data.memberName}}</div>
@@ -37,13 +37,13 @@
               </div>
             </ng-template>
           </p-column>
-          <p-column field="oldCreditValue" header="原授信额度(元)" [style]="{'width':'130px'}">
+          <!-- <p-column field="oldCreditValue" header="原授信额度(元)" [style]="{'width':'130px'}">
             <ng-template let-operation="rowData" pTemplate="body" styleClass="text-right">
               <div class="text-right">
                 {{operation.oldCreditValue | yuanFormat:2:true}}
               </div>
             </ng-template>
-          </p-column>
+          </p-column> -->
           <p-column field="statusDic" header="状态" [style]="{'width':'80px'}"></p-column>
 
           <p-column field="serviceMan" header="服务经理" [style]="{'width':'90px'}">
@@ -51,9 +51,9 @@
               <div textMaxLength="90px" title="{{data.serviceMan}}">{{data.serviceMan}}</div>
             </ng-template>
           </p-column>
-          <p-column field="createTime" header="申请日期" styleClass="text-center" [style]="{'width':'100px'}">
+          <p-column field="createTime" header="申请时间" styleClass="text-center" [style]="{'width':'100px'}">
             <ng-template let-data="rowData" pTemplate="body">
-              <div  >{{data.createTime|date:'yyyy-MM-dd'}}</div>
+              <div  >{{data.createTime}}</div>
             </ng-template>
           </p-column>
           <p-column field="ooo" header="操作" [style]="{'width':'140px'}">
@@ -81,23 +81,33 @@
 <!-- 授信历史模态框部分 -->
 <modal [(visible)]="creditModal" size="lg">
   <modal-header>
-    <h4 class="modal-title">授信历史————{{modalMemberName}}</h4>
+    <h4 class="modal-title"><span class="font-lg">授信历史</span><span>——</span><span class="font-sm">{{modalMemberName}}</span></h4>
   </modal-header>
   <modal-body>
     <div class="">
-      <table class="table m-b-none" border="1" *ngIf="modalCreditList">
+      <table class="table m-b-none" border="1" *ngIf="modalCreditList[0]">
+        <thead>
+          <tr>
+            <th class="text-center">序号</th>
+            <th class="text-center">产品</th>
+            <th class="text-center">类别</th>
+            <th class="text-center">授信额度(元)</th>
+            <th class="text-center">起止日期</th>
+            <th class="text-center">更新时间</th>
+          </tr>
+        </thead>
         <tbody>
           <tr *ngFor="let item of modalCreditList;let i=index">
             <td class="text-center">{{i+1}}</td>
             <td>{{item.productName}}</td>
             <td>{{item.productTypeName}}</td>
-            <td>{{item.creditValue | yuanFormat}}</td>
-            <td>{{item.expiryDateBegin | effDateFormat}} 至 {{item.expiryDateEnd | effDateFormat}}</td>
-            <td>{{item.updateTime}}</td>
+            <td class="text-right">{{item.creditValue | yuanFormat:2:true}}</td>
+            <td class="text-center">{{item.expiryDateBegin | effDateFormat}} 至 {{item.expiryDateEnd | effDateFormat}}</td>
+            <td class="text-center">{{item.updateTime | effDateFormat}}</td>
           </tr>
         </tbody>
       </table>
-      <div class="text-center" *ngIf="!modalCreditList">
+      <div class="text-center" *ngIf="!modalCreditList[0]">
         无授信历史
       </div>
     </div>

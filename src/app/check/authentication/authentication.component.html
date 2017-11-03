@@ -20,15 +20,15 @@
         <p-dataTable  [value]="dataList" emptyMessage="{{loading?'':'暂无数据'}}"
                      [loading]="loading" scrollable="true" scrollHeight="375px">
 
-          <p-column field="authId" header="申请ID" [style]="{'width':'150px'}"></p-column>
-          <p-column   header="客户名称" [style]="{'width':'280px'}">
+          <p-column field="authId" header="申请单号" styleClass="text-center" [style]="{'width':'150px'}"></p-column>
+          <p-column   header="客户名称" [style]="{'width':'250px'}">
             <ng-template let-data="rowData" pTemplate="body">
               <div textMaxLength="200px" title="{{data.companyName}}">{{data.companyName}}</div>
-              </ng-template>
+            </ng-template>
           </p-column>
-          <p-column field="companyTypeDic" header="类别" [style]="{'width':'100px'}" ></p-column>
+          <!-- <p-column field="companyTypeDic" header="公司类型" [style]="{'width':'100px'}" ></p-column> -->
           <p-column field="serviceMan" header="服务经理" [style]="{'width':'120px'}"></p-column>
-          <p-column field="statusDic" header="状态" [style]="{'width':'80px'}"></p-column>
+          <p-column field="statusDic" header="状态" [style]="{'width':'100px'}"></p-column>
           <p-column field="createTime" header="申请时间" styleClass="text-center" [style]="{'width':'180px'}"></p-column>
           <p-column field="ooo" header="操作" [style]="{'width':'100px'}">
             <ng-template let-operation="rowData" pTemplate="body">

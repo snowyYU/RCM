@@ -63,7 +63,7 @@ repaymentPlan:{
 	spreadId:number; 			//申请ID
 	memberTypeDic:string;	//会员类别
 	serviceMan:string;		//服务经理
-	createTime:string;		//申请时间	
+	createTime:string;		//申请时间
     companyTypeDic:string;	//公司类型
     foundTime:string;		//成立时间
 	registerCapital:number; //注册资金
@@ -94,7 +94,7 @@ repaymentPlan:{
 	attch5Loadid
 	attch5Type
 	attch5TypeDic
-	
+
 
 	@ViewChild(GalleryComponent) gallery:GalleryComponent;
 	constructor(
@@ -106,8 +106,8 @@ repaymentPlan:{
 		// setTimeout(()=>{
 		// 	this.gallery.open();
 		// },3000);
-		
-	} 
+
+	}
 	ngOnInit(){
 		this.getData();
 	}

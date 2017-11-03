@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment'
 // import { AuthTokenService } from '../../services/authToken/authToken.service';
 import { AuthRoleService } from '../../services/authRole/authRole.service'
 import { PopService } from 'dolphinng'
+import { config } from '../../services/config/app.config'
 
 @Component({
   selector: 'signin',
@@ -21,11 +22,34 @@ export class SigninComponent {
   submiting:boolean=false;
   msg:string;
 
-  banners:{
-    title?:string,
-    link?:string,
-    active?:boolean
-  }[];
+
+  // o={
+  //    '02':"/business/customerList",
+  //    '03':"/business/visitReport",
+  //    '11':"/memberM/memberManage",
+  //    '12':"/memberM/memberManage",
+  //    '13':"/memberM/getApply",
+  //    '14':"/memberM/relativeCompany",
+  //    '22':"/account/electricAcc/openAcc",
+  //    '23':"/account/electricAcc/signature",
+  //    '24':"/account/memberAccBalance",
+  //    '25':"/account/memberAccFlow",
+  //   }
+  o={
+     '10':"/check",
+     '11':"/check/authentication",
+     '12':"/check/credit",
+     '13':"/check/spread",
+     
+    }
+
+  // banners:{
+  //   title?:string,
+  //   link?:string,
+  //   active?:boolean
+  // }[];
+
+  systems=config.getSystems();
 
   constructor(
   	private router:Router,
@@ -33,38 +57,11 @@ export class SigninComponent {
   	// private authTokenService:AuthTokenService,
     private authRoleService:AuthRoleService,
     private pop:PopService
-    ){
+    ){}
 
-    this.banners=[{
-      title:'金融业务处理系统',
-      link:this.createBannerLink('fbps')
-    },{
-      title:'客户关系处理系统',
-      link:this.createBannerLink('crm')
-      
-    },{
-      title:'金融风控管理系统',
-      link:this.createBannerLink('rcm'),
-      active:true
-    },{
-      title:'后台综合管理系统',
-      link:this.createBannerLink('ims')
-    }/*,{
-      title:'',
-      link:''
-    },{
-      title:'',
-      link:''
-    }*/]
-  }
+    
 
-  private createBannerLink(sysName:string):string{
-    if(environment.production){
-      return '';
-    }else{
-      return 'http://192.168.10.10:9091/'+sysName;
-    }
-  }
+  
 
   signIn():void{
   	//进行校验
@@ -74,12 +71,11 @@ export class SigninComponent {
 
   	this.submiting=true;
   	//发送数据
-  	
+
   	let reqBody={
   		loginName:this.user,
   		loginPwd:this.password,
       loginSysCode:'04'
-
   	}
   	this.signInService
   		.loginIn(reqBody)
@@ -95,31 +91,68 @@ export class SigninComponent {
       })
 
   }
-  
+
 
   	extractData(res: any){
+
+      //账号未分配角色
+
+        //两个判断
+        //先检验role
+
+        if(res.body.roles&&res.body.roles.length==0) {
+          this.submiting=false;
+          this.msg="您没有此系统的使用权限"
+          return
+        }
+        if(res.body.subsysFuncs&&res.body.subsysFuncs.length==0) {
+          this.submiting=false;
+          this.msg="您没有此系统的使用权限"
+          return
+        }
+        // console.log(this.o[res.body.subsysFuncs[0].functionPoint])
+        // console.log(res.body.subsysFuncs[0].functionPoint)
+
+        let subsysFuncsFunctionPoint:any[]=[]
+        res.body.subsysFuncs.forEach(e=>{
+          if(this.o[e.functionPoint]) {
+            subsysFuncsFunctionPoint.push(e.functionPoint)
+          }
+          
+        })
+
+        if(subsysFuncsFunctionPoint.length==0) {
+          this.submiting=false;
+          this.msg="您没有此系统的使用权限"
+          return
+        }
+
+
         this.authRoleService.eTime=res.body.expiresIn*500
         // this.authTokenService.expiresT=response.body.expiresIn*500
         this.authRoleService.userName=this.user;
   			this.authRoleService.token=res.body.accessToken
         this.authRoleService.employeeId=res.body.employeeId
-        
+
         let roles:any[]=[]
         res.body.roles.forEach(e=>{
           roles.push(e.roleCode)
         })
         this.authRoleService.role=JSON.stringify(roles)
-        let subsysFuncs:any[]=[]
-        res.body.subsysFuncs.forEach(e=>{
-          subsysFuncs.push(e.functionPoint)
-        })
-        this.authRoleService.subsysFuncs=JSON.stringify(subsysFuncs)
         
+
+
+        this.authRoleService.subsysFuncs=JSON.stringify(subsysFuncsFunctionPoint)
+        setInterval(e=>{
+          this.authRoleService.refreshToken();
+        },res.body.expiresIn*500);
+
+
         // console.log(this.authRoleService.subsysFuncs)
         // if (this.authRoleService.roleIn(['007','008'])) {
         //   this.router.navigate(['/business/customerList'])
-        this.router.navigate(['/check/authentication'])
-        
+        this.router.navigate([this.o[subsysFuncsFunctionPoint[0]]])
+
         // }else if (this.authRoleService.roleIn(['002'])) {
         //   this.router.navigate(['/memberM/memberManage'])
         //   // code...

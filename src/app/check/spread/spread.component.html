@@ -7,10 +7,10 @@
   <div class="tab-container">
     <ul class="nav nav-tabs nav-tab-info">
       <li [ngClass]="{'active':authApplyReplyNum==1}">
-        <a (click)="getList(1)">待审批</a>
+        <a (click)="navigate(1)">待审批</a>
       </li>
       <li [ngClass]="{'active':authApplyReplyNum==2}">
-        <a (click)="getList(2)">已审批</a>
+        <a (click)="navigate(2)">已审批</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -18,14 +18,13 @@
         <p-dataTable  [value]="dataList" emptyMessage="{{loading?'':'暂无数据'}}"
                      [loading]="loading" scrollable="true" scrollHeight="375px">
 
-          <p-column field="rolloverApplyId" header="展期申请ID" [style]="{'width':'150px'}"></p-column>
-          <p-column field="memberName" header="会员名称" [style]="{'width':'150px'}">
+          <p-column field="rolloverApplyId" header="展期单号" styleClass="text-center" [style]="{'width':'120px'}"></p-column>
+          <p-column field="memberName" header="会员名称" [style]="{'width':'220px'}">
             <ng-template let-data="rowData" pTemplate="body">
               <div textMaxLength="200px" title="{{data.memberName}}">{{data.memberName}}</div>
             </ng-template>
           </p-column>
-          <p-column field="borrowApplyId" header="借款单ID" [style]="{'width':'150px'}"></p-column>
-          <p-column field="repaymentPlanStr" header="还款期数" [style]="{'width':'100px'}"></p-column>
+          <p-column field="borrowApplyId" header="贷款单号" styleClass="text-center" [style]="{'width':'120px'}"></p-column>
           <p-column field="rolloverAmount" header="展期金额" [style]="{'width':'150px'}">
             <ng-template let-operation="rowData" pTemplate="body">
               <div class="text-right">
@@ -33,12 +32,13 @@
               </div>
             </ng-template>
           </p-column>
+          <p-column field="repaymentPlanStr" header="还款期数" styleClass="text-center" [style]="{'width':'100px'}"></p-column>
           <p-column field="comfirmRolloverTime" header="展期开始日期" styleClass="text-center" [style]="{'width':'120px'}">
             <ng-template let-data="rowData" pTemplate="body">
               <div textMaxLength="100px" title="{{data.comfirmRolloverTime}}">{{replaceDate(data.comfirmRolloverTime)|date:'yyyy-MM-dd'}}</div>
             </ng-template>
           </p-column>
-          <p-column field="statusDic" header="状态" [style]="{'width':'120px'}"></p-column>
+          <p-column field="statusDic" header="状态" [style]="{'width':'100px'}"></p-column>
           <p-column field="ooo" header="操作" [style]="{'width':'120px'}">
             <ng-template let-operation="rowData" pTemplate="body" styleClass="text-center">
               <div class="table-btn-group">

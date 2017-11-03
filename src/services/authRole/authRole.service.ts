@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import { CookieService } from 'ng2-cookies'
+import { MyHttp } from '../myHttp/myhttp.service'
 
 @Injectable()
 export class AuthRoleService {
@@ -9,9 +10,10 @@ export class AuthRoleService {
 
 	constructor(
 		private cookie:CookieService,
+		private myhttp:MyHttp
 		){}
 	// cookie:CookieService=new CookieService;
-	
+
 	set role(type:string){
 		this.cookie.set('rcm_role',type,this.eTime,'/')
 	}
@@ -43,7 +45,7 @@ export class AuthRoleService {
 	get employeeId(){
 		return this.cookie.get('rcm_employeeId')
 	}
-	
+
 	set token(token:string){
 		this.cookie.set("rcm_token",token,this.eTime,'/');
 	}
@@ -100,23 +102,24 @@ export class AuthRoleService {
 	return true;
 	}
 
-	// refreshToken(){
+	refreshToken(){
 
-	// 	if (this.token) {
-	// 		// code...
-	// 		this.myhttp.post({
-	// 		api:this.myhttp.api.refreshToken,
-	// 		query:{
-	// 			accessToken:this.token
-	// 		}
-	// 		}).toPromise()
-	// 	  	  .then(res=>{
+		if (this.token) {
+			// code...
+			this.myhttp.post({
+			api:this.myhttp.api.refreshToken,
+			query:{
+				accessToken:this.token
+			}
+			}).toPromise()
+				.then(res=>{
+					let data=res.json()
+					this.token=data.body.accessToken
+			})
+		}
 
-	// 	  	})
-	// 	}
-		
-		
-	// }
+
+	}
 
 	deleteAllCookies(){
 		this.cookie.set('rcm_role','',1,'/')
@@ -124,10 +127,10 @@ export class AuthRoleService {
 		this.cookie.set('rcm_token','',1,'/')
 		this.cookie.set('rcm_subsysFuncs','',1,'/')
 		this.cookie.set('rcm_employeeId','',1,'/')
-		
+
 
 		// this.cookie.deleteAll('','/')
 		console.log("cookies",document.cookie)
 	}
 
-} 
+}
