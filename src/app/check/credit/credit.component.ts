@@ -24,7 +24,7 @@ export class CreditComponent implements OnInit{
 
 	creditModal:boolean=false
 	modalMemberName
-	modalCreditList:any[]
+	modalCreditList:any[]=[]
 
 	status:string="1"
 	constructor(
@@ -81,11 +81,11 @@ export class CreditComponent implements OnInit{
 
 	history(data){
 		this.creditModal=true
-
+		this.modalMemberName=data.memberName
 		this.authList.getHistoryData(data.memberId)
 			.then(res=>{
 				console.log(res)
-				this.modalCreditList=res.body.records
+				this.modalCreditList=res.body
 			})
 			.catch(res=>{
 				this.pop.error({

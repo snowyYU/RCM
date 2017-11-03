@@ -38,3 +38,6 @@ li{
 .dol .page-location-item,.dol .page-location a{
   cursor: default;
 }
+.width-textarea{
+  width: 500px !important;
+}
