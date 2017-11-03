@@ -19,7 +19,7 @@
         <p-dataTable  [value]="dataList" emptyMessage="{{loading?'':'暂无数据'}}"
                      [loading]="loading" scrollable="true" scrollHeight="375px">
 
-          <p-column field="creditAuthId" header="申请ID" [style]="{'width':'120px'}"></p-column>
+          <p-column field="creditAuthId" header="申请单号" [style]="{'width':'120px'}"></p-column>
           <p-column field="memberName" header="会员名称" [style]="{'width':'150px'}">
             <ng-template let-data="rowData" pTemplate="body">
               <div textMaxLength="200px" title="{{data.memberName}}">{{data.memberName}}</div>
@@ -37,13 +37,13 @@
               </div>
             </ng-template>
           </p-column>
-          <p-column field="oldCreditValue" header="原授信额度(元)" [style]="{'width':'130px'}">
+          <!-- <p-column field="oldCreditValue" header="原授信额度(元)" [style]="{'width':'130px'}">
             <ng-template let-operation="rowData" pTemplate="body" styleClass="text-right">
               <div class="text-right">
                 {{operation.oldCreditValue | yuanFormat:2:true}}
               </div>
             </ng-template>
-          </p-column>
+          </p-column> -->
           <p-column field="statusDic" header="状态" [style]="{'width':'80px'}"></p-column>
 
           <p-column field="serviceMan" header="服务经理" [style]="{'width':'90px'}">
@@ -51,9 +51,9 @@
               <div textMaxLength="90px" title="{{data.serviceMan}}">{{data.serviceMan}}</div>
             </ng-template>
           </p-column>
-          <p-column field="createTime" header="申请日期" styleClass="text-center" [style]="{'width':'100px'}">
+          <p-column field="createTime" header="申请时间" styleClass="text-center" [style]="{'width':'100px'}">
             <ng-template let-data="rowData" pTemplate="body">
-              <div  >{{data.createTime|date:'yyyy-MM-dd'}}</div>
+              <div  >{{data.createTime}}</div>
             </ng-template>
           </p-column>
           <p-column field="ooo" header="操作" [style]="{'width':'140px'}">
