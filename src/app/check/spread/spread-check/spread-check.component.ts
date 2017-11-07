@@ -7,6 +7,7 @@ import { GalleryComponent} from 'dolphinng';
 import { SendData } from './spread-check.service'
 
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
+import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
 
 @Component({
 	selector:'spread-check',
@@ -72,7 +73,9 @@ repaymentPlan:{
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private spreadCheck:SpreadCheckService,
-		private auth:AuthRoleService
+		private auth:AuthRoleService,
+		private submitLoading:SubmitLoadingService
+
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
@@ -81,7 +84,9 @@ repaymentPlan:{
 	} 
 	ngOnInit(){
 		this.getData();
-		this.auditTwoBy=this.auth.userName
+		this.auditTwoBy=this.auth.userName;
+		this.submitLoading.show=false
+		
 	}
 
 	getData(){
@@ -119,6 +124,8 @@ repaymentPlan:{
 	}
 
 	rolloverLoanApplyReply(status){
+		this.submitLoading.show=true
+
 		let sendData:SendData={
 			rolloverApplyId:this.rolloverLoan.rolloverApplyId,
 			auditTwoBy:this.auditTwoBy,
@@ -128,12 +135,16 @@ repaymentPlan:{
 		this.spreadCheck.rolloverLoanApplyReply(sendData)
 			.then(res=>{
 				console.log(res)
+				this.submitLoading.show=false
+
 			})
 			.catch(res=>{
 				this.pop.error({
 					title:'错误信息',
 					text:res.message
 				})
+				this.submitLoading.show=false
+
 			})
 	}
 

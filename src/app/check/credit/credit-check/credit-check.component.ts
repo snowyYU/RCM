@@ -4,7 +4,7 @@ import { PopService } from 'dolphinng';
 import { CreditCheckService,SendData } from './credit-check.service'
 import { GalleryComponent} from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
-
+import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
 @Component({
 	selector:'credit-check',
 	templateUrl:'./credit-check.component.html',
@@ -42,7 +42,8 @@ export class CreditCheckComponent implements OnInit{
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private authRole:AuthRoleService,
-		private creditCheck:CreditCheckService
+		private creditCheck:CreditCheckService,
+		private submitLoading:SubmitLoadingService
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
@@ -52,6 +53,7 @@ export class CreditCheckComponent implements OnInit{
 	ngOnInit(){
 		this.getData();
 		this.auditBy=this.authRole.userName
+		this.submitLoading.show=false
 	}
 
 	getData(){
@@ -93,6 +95,8 @@ export class CreditCheckComponent implements OnInit{
 	}
 
 	creditAuthApplyReply(result){
+		this.submitLoading.show=true
+
 		let data:SendData={
 			creditAuthId:this.creditAuthId,
 			expiryDateBegin:this.expiryDateBegin,
@@ -109,6 +113,8 @@ export class CreditCheckComponent implements OnInit{
 					title:'提示信息',
 					text:'操作成功!'
 				})
+				this.submitLoading.show=false
+
 				this.router.navigate(['check/credit'])
 			})
 			.catch(res=>{
@@ -116,6 +122,8 @@ export class CreditCheckComponent implements OnInit{
 					title:'错误信息',
 					text:res.message
 				})
+				this.submitLoading.show=false
+
 			})
 	}
 
