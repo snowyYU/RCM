@@ -48,7 +48,9 @@
 
           <p-column field="serviceMan" header="服务经理" [style]="{'width':'90px'}">
             <ng-template let-data="rowData" pTemplate="body">
-              <div textMaxLength="90px" title="{{data.serviceMan}}">{{data.serviceMan}}</div>
+              <div textMaxLength="90px" title="{{data.serviceMan}}">
+                {{data.serviceMan}}
+              </div>
             </ng-template>
           </p-column>
           <p-column field="createTime" header="申请时间" styleClass="text-center" [style]="{'width':'140px'}">
