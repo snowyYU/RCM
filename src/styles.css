@@ -17,7 +17,9 @@ label.required:before{
   color:#f05050;
   line-height: 1.6;
 }
-
+.text-content{
+  color: #b6550f
+}
 .table-style{
 	table-layout: auto !important;
 }

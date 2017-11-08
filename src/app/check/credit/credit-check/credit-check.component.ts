@@ -4,6 +4,7 @@ import { PopService } from 'dolphinng';
 import { CreditCheckService,SendData } from './credit-check.service'
 import { GalleryComponent} from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
 @Component({
 	selector:'credit-check',
@@ -42,6 +43,7 @@ export class CreditCheckComponent implements OnInit{
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private authRole:AuthRoleService,
+		private session:SessionStorageService,
 		private creditCheck:CreditCheckService,
 		private submitLoading:SubmitLoadingService
 		){
@@ -125,6 +127,14 @@ export class CreditCheckComponent implements OnInit{
 				this.submitLoading.show=false
 
 			})
+	}
+
+	goToDetail(){
+		console.log(this.route)
+		console.log(this.router.url)
+		this.session.deleteItem('memberDetailDomain')
+		this.session.memberDetailDomain=this.router.url
+		this.router.navigate(['memberM/memberManage/detail',this.memberId])
 	}
 
 

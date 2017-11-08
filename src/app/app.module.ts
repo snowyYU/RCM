@@ -24,7 +24,7 @@ import { FocusDirective } from '../directives/focus/focus.directive';
 import { CookieService } from 'ng2-cookies'
 
 // import { MyHttp } from '../services/myHttp/myhttp.service';
-
+import { SessionStorageService } from '../services/session-storage/session-storage.service' 
 import { AuthRoleService } from '../services/authRole/authRole.service';
 import { SignInService } from './signin/signin.service';
 import { PopService } from 'dolphinng'
@@ -73,6 +73,7 @@ import {HttpClientModule} from '@angular/common/http';
   providers: [
               SignInService,
               AuthRoleService,
+              SessionStorageService,
               PopService,
               CookieService,
               LoginGuard,

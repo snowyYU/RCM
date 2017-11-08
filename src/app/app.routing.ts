@@ -20,6 +20,11 @@ const routes: Routes = [
                 loadChildren: './check/check.module#CheckModule',
                 data: { title: '审批事项'}
             },
+            { 
+                path: 'memberM', 
+                loadChildren: './member-m/member-m.module#MemberMModule',
+                data: { title: '会员信息'}
+            },
             
         ]
     }

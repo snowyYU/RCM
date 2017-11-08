@@ -5,6 +5,7 @@ import { SpreadCheckService } from './spread-check.service'
 import { ViewChild ,ElementRef} from '@angular/core';
 import { GalleryComponent} from 'dolphinng';
 import { SendData } from './spread-check.service'
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
@@ -72,9 +73,10 @@ repaymentPlan:{
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
+		private session:SessionStorageService,
 		private spreadCheck:SpreadCheckService,
 		private auth:AuthRoleService,
-		private submitLoading:SubmitLoadingService
+		private submitLoading:SubmitLoadingService,
 
 		){
 		// setTimeout(()=>{
@@ -146,6 +148,13 @@ repaymentPlan:{
 				this.submitLoading.show=false
 
 			})
+	}
+	goToDetail(){
+		console.log(this.route)
+		console.log(this.router.url)
+		this.session.deleteItem('memberDetailDomain')
+		this.session.memberDetailDomain=this.router.url
+		this.router.navigate(['memberM/memberManage/detail',this.rolloverLoan.memberId])
 	}
 
 

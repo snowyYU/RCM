@@ -17,6 +17,10 @@
           <label class="control-label pull-left">企业名称：</label>
           <div class="pull-left form-control-static" >
             {{rolloverLoan.memberName|filterNull:false}} ({{rolloverLoan.memberId|filterNull:false}})
+            <span *ngIf="rolloverLoan.memberId">
+              <a class="text-info" (click)="goToDetail()">详情</a>
+              
+            </span>
           </div>
         </div>
       </div>
