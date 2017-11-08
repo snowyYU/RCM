@@ -5,7 +5,7 @@ import { AuthCheckService,SendData } from './auth-check.service'
 import { ViewChild ,ElementRef} from '@angular/core';
 import { GalleryComponent} from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
-
+import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
 @Component({
 	selector:'auth-check',
 	templateUrl:'./auth-check.component.html',
@@ -61,7 +61,8 @@ export class AuthCheckComponent implements OnInit{
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private authRole:AuthRoleService,
-		private authCheck:AuthCheckService
+		private authCheck:AuthCheckService,
+		private submitLoading:SubmitLoadingService
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
@@ -71,6 +72,9 @@ export class AuthCheckComponent implements OnInit{
 	ngOnInit(){
 		this.getData();
 		this.auditBy=this.authRole.userName
+
+		this.submitLoading.show=false
+
 	}
 
 	getData(){
@@ -142,6 +146,8 @@ export class AuthCheckComponent implements OnInit{
 	}
 
 	memberAuthApplyReply(result){
+		this.submitLoading.show=true
+
 		let data:SendData={
 			authId:this.authId,
 			auditBy:this.auditBy,
@@ -155,6 +161,8 @@ export class AuthCheckComponent implements OnInit{
 					title:'提示信息',
 					text:'操作成功!'
 				})
+				this.submitLoading.show=false
+
 				this.router.navigate(['check/authentication'])
 			})
 			.catch(res=>{
@@ -162,6 +170,8 @@ export class AuthCheckComponent implements OnInit{
 					title:'错误信息',
 					text:res.message
 				})
+				this.submitLoading.show=false
+				
 			})
 	}
 
