@@ -31,9 +31,12 @@ export class SpreadCheckService{
 		})
 	}
 
-	getAttachUrl(id):any{
-		return this.myHttp.sShow(id,1)
-
+	getFileUrl(id,mode?){
+		return this.myHttp.sShow(id,mode)
+				
+	}
+	downLoadFile(id){
+		return this.myHttp.sDownLoad(id)
 	}
 
 	rolloverLoanApplyReply(param:SendData):Promise<any>{

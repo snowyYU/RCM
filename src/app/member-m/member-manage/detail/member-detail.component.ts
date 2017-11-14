@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router'
 import { PopService } from 'dolphinng'
 import { MemberDetailService } from './member-detail.service'
-import {SessionStorageService	} from '../../../../services/session-storage/session-storage.service'
+
 @Component({
 	moduleId: module.id,
 	selector: 'member-detail',
@@ -62,8 +62,7 @@ export class MemberDetailComponent implements OnInit {
 			private router:Router,
 			private route:ActivatedRoute,
 			private pop:PopService,
-			private memDetail:MemberDetailService,
-			public session:SessionStorageService
+			private memDetail:MemberDetailService
 		) {}
 
 	ngOnInit() {
@@ -82,7 +81,7 @@ export class MemberDetailComponent implements OnInit {
 		this.companyName=data.body.companyName    	//客户名称	
 		// this.memberId=data.body.memberId
 		this.createTime=data.body.createTime	//创建日期 
-		this.prmResourceRegister=data.body.prmResourceRegister//prmResourceRegister.resourceName归属渠道
+		this.prmResourceRegister=data.body.prmResourceRegister?data.body.prmResourceRegister:{}//prmResourceRegister.resourceName归属渠道
 		this.memberTypeDic=data.body.memberTypeDic//类别
 		this.memberStatusDic=data.body.memberStatusDic//状态
 		this.serviceMan=data.body.serviceMan//服务经理
@@ -110,12 +109,7 @@ export class MemberDetailComponent implements OnInit {
 	}
 
 	back(){
-		// this.router.navigate(['memberM/memberManage'])
-		if (this.session.memberDetailDomain) {
-			this.router.navigate([this.session.memberDetailDomain])
-		}else{
-			window.history.back()
-
-		}
+		// window.history.back()
+		this.router.navigate(['memberM/memberManage'])
 	}
 }

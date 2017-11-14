@@ -136,10 +136,10 @@ repaymentPlan:{
 	}
 
 
-	checkAttach(e,id){
-		let url=this.spreadDetail.getAttachUrl(id)
-		this.gallery.open(e,url);
-	}
+	// checkAttach(e,id){
+	// 	let url=this.spreadDetail.getAttachUrl(id)
+	// 	this.gallery.open(e,url);
+	// }
 
 	back(){
 		window.history.back()
