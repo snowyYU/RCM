@@ -280,10 +280,14 @@ export  const host=cur_host.api;
 export const host_ims=cur_host.oauth;
 
 
-//文件相关接口地址
-
-
+//文件相关接口host
 export const host_file=cur_host.file;
+
+//文件接口地址
+
+export const file_api={
+  getInfo:host_file+'getInfo',
+}
 
 export const API = {
   login: {
