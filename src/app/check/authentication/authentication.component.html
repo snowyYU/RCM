@@ -27,7 +27,13 @@
             </ng-template>
           </p-column>
           <!-- <p-column field="companyTypeDic" header="公司类型" [style]="{'width':'100px'}" ></p-column> -->
-          <p-column field="serviceMan" header="服务经理" [style]="{'width':'120px'}"></p-column>
+          <p-column field="serviceMan" header="服务经理" [style]="{'width':'120px'}">
+            <ng-template let-serviceMan="rowData" pTemplate="body">
+              <div textMaxLength="120px" title="{{serviceMan.serviceMan}}">
+                {{serviceMan.serviceMan}}
+              </div>
+            </ng-template>
+          </p-column>
           <p-column field="statusDic" header="状态" [style]="{'width':'100px'}"></p-column>
           <p-column field="createTime" header="申请时间" styleClass="text-center" [style]="{'width':'180px'}"></p-column>
           <p-column field="ooo" header="操作" [style]="{'width':'100px'}">
