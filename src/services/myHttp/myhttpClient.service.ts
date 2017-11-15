@@ -163,10 +163,10 @@ export class MyHttpClient {
      */
     sShow(fileId:number,mode?:string){
         if (mode) {
-          let url=this.api.fileServer+'preview?fileId='+fileId+'&mode='+mode
+          let url=this.api.fileServer+'file/preview?fileId='+fileId+'&mode='+mode
           return url
         }else{
-          let url=this.api.fileServer+'preview?fileId='+fileId
+          let url=this.api.fileServer+'file/preview?fileId='+fileId
           return url
         }
 
@@ -174,10 +174,10 @@ export class MyHttpClient {
     }
     sDownLoad(fileId:number,mode?:string){
         if (mode) {
-          let url=this.api.fileServer+'download?fileId='+fileId+'&mode='+mode
+          let url=this.api.fileServer+'file/download?fileId='+fileId+'&mode='+mode
           return url
         }else{
-          let url=this.api.fileServer+'download?fileId='+fileId
+          let url=this.api.fileServer+'file/download?fileId='+fileId
           return url
         }
         
@@ -188,7 +188,7 @@ export class MyHttpClient {
      * @return {Observable<any>}        [description]
      */
     sDelete(fileId):Observable<any>{
-        let url=this.api.fileServer+'delete?fileId='+fileId
+        let url=this.api.fileServer+'file/delete?fileId='+fileId
         return this.http.post(url,null)
     }
   
