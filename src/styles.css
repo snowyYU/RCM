@@ -55,3 +55,11 @@ li{
 .width-textarea{
   width: 500px !important;
 }
+
+.productInfo{
+  width: 500px;
+  top: 40px;
+  right: 40px;
+  border-radius: 8px;
+  box-shadow: 3px 3px 8px #999;
+}
