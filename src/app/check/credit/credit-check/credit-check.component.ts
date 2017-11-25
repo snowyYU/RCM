@@ -6,6 +6,7 @@ import { GalleryComponent} from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
+import { LibraryService } from 'snowy-library-ng'
 @Component({
 	selector:'credit-check',
 	templateUrl:'./credit-check.component.html',
@@ -31,7 +32,10 @@ export class CreditCheckComponent implements OnInit{
 	auditBy:string;			//审核人
     auditRemark:string;		//审核意见
     auditDate:string;		//审核时间
-    memberRatingGrate
+    memberRatingGrate=""
+
+    memberRating=""			//评级
+    memberRatingL:any[]=[]
 
     //授信产品列表
     creditProductList:any[]=[]
@@ -39,7 +43,7 @@ export class CreditCheckComponent implements OnInit{
     productListKey={}
 
 	
-
+    uniqueL:any[]=[]
 
 
 	
@@ -50,11 +54,12 @@ export class CreditCheckComponent implements OnInit{
 		private authRole:AuthRoleService,
 		private session:SessionStorageService,
 		private creditCheck:CreditCheckService,
-		private submitLoading:SubmitLoadingService
+		private submitLoading:SubmitLoadingService,
+		private libF:LibraryService
 		){
-		// setTimeout(()=>{
-		// 	this.gallery.open();
-		// },3000);
+		for (let i=1; i <100; i++) {
+			this.uniqueL.push(i)
+		}
 		
 	} 
 	ngOnInit(){
@@ -62,6 +67,7 @@ export class CreditCheckComponent implements OnInit{
 		this.auditBy=this.authRole.userName
 		this.submitLoading.show=false
 		this.getCreditProducts()
+		this.getMemberRatingL()
 	}
 
 	getData(){
@@ -118,6 +124,29 @@ export class CreditCheckComponent implements OnInit{
 				if (res.status) {
 
 					this.creditProductList=res.arr
+					this.creditProductList.forEach(e=>{
+						e.uniqueId=this.libF.createUniqueId(this.uniqueL)
+					})
+				}else{
+					this.pop.error({
+						title:"错误信息",
+						text:res.message
+					})
+				}
+			})
+			.catch((res)=>{
+				this.pop.error({
+					title:"错误信息",
+					text:res.message
+				})
+			})
+	}
+	getMemberRatingL(){
+		this.creditCheck.getMemberRatingL()
+			.then(res=>{
+				if (res.status==200) {
+					this.memberRatingL=res.body.records
+					
 				}else{
 					this.pop.error({
 						title:"错误信息",
@@ -151,6 +180,7 @@ export class CreditCheckComponent implements OnInit{
 		this.authRemark=res.body.authRemark
 	    this.auditRemark=res.body.auditRemark;		//审核意见
 	    this.memberRatingGrate=res.body.memberRatingGrate
+	    this.memberRating=res.body.memberRating
 	}
 
 
@@ -165,7 +195,9 @@ export class CreditCheckComponent implements OnInit{
 		//传的值，productName需要从键值对象
 
 		this.creditProductList.forEach(e=>{
-			e.productName=this.productListKey[e.productId].productName
+			if (this.productListKey[e.productId]) {
+				e.productName=this.productListKey[e.productId].productName
+			}
 		})
 		console.log(this.creditProductList)
 
@@ -177,8 +209,9 @@ export class CreditCheckComponent implements OnInit{
 			auditBy:this.auditBy,
 			status:result,
 			auditRemark:this.auditRemark,
-			creditAuthVo:this.creditProductList,
-			memberRatingGrate:this.memberRatingGrate
+			creditAuthVo2:this.creditProductList,
+			memberRatingGrate:this.memberRatingGrate,
+			memberRating:this.memberRating
 		}
 		this.creditCheck.creditAuthApplyReply(data)
 			.then(res=>{
@@ -225,7 +258,10 @@ export class CreditCheckComponent implements OnInit{
 				creditValue:'',
 				expiryDateBegin:'',
 				expiryDateEnd:'',
+				uniqueId:this.libF.createUniqueId(this.uniqueL)
 		}
+		console.log(this.uniqueL)
+
 		this.creditProductList.push(item)
 	}
 	deleteProductItem(index){

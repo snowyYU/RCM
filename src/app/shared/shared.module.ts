@@ -13,7 +13,7 @@ import { FilterMultiplyPipe } from '../../pipe/filter-multiply/filter-multiply.p
 import { PreviewerComponent } from '../../utils/previewer/previewer.component'
 import { PreviewOrDownloadComponent } from '../../utils/preview-or-download/preview-or-download.component'
 import { MySrcDirective } from '../../utils/previewer/mySrc.directive'
-
+import { HTML5ValidateDirective } from '../../directives/HTML5Validate/HTML5Validate.directive'
 
 
 import { FormsModule as MyFormsModule } from 'dolphinng'
@@ -25,7 +25,7 @@ import { PaginatorModule } from 'dolphinng'
 import { DatePickerModule } from 'dolphinng'
 import { CurrencyFormatModule } from 'dolphinng'
 import { CommonModule as MyCommonModule } from 'dolphinng'
-
+import { DatetimePickerComponent } from 'dolphinng'
 
 
 //导入模态框
@@ -53,8 +53,9 @@ import { CommonModule as MyCommonModule } from 'dolphinng'
     FilterMultiplyPipe,
     MySrcDirective,
     PreviewerComponent,
-    PreviewOrDownloadComponent
-    
+    PreviewOrDownloadComponent,
+    HTML5ValidateDirective,
+    DatetimePickerComponent
   ],
   exports:      [
     FormsModule,
@@ -75,7 +76,9 @@ import { CommonModule as MyCommonModule } from 'dolphinng'
     FilterNullPipe,
     FilterMultiplyPipe,
     PreviewerComponent,
-    PreviewOrDownloadComponent
+    PreviewOrDownloadComponent,
+    HTML5ValidateDirective,
+    DatetimePickerComponent
   ]
 })
 export class SharedModule { }

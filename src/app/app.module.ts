@@ -34,7 +34,7 @@ import {HttpClientModule} from '@angular/common/http';
 
 import { PopService } from 'dolphinng'
 import {Toaster} from 'dolphinng';
-
+import { LibraryService } from 'snowy-library-ng'
 
 @NgModule({
   declarations: [
@@ -58,6 +58,7 @@ import {Toaster} from 'dolphinng';
   providers: [
               PopService,
               Toaster,
+              LibraryService,
               AuthRoleService,
               SessionStorageService,
               CookieService,

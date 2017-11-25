@@ -8,8 +8,9 @@ export class SendData{
 	addCreditValue
 	auditBy
 	status
-	creditAuthVo
+	creditAuthVo2
 	memberRatingGrate
+	memberRating
 	auditRemark?
 }
 
@@ -20,7 +21,7 @@ export interface productItem{
 		creditValue,
 		expiryDateBegin,
 		expiryDateEnd,
-	
+		uniqueId
 	
 
 }
@@ -30,6 +31,17 @@ export class CreditCheckService{
 	constructor(
 		private myHttp:MyHttpClient
 		){}
+
+	getMemberRatingL():Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getDictList,
+			query:{
+				type:'member_rating'
+			}
+		}).toPromise().then(res=>{
+			return Promise.resolve(res)
+		})
+	}
 
 	getCreditProducts(memberId:number):Promise<any>{
 		return this.myHttp.post({
@@ -54,6 +66,9 @@ export class CreditCheckService{
 							expiryDateBegin?  //有效期(开始)  yyyy-MM-dd
 							expiryDateEnd?  //有效期(结束)    yyyy-MM-dd
 						}={}
+						if (!e.creditFacility) {
+							return 
+						}
 						if (e.creditFacility.expiryDateBegin.length>10) {
 							item.expiryDateBegin=e.creditFacility.expiryDateBegin.substring(0,10)
 						}
