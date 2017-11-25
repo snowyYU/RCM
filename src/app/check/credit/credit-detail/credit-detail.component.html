@@ -3,7 +3,7 @@
   <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
   <a class="page-location-item active">产品授信详情</a>
 </div>
-<div class="wrapper">
+<div class="wrapper" [ngClass]="{'approved-pass':status==1,'approved-refuse':status==-1}">
   <form #form>
     <!-- <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent"> -->
       <section class="panel-body group mar-b-sm">
@@ -13,6 +13,10 @@
           <div class="form-control-static pull-left">
             {{creditAuthId}}
           </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label pull-left">状态：</label>
+          <span class="form-control-static pull-left">  {{statusDic | filterNull:false}}</span>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
@@ -32,12 +36,12 @@
             {{memberName|filterNull:false}} <span *ngIf="memberId">({{memberId}})</span>
           </div>
         </div>
-        <div class="form-group ">
+        <!-- <div class="form-group ">
           <label class="control-label pull-left">申请产品：</label>
           <div class="pull-left form-control-static">
             {{productName|filterNull:false}}
           </div>
-        </div>
+        </div> -->
         <div class="form-group ">
           <label class="control-label pull-left">服务经理：</label>
           <div class="pull-left form-control-static">
@@ -45,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-6 form-horizontal form-label-7">
+      <!-- <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group no-b-margin">
           <label class="control-label pull-left">状态：</label>
           <span class="form-control-static pull-left">  {{statusDic | filterNull:false}}</span>
@@ -54,7 +58,7 @@
           <label class="control-label pull-left">产品类别：</label>
           <span class="form-control-static pull-left">  {{productTypeName | filterNull:false}}</span>
         </div>
-      </div>
+      </div> -->
     </section>
     <section class="panel-body group mar-b-sm">
       <div class="col-md-6 form-horizontal form-label-7">
@@ -64,14 +68,6 @@
             {{addCreditValue| filterNull:false | yuanFormat:2:true}}<span *ngIf="addCreditValue">元</span>
           </div>
         </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">有效期：</label>
-          <div class="pull-left form-control-static">
-            {{expiryDateBegin}} 至 {{expiryDateEnd}}
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">原授信额度：</label>
           <div class="form-control-static pull-left">
@@ -81,7 +77,24 @@
           <label class="control-label pull-left">申请原因：</label>
           <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  {{authRemark | filterNull:false}}</span>
         </div>
+        <!-- <div class="form-group ">
+          <label class="control-label pull-left">有效期：</label>
+          <div class="pull-left form-control-static">
+            {{expiryDateBegin}} 至 {{expiryDateEnd}}
+          </div>
+        </div> -->
       </div>
+      <!-- <div class="col-md-6 form-horizontal form-label-7">
+        <div class="form-group">
+          <label class="control-label pull-left">原授信额度：</label>
+          <div class="form-control-static pull-left">
+            {{oldCreditValue | filterNull:false | yuanFormat:2:true}}<span *ngIf="oldCreditValue">元</span></div>
+          </div>
+        <div class="form-group no-b-margin">
+          <label class="control-label pull-left">申请原因：</label>
+          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  {{authRemark | filterNull:false}}</span>
+        </div>
+      </div> -->
     </section>
     <section class="panel-body group mar-b-sm" *ngIf="statusDic!='认证中'">
       <div class="col-md-6 form-horizontal form-label-7">
@@ -109,4 +122,35 @@
       </div>
     </section>
   </form>
+  <section class="clearfix productInfo pos-abt m-t-xl tabel-bg-color" style="height:350px">
+    <div class="col-md-12 m-t">
+      <table class="table showL b-t">
+        <caption class="text-center text-lg font-bold caption-style m-b-md">授信产品</caption>
+        <thead>
+          <tr>
+            <th class="text-center" style="width:150px">产品</th>
+            <th class="text-center">额度(元)</th>
+            <th class="text-center" style="width:200px">有效期</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of productList">
+            <td class="text-center tbody-style" *ngIf="item.creditFacility">{{item.creditFacility.productName}}</td>
+            <td class="text-right tbody-style" *ngIf="item.creditFacility">{{item.creditFacility.creditValue | yuanFormat:2:true}}</td>
+            <td class="text-center tbody-style" *ngIf="item.creditFacility">{{item.creditFacility.expiryDateBegin | effDateFormat}} 至 {{item.creditFacility.expiryDateEnd | effDateFormat}}</td>
+          </tr>
+          <tr *ngIf="!productList||productList.length===0||!productList[0].creditFacility">
+            <td colspan="3" class="text-disabled text-center tbody-style"> 无</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td class="text-center tfoot-style">合计：</td>
+            <td class="text-right tfoot-style">{{oldCreditValue | yuanFormat:2:true | filterNull:false}} 元</td>
+          </tr>
+        </tfoot>
+      </table>
+      <div></div>
+    </div>
+  </section>
 </div>
