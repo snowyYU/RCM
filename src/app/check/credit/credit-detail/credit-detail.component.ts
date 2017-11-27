@@ -29,6 +29,7 @@ export class CreditDetailComponent implements OnInit{
     auditDate:string;		//审核时间
 	status
     statusDic               //状态，中文
+    productList
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
