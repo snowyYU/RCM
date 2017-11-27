@@ -23,9 +23,10 @@ import { NavModule } from 'dolphinng'
 import { GalleryModule } from 'dolphinng'
 import { PaginatorModule } from 'dolphinng'
 import { DatePickerModule } from 'dolphinng'
+import { DatetimePickerModule } from 'dolphinng'
 import { CurrencyFormatModule } from 'dolphinng'
 import { CommonModule as MyCommonModule } from 'dolphinng'
-import { DatetimePickerComponent } from 'dolphinng'
+// import { DatetimePickerComponent } from 'dolphinng'
 
 
 //导入模态框
@@ -42,6 +43,7 @@ import { DatetimePickerComponent } from 'dolphinng'
       GalleryModule,
       PaginatorModule,
       DatePickerModule,
+      DatetimePickerModule,
       CurrencyFormatModule,
       MyCommonModule
       ],
@@ -55,7 +57,7 @@ import { DatetimePickerComponent } from 'dolphinng'
     PreviewerComponent,
     PreviewOrDownloadComponent,
     HTML5ValidateDirective,
-    DatetimePickerComponent
+    // DatetimePickerComponent
   ],
   exports:      [
     FormsModule,
@@ -68,6 +70,7 @@ import { DatetimePickerComponent } from 'dolphinng'
     GalleryModule,
     PaginatorModule,
     DatePickerModule,
+    DatetimePickerModule,
     CurrencyFormatModule,
     MyCommonModule,
     MySrcDirective,
@@ -78,7 +81,7 @@ import { DatetimePickerComponent } from 'dolphinng'
     PreviewerComponent,
     PreviewOrDownloadComponent,
     HTML5ValidateDirective,
-    DatetimePickerComponent
+    // DatetimePickerComponent
   ]
 })
 export class SharedModule { }
