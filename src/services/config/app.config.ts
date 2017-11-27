@@ -14,6 +14,7 @@ interface Environment{
 interface Host{
    api:string;
    oauth:string;
+   fbps:string;
    file:string;
  }
  interface System{
@@ -92,17 +93,20 @@ class Config{
     this.host={
       dev:{
         api:'http://192.168.10.10:8090/rcm/',
-        oauth:'http://192.168.10.10:8090/rcm/',
+        oauth:'http://192.168.10.10:8090/ims/',
+        fbps:'http://192.168.10.10:8090/fbps/',
         file:'http://121.46.18.25:9090/oss/'
       },
       test:{
         api:'http://192.168.10.10:9090/crm/',
         oauth:'http://192.168.10.10:9090/ims/',
+        fbps:'http://192.168.10.10:9090/fbps/',
         file:'http://121.46.18.25:9090/oss/'
       },
       prod:{
         api:'http://192.168.10.10:9090/crm/',
         oauth:'http://192.168.10.10:9090/ims/',
+        fbps:'http://192.168.10.10:9090/fbps/',
         file:'http://121.46.18.25:9090/oss/'
       }
     };
@@ -279,6 +283,8 @@ export  const host=cur_host.api;
 //认证相关接口地址
 export const host_ims=cur_host.oauth;
 
+//业务系统host
+export const host_fbps=cur_host.fbps;
 
 //文件相关接口host
 export const host_file=cur_host.file;
@@ -363,24 +369,46 @@ export const API = {
   },
 
   /*
+    用款审批
+   */
+  loanList:{//用款列表
+    url:'lms/financeApply/applyList',
+    method:'get',
+    host:host_fbps
+  },
+
+  loanDetail:{//用款详情
+    url:'lms/financeApply/applyDetail',
+    method:'get',
+    
+    host:host_fbps
+  },
+  secondApprove:{
+    url:'lms/financeApply/secondApprove',
+    method:'post',
+    host:host_fbps
+  },
+
+
+  /*
     展期审批
    */
 
-   spreadLoanList:{//获取展期贷款申请列表
-     url:'lms/rolloverLoan/getByPage',
-     method:'get'
-   },
+  spreadLoanList:{//获取展期贷款申请列表
+    url:'lms/rolloverLoan/getByPage',
+    method:'get'
+  },
 
-   spreadLoanDetail:{//根据ID获取展期贷款详情
-     url:'lms/rolloverLoan/getDetials',
-     method:'get'
-   },
+  spreadLoanDetail:{//根据ID获取展期贷款详情
+    url:'lms/rolloverLoan/getDetials',
+    method:'get'
+  },
 
-   spreadLoanApplyReply:{//审核展期贷款申请
-     url:'lms/rolloverLoan/rolloverLoanApplyReply',
-     method:'post'
-   },
-   /*-----------------------------------会员管理---------------------------------------*/
+  spreadLoanApplyReply:{//审核展期贷款申请
+    url:'lms/rolloverLoan/rolloverLoanApplyReply',
+    method:'post'
+  },
+  /*-----------------------------------会员管理---------------------------------------*/
   /*-----------------------------------会员管理---------------------------------------*/
   vipManageList:{//会员管理列表
     url:'member/getByPage',
