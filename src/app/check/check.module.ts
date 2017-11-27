@@ -11,6 +11,8 @@ import { CreditComponent } from './credit/credit.component'
 import { CreditCheckComponent } from './credit/credit-check/credit-check.component'
 import { CreditDetailComponent } from './credit/credit-detail/credit-detail.component'
 
+import { UseApplyComponent } from './use/use-apply.component'
+
 import { SpreadComponent } from './spread/spread.component'
 import { SpreadDetailComponent } from './spread/spread-detail/spread-detail.component'
 import { SpreadCheckComponent } from './spread/spread-check/spread-check.component'
@@ -33,6 +35,7 @@ import {routing} from './check.routes'
 		CreditComponent,
 		CreditCheckComponent,
 		CreditDetailComponent,
+		UseApplyComponent,
 		SpreadComponent,
 		SpreadDetailComponent,
 		SpreadCheckComponent
