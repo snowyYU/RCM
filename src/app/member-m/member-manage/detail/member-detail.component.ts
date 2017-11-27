@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router'
 import { PopService } from 'dolphinng'
 import { MemberDetailService } from './member-detail.service'
-
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 @Component({
 	moduleId: module.id,
 	selector: 'member-detail',
@@ -62,7 +62,8 @@ export class MemberDetailComponent implements OnInit {
 			private router:Router,
 			private route:ActivatedRoute,
 			private pop:PopService,
-			private memDetail:MemberDetailService
+			private memDetail:MemberDetailService,
+			private session:SessionStorageService
 		) {}
 
 	ngOnInit() {
@@ -110,6 +111,8 @@ export class MemberDetailComponent implements OnInit {
 
 	back(){
 		// window.history.back()
-		this.router.navigate(['memberM/memberManage'])
+		if (this.session.memberDetailDomain) {
+			this.router.navigate([this.session.memberDetailDomain])
+		}
 	}
 }
