@@ -33,7 +33,7 @@
             </ng-template>
           </p-column>
           <p-column field="currentPeriodStr" header="还款期数" styleClass="text-center" [style]="{'width':'100px'}"></p-column>
-          <p-column field="repaymentDate" header="展期开始日期" styleClass="text-center" [style]="{'width':'120px'}">
+          <p-column field="rolloverStartDate" header="展期开始日期" styleClass="text-center" [style]="{'width':'120px'}">
             <ng-template let-data="rowData" pTemplate="body">
               <div textMaxLength="100px" title="{{data.createTime}}">{{data.createTime}}</div>
             </ng-template>

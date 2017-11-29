@@ -30,6 +30,9 @@ export class SpreadDetailComponent implements OnInit{
     realRolloverDate	         //实际还款日期
     rolloverRate	             //展期利率
     paymentWayName
+    auditTwoTime                 //二审时间
+    auditTwoBy                   //二审员
+    auditTwoRemarks              //二审意见
     
 
     rolloverData:{               //展期数据
@@ -43,6 +46,9 @@ export class SpreadDetailComponent implements OnInit{
         borrowApplyId?
         repaymentPlan?
         auditOneRemarks?
+        auditTwoTime?
+        auditTwoBy?
+        auditTwoRemarks?
     }={}     
                               
     financeData:{                //借款单数据
