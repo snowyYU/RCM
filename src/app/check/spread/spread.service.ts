@@ -1,33 +1,49 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
+import { MyHttp } from '../../../services/myHttp/myhttp.service'
 import { MyHttpClient } from '../../../services/myHttp/myhttpClient.service'
 
-export class SendData{
-	page:number;
-	rows:number;
-	// serviceMan:string;
-	qryStatus:number;
+
+export interface SendData{
+	rows:number
+    page:number
+    status?:number
+    companyName?:string
 }
 
 @Injectable()
-export class SpreadService{
+export class SpreadService {
+	
 	constructor(
 		private myHttp:MyHttpClient,
-		){}
-	getListData(sData:SendData):Promise<any>{
-		return this.myHttp.post({
-			api:this.myHttp.api.spreadLoanList,
-			query:sData
+		) {}
+
+     getStatusList():Promise<any>{
+        return this.myHttp.get({
+			api:this.myHttp.api.getDictList,
+			query:{
+                type:'rollover_status'
+            }
 		}).toPromise().then(res=>{
-			let data=res;
+			let data=res
 			if (data.status==200) {
 				return Promise.resolve(data)
 			}else{
 				return Promise.reject(data)
 			}
 		})
-	}
+    }
 
-
-
-
+	getDataList(sendData:SendData):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getRolloverList,
+			query:sendData
+		}).toPromise().then(res=>{
+			let data=res
+			if (data.status==200) {
+				return Promise.resolve(data)
+			}else{
+				return Promise.reject(data)
+			}
+		})
+    }
 }

@@ -14,7 +14,7 @@
           </div> -->
           <label class="control-label pull-left">展期单号：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverApplyId|filterNull:false}}
+            {{rolloverData.rolloverApplyId|filterNull:false}}
           </div>
         </div>
         <div class="form-group ">
@@ -28,7 +28,7 @@
           </div> -->
           <label class="control-label pull-left">状态：</label>
           <div class="pull-left form-control-static" >
-            
+            {{rolloverData.statusName|filterNull:false}}
           </div>
         </div>
       </div>
@@ -43,7 +43,9 @@
         </div> -->
         <div class="form-group">
           <label class="control-label pull-left">创建时间：</label>
-          <span class="form-control-static pull-left">  {{rolloverLoan.rolloverTime | effDateFormat | filterNull:false}}</span>
+          <span class="form-control-static pull-left">
+            {{rolloverData.createTime  | effDateFormat | filterNull:false}}
+          </span>
         </div>
       </div>
     </section >
@@ -82,25 +84,25 @@
         <div class="form-group ">
           <label class="control-label pull-left">企业名称：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            {{rolloverData.companyName|filterNull:false}} ({{rolloverData.memberId|filterNull:false}})
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">展期金额：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">展期保证金：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">申请理由：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            {{rolloverData.remarks | filterNull:false}}
           </div>
         </div>
       </div>
@@ -118,19 +120,19 @@
         <div class="form-group ">
           <label class="control-label pull-left">承诺还款日期：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">本期利息：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">展期利率：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
+            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
           </div>
         </div>
       </div>
@@ -141,7 +143,6 @@
           <label class="control-label pull-left">批准还款日期：</label>
           <div class="form-control-static pull-left">
             <input type="text">
-            {{rolloverLoan.rolloverApplyId|filterNull:false}}
           </div>
         </div>
       </div>
@@ -159,15 +160,13 @@
         <div class="form-group ">
           <label class="control-label pull-left">贷款单号：</label>
           <div class="form-control-static pull-left">
-            <input type="text">
-            {{rolloverLoan.rolloverApplyId|filterNull:false}}
+            {{rolloverData.borrowApplyId|filterNull:false}}
           </div>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">还款期数：</label>
-          <input type="text">
         </div>
       </div>
     </section>
@@ -177,18 +176,18 @@
         <div class="form-group ">
           <label class="control-label pull-left">一审人员：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverApplyId|filterNull:false}}
+            {{rolloverData.auditOneBy|filterNull:false}}
           </div>
           <label class="control-label pull-left">一审意见：</label>
           <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverApplyId|filterNull:false}}
+            {{rolloverData.auditOneRemarks|filterNull:false}}
           </div>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">一审时间：</label>
-            {{rolloverLoan.rolloverApplyId|filterNull:false}}
+            {{rolloverData.auditOneTime|filterNull:false}}
           
         </div>
       </div>
