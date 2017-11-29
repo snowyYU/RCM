@@ -32,7 +32,7 @@ export class UseApplyComponent implements OnInit{
 	modalMemberName
 	modalCreditList:any[]=[]
 
-	status:string="1"
+	status:string="2"
 	constructor(
 		private useApply:UseApplyService,
 		private router:Router,
