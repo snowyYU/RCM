@@ -1,56 +1,104 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
+import { MyHttp } from '../../../../services/myHttp/myhttp.service'
 import { MyHttpClient } from '../../../../services/myHttp/myhttpClient.service'
 
-export class SendData{
-	rolloverApplyId
-	auditTwoBy
-	status
-	auditTwoRemarks
+
+export interface SendData{
+    rolloverApplyId?:string  	//展期申请ID
+    extendRate?:number          //展期利率
+    status?:number           	//展期审批状态
+    auditTwoRemarks?:string  	//二审意见
 }
 
 @Injectable()
-export class SpreadCheckService{
+export class SpreadCheckService {
+	
 	constructor(
-		private myHttp:MyHttpClient
-		){}
+		private myHttp:MyHttpClient,
+        ) {}
 
-	getData(id:number):Promise<any>{
-		return this.myHttp.get({
-			api:this.myHttp.api.spreadLoanDetail,
-			query:{
-				rolloverApplyId:id
-			}
-		}).toPromise().then(res=>{
-			let data=res;
-			console.log(data)
-			if (data.status==200) {
-				 return Promise.resolve(data)
-			}else{
-				return Promise.reject(data)
-			}
-		})
-	}
-
-	getFileUrl(id,mode?){
-		return this.myHttp.sShow(id,mode)
-				
-	}
-	downLoadFile(id){
-		return this.myHttp.sDownLoad(id)
-	}
-
-	rolloverLoanApplyReply(param:SendData):Promise<any>{
+	//获取展期详情
+	getRolloverDetail(id:string):Promise<any>{
 		return this.myHttp.post({
-			api:this.myHttp.api.spreadLoanApplyReply,
-			query:param
+			api:this.myHttp.api.getRolloverDetail,
+			query:{
+                rolloverApplyId:id
+            }
 		}).toPromise().then(res=>{
-			let data=res;
+			let data=res
 			if (data.status==200) {
-				 return Promise.resolve(data)
+				return Promise.resolve(data)
 			}else{
 				return Promise.reject(data)
 			}
 		})
-	}
+    }
 
+    //获取借款单详情
+    getfinanceApply(id:string):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getfinanceApply,
+			query:{
+                borrowApplyId:id
+            }
+		}).toPromise().then(res=>{
+			let data=res
+			if (data.status==200) {
+				return Promise.resolve(data)
+			}else{
+				return Promise.reject(data)
+			}
+		})
+    }
+
+	//获取金融产品参数
+    getProductsAttach(appId:string,productId:string,paymentWay:string):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getProductsAttach,
+			query:{
+                appId:appId,
+                productId:productId,
+                paymentWay:paymentWay
+            }
+		}).toPromise().then(res=>{
+			let data=res
+			if (data.status==200) {
+				return Promise.resolve(data)
+			}else{
+				return Promise.reject(data)
+			}
+		})
+    }
+
+	//获取还款计划
+    getRepaymentPlan(id:string):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getRepaymentPlan,
+			query:{
+                borrowApplyId:id
+            }
+		}).toPromise().then(res=>{
+			let data=res
+			if (data.status==200) {
+				return Promise.resolve(data)
+			}else{
+				return Promise.reject(data)
+			}
+		})
+    }
+
+	保存审批结果
+    saveRollover(queryData:SendData):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.saveRollover,
+			query:queryData
+		}).toPromise().then(res=>{
+			let data=res
+			if (data.status==200) {
+				return Promise.resolve(data)
+			}else{
+				return Promise.reject(data)
+			}
+		})
+    }
 }

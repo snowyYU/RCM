@@ -133,7 +133,7 @@ class Config{
         test:'http://192.168.10.10:9090/crm',
         prod:'',
       },
-      active:true
+      active:false
     },{
       name:'金融风控管理系统',
       link:{//链接
@@ -141,7 +141,7 @@ class Config{
         test:'http://192.168.10.10:9091/rcm',
         prod:'',
       },
-      active:false
+      active:true
     },{
       name:'银行账户管理系统',
       link:{//链接
@@ -406,21 +406,31 @@ export const API = {
   /*
     展期审批
    */
-
-  spreadLoanList:{//获取展期贷款申请列表
-    url:'lms/rolloverLoan/getByPage',
-    method:'get'
-  },
-
-  spreadLoanDetail:{//根据ID获取展期贷款详情
-    url:'lms/rolloverLoan/getDetials',
-    method:'get'
-  },
-
-  spreadLoanApplyReply:{//审核展期贷款申请
-    url:'lms/rolloverLoan/rolloverLoanApplyReply',
+  getRolloverList:{
+    url:'/lms/rolloverLoan/getByPage',
     method:'post'
   },
+  getRolloverDetail:{
+    url:'/lms/rolloverLoan/getRolloverDetail',
+    method:'post'
+  },
+  getfinanceApply:{
+    url:'/lms/rolloverLoan/getFinanceApply',
+    method:'post'
+  },
+  getProductsAttach:{
+    url:'/lms/rolloverLoan/getProductsAttach',
+    method:'post'
+  },
+  getRepaymentPlan:{
+    url:'/lms/rolloverLoan/getRepaymentPlan',
+    method:'post'
+  },
+  saveRollover:{
+    url:'/lms/rolloverLoan/rolloverApprove',
+    method:'post'
+  },
+  
   /*-----------------------------------会员管理---------------------------------------*/
   /*-----------------------------------会员管理---------------------------------------*/
   vipManageList:{//会员管理列表
