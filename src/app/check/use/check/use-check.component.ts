@@ -3,7 +3,8 @@ import { ViewChild ,ElementRef} from '@angular/core';
 
 import { Router,ActivatedRoute } from '@angular/router';
 import { PopService } from 'dolphinng';
-import { UseDetailService } from './use-detail.service'
+import { AuthRoleService } from '../../../../services/authRole/authRole.service'
+import { UseCheckService,SendData } from './use-check.service'
 import { GalleryComponent} from 'dolphinng';
 
 import { PreviewerComponent } from '../../../../utils/previewer/previewer.component'
@@ -11,12 +12,12 @@ import {img,file } from "../../../../utils/previewer/filetype"
 
 import { LibraryService } from "snowy-library-ng"
 @Component({
-	selector:'use-detail',
-	templateUrl:'./use-detail.component.html',
-	styleUrls:['./use-detail.component.less'],
-	providers:[UseDetailService]
+	selector:'use-check',
+	templateUrl:'./use-check.component.html',
+	styleUrls:['./use-check.component.less'],
+	providers:[UseCheckService]
 })
-export class UseDetailComponent implements OnInit{
+export class UseCheckComponent implements OnInit{
 	
           
 	borrowApplyId	//贷款单号：
@@ -31,7 +32,7 @@ export class UseDetailComponent implements OnInit{
 	productName	//贷款产品：
 	borrowHowlong	//贷款周期：
 	repaymentWay	//还款方式：
-	rate	//利率：
+	rate:any=0	//利率：
 	rateType	//计息方式：
 
 	proveDataList:any[]=[]
@@ -52,7 +53,8 @@ export class UseDetailComponent implements OnInit{
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
-		private useDetail:UseDetailService,
+		private auth:AuthRoleService,
+		private useCheck:UseCheckService,
 		private library:LibraryService
 		){
 		// setTimeout(()=>{
@@ -69,7 +71,7 @@ export class UseDetailComponent implements OnInit{
 				this.getSecondLogList()
 			})
 			.then(res=>{
-				this.useDetail.getDicData_fbps("interest_type")
+				this.useCheck.getDicData_fbps("interest_type")
 					.then(res=>{
 						res.body.records.forEach(e=>{
 							if (e.value==this.rateType) {
@@ -79,7 +81,7 @@ export class UseDetailComponent implements OnInit{
 					})
 			})
 			.then(res=>{
-				this.useDetail.getDicData_fbps("payment_way")
+				this.useCheck.getDicData_fbps("payment_way")
 					.then(res=>{
 						res.body.records.forEach(e=>{
 							if (e.value==this.repaymentWay) {
@@ -89,10 +91,11 @@ export class UseDetailComponent implements OnInit{
 					})
 			})
 		this.getProveDataList();
+				
 	}
 
 	getData():Promise<any>{
-		return this.useDetail.getData(this.route.params['value']['id'])
+		return this.useCheck.getData(this.route.params['value']['id'])
 				.then(res=>{
 					console.log(res)
 					this.handle(res)
@@ -119,14 +122,14 @@ export class UseDetailComponent implements OnInit{
 		this.approveAmount=res.body.approveAmount	//贷款金额：
 		this.productName=res.body.productName	//贷款产品：
 		this.borrowHowlong=res.body.borrowHowlong	//贷款周期：
-		this.repaymentWay=res.body.repaymentWay	//还款方式：
-		this.rate=res.body.rate	//利率：
+		this.repaymentWay=res.body.paymentWay	//还款方式：
+		this.rate=res.body.rate?res.body.rate:0	//利率：
 		this.rateType=res.body.rateType	//计息方式：
 
 	}
 
 	getProveDataList(){
-		this.useDetail.getProveDataList(this.route.params['value']['id'])
+		this.useCheck.getProveDataList(this.route.params['value']['id'])
 			.then(res=>{
 				console.log(res)
 				this.proveDataList=res.body.records
@@ -141,16 +144,19 @@ export class UseDetailComponent implements OnInit{
 			})
 	}
 	getFirstLogList(){
-		this.useDetail.getLogList(this.borrowApplyId,2)
+		this.useCheck.getLogList(this.borrowApplyId,2)
 			.then(res=>{
 				console.log(res)
-				this.firstCheckPeople=res.body.records[0].createBy
-				this.firstCheckTime=res.body.records[0].createTime
-				this.firstCheckOpinion=res.body.records[0].remarks
+				if (res.body.records[0]) {
+					this.firstCheckPeople=res.body.records[0].createBy
+					this.firstCheckTime=res.body.records[0].createTime
+					this.firstCheckOpinion=res.body.records[0].remarks
+				}
+					
 			})
 	}
 	getSecondLogList(){
-		this.useDetail.getLogList(this.borrowApplyId,3)
+		this.useCheck.getLogList(this.borrowApplyId,3)
 			.then(res=>{
 				if (res.body.records[0]) {
 					this.secondCheckOpinion=res.body.records[0].remarks
@@ -164,7 +170,7 @@ export class UseDetailComponent implements OnInit{
 		console.log(fileLoadId)
 		
 		if (fileLoadId) {
-			let url:any=this.useDetail.getFileUrl(fileLoadId)
+			let url:any=this.useCheck.getFileUrl(fileLoadId)
 			let extension=this.attachment[fileLoadId].extension
 			let event=e
 
@@ -204,7 +210,7 @@ export class UseDetailComponent implements OnInit{
 
 	download(fileLoadId){
 		if (!!this.attachment[fileLoadId]) {
-			let url=this.useDetail.downLoadFile(this.attachment[fileLoadId].fileLoadId)
+			let url=this.useCheck.downLoadFile(this.attachment[fileLoadId].fileLoadId)
 			// window.open(url)
 			console.log(url)
 			window.location.href =url
@@ -219,6 +225,41 @@ export class UseDetailComponent implements OnInit{
 	}
 
 	//--end
+
+	secondApprove(status){
+		let data:SendData={
+			borrowApplyId:this.borrowApplyId,
+			approveAmount:this.approveAmount,
+			rate:this.rate,
+			status:status,
+			remarks:this.secondCheckOpinion,
+			auditOneBy:this.auth.userName
+		}
+		console.log(data)
+		this.useCheck.secondApprove(data)
+			.then(res=>{
+				if (res.status==200) {
+					console.log(res)
+					this.pop.info({
+						title:"提示信息",
+						text:"操作成功"
+					})
+					window.history.back()
+				}else{
+					this.pop.error({
+						title:"错误信息",
+						text:res.message
+					})
+				}
+			})
+			.catch(res=>{
+				this.pop.error({
+					title:"错误信息",
+					text:res.message
+				})
+			})
+	}
+
 
 	back(){
 		window.history.back()

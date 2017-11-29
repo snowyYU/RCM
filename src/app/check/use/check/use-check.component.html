@@ -1,7 +1,7 @@
 <div class="page-location">
-  <a class="h4 pad-r-xs font-bold">用款审批详情</a>
+  <a class="h4 pad-r-xs font-bold">用款审批</a>
   <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
-  <a class="page-location-item active">用款审批详情</a>
+  <a class="page-location-item active">用款审批</a>
 </div>
 <div class="wrapper">
   <form #form>
@@ -56,20 +56,26 @@
             {{borrowHowlong|filterNull:false}}
           </div>
         </div>
-        
-        <div class="form-group ">
+        <!-- <div class="form-group ">
           <label class="control-label pull-left">利率：</label>
-          <div class="form-control-static pull-left">
-            {{rate | filterNull}}
+          <div class="pull-left form-control-static" >
+            {{rate|filterNull:false}}
           </div>
-        </div>  
-       
-        <div class="form-group ">
-          <label class="control-label pull-left">最终确认金额：</label>
+        </div> -->
+        <div class="form-group form-inline">
+          <label class="control-label pull-left m-t-xs">利率：</label>
           <div class="form-control-static pull-left">
-            {{approveAmount | filterNull:false | yuanFormat:2:true}}<span *ngIf="approveAmount">元</span>
+            <input type="text" class="form-control" name="rate" [(ngModel)]="rate">
+            
           </div>
         </div> 
+        <div class="form-group form-inline">
+          <label class="control-label pull-left m-t-xs">最终确认金额：</label>
+          <div class="form-control-static pull-left">
+            <input type="text" class="form-control" name="approveAmount" [(ngModel)]="approveAmount">
+            <span>元</span>
+          </div>
+        </div>   
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
@@ -117,18 +123,20 @@
     </section >
     <!-- <section class="panel-body group mar-b-sm" >
       <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group ">
-          <label class="control-label pull-left">最终确认金额：</label>
+        <div class="form-group form-inline">
+          <label class="control-label pull-left m-t-xs">最终确认金额：</label>
           <div class="form-control-static pull-left">
-            {{approveAmount | filterNull:false | yuanFormat:2:true}}<span *ngIf="approveAmount">元</span>
+            <input type="text" class="form-control" name="approveAmount" [(ngModel)]="approveAmount">
+            <span>元</span>
           </div>
         </div>  
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group ">
-          <label class="control-label pull-left">借款利率：</label>
+        <div class="form-group form-inline">
+          <label class="control-label pull-left m-t-xs">借款利率：</label>
           <div class="form-control-static pull-left">
-            {{addCreditValue | filterNull:false | yuanFormat:2:true}}<span *ngIf="addCreditValue">元</span>
+            <input type="text" class="form-control" name="rate" [(ngModel)]="rate">
+            
           </div>
         </div>  
       </div>
@@ -163,7 +171,8 @@
         <div class="form-group ">
           <label class="control-label pull-left">二审意见：</label>
           <div class="form-control-static pull-left">
-            {{secondCheckOpinion | filterNull}}
+            <textarea name="secondCheckOpinion" class="form-control" cols="50" rows="5" [(ngModel)]="secondCheckOpinion"></textarea>
+            
           </div>
         </div>  
       </div>
@@ -172,8 +181,11 @@
     </section >
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def" (click)="back()">返回<i class="fa fa-arrow-circle-o-left"></i></button>
+        <button class="btn-def m-l btn-def-success" (click)="secondApprove(3)">通过<i class="fa fa-check-circle-o"></i></button>
+        <button class="btn-def m-l btn-def-danger" (click)="secondApprove(-3)">拒绝<i class="fa fa-ban"></i></button>
+        <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
+
     </section>
   </form>
 </div>

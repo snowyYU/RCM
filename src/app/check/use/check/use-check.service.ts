@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core'
 import { MyHttpClient } from '../../../../services/myHttp/myhttpClient.service'
 
+export class SendData{
+	borrowApplyId
+	approveAmount?
+	rate?
+	status
+	remarks?
+	auditOneBy
+}
 
 @Injectable()
-export class UseDetailService{
+export class UseCheckService{
 	constructor(
 		private myHttp:MyHttpClient
 		){}
+
 	getDicData_fbps(key:string):Promise<any>{
 		return this.myHttp.get({
 			api:this.myHttp.api.getDicList_fbps,
@@ -22,6 +31,7 @@ export class UseDetailService{
 			}
 		})
 	}
+
 	getData(id:number):Promise<any>{
 		return this.myHttp.get({
 			api:this.myHttp.api.loanDetail,
@@ -66,6 +76,17 @@ export class UseDetailService{
 			
 		})
 	}
+
+	secondApprove(sendData:SendData):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.secondApprove,
+			query:sendData
+		}).toPromise().then(res=>{
+			return Promise.resolve(res)
+			
+		})
+	}
+
 	getFileUrl(id,mode?){
 		return this.myHttp.sShow(id,mode)
 				

@@ -322,7 +322,11 @@ export const API = {
     url:'sys/dict/getDictList',
     method:'get'
   },
-
+  getDicList_fbps:{
+    url:'base/dictionary/dictionaryList',
+    method:'get',
+    host:host_fbps
+  },
 
   /*-----------------------------------审批事项---------------------------------------*/
 
@@ -380,7 +384,7 @@ export const API = {
   loanDetail:{//用款详情
     url:'lms/financeApply/applyDetail',
     method:'get',
-    
+
     host:host_fbps
   },
   secondApprove:{
@@ -388,7 +392,16 @@ export const API = {
     method:'post',
     host:host_fbps
   },
-
+  proveDataList:{
+    url:'lms/financeApply/proveDataList',
+    method:'post',
+    host:host_fbps
+  },
+  logList:{
+    url:'sys/log/logList',
+    method:'get',
+    host:host_fbps
+  },
 
   /*
     展期审批
