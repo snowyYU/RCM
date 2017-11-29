@@ -14,13 +14,13 @@
       <input class="form-control " placeholder="企业名称关键字" [(ngModel)]="companyName" name="companyName"/>
     </div>
     <div class="form-group">
-      <button class="btn-def" (click)="row=0;page=0;navigate()">搜索<i class="fa fa-search"></i></button>
+      <button class="btn-def" (click)="rows=10;page=0;navigate()">搜索<i class="fa fa-search"></i></button>
     </div>
   </div>
     
   <div class="tab-container">
     <ul class="nav nav-tabs nav-tab-info">
-      <li [ngClass]="{'active':status==2}">
+      <li [ngClass]="{'active':status=='2'}">
         <a (click)="status='2';navigate()">待审批</a>
       </li>
       <li [ngClass]="{'active':status=='3,-3'}">
@@ -56,12 +56,12 @@
               {{loan.applyAmount|currencyFormat|filterNull}}
             </ng-template>
           </p-column>
-          <p-column styleClass="text-right text-gold" [style]="{'width':'120px'}" *ngIf="status==2">
+          <p-column styleClass="text-right text-gold" [style]="{'width':'120px'}" *ngIf="status=='3,-3'">
             <ng-template pTemplate="header" >
               最终确认金额(元)
             </ng-template>
             <ng-template let-loan="rowData" pTemplate="body">
-              {{loan.repayRelAmount|currencyFormat|filterNull}}
+              {{loan.approveAmount|currencyFormat|filterNull}}
             </ng-template>
           </p-column>
           <p-column styleClass="text-center" [style]="{'width':'120px'}" >
@@ -69,7 +69,7 @@
               申请时间
             </ng-template>
             <ng-template let-loan="rowData" pTemplate="body">
-              {{loan.limitTime|date:'yyyy-MM-dd'|filterNull}}
+              {{loan.createTime  |date:'yyyy-MM-dd'|filterNull}}
             </ng-template>
           </p-column>
           
@@ -81,7 +81,7 @@
             </ng-template>
             <ng-template let-loan="rowData" pTemplate="body">
               <div class="table-btn-group">
-                <a class="table-btn" *ngIf="status==2" routerLink="/check/use/useCheck/{{loan.borrowApplyId}}">审批</a>
+                <a class="table-btn" *ngIf="status=='2'" routerLink="/check/use/useCheck/{{loan.borrowApplyId}}">审批</a>
                 <a class="table-btn" *ngIf="status=='3,-3'" routerLink="/check/use/useDetail/{{loan.borrowApplyId}}">详情</a>
               </div>
             </ng-template>
@@ -89,7 +89,7 @@
           <p-footer>
             <div class="clearfix">
               <div class="pull-right">
-                <paginator [(index)]="page" [count]="count" [changePageSizeAble]="true" [(pageSize)]="rows" (onChangePage)="getList(authApplyReplyNum)" size="sm" [showTotal]="true"></paginator>
+                <paginator [(index)]="page" [count]="count" [changePageSizeAble]="true" [(pageSize)]="rows" (onChangePage)="navigate()" size="sm" [showTotal]="true"></paginator>
               </div>
             </div>
           </p-footer>
