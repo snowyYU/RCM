@@ -129,7 +129,7 @@
         <thead>
           <tr>
             <th class="text-center" style="width:150px">产品</th>
-            <th class="text-center">额度(元)</th>
+            <th class="text-center" style="width:150px">额度(元)</th>
             <th class="text-center" style="width:200px">有效期</th>
           </tr>
         </thead>
@@ -146,7 +146,7 @@
         <tfoot>
           <tr>
             <td class="text-center tfoot-style">合计：</td>
-            <td class="text-right tfoot-style">{{oldCreditValue | yuanFormat:2:true | filterNull:false}} 元</td>
+            <td class="text-right tfoot-style" colspan="2">{{oldCreditValue | yuanFormat:2:true | filterNull:false}} 元</td>
           </tr>
         </tfoot>
       </table>
