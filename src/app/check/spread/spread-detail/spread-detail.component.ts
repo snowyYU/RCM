@@ -3,7 +3,6 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { PopService } from 'dolphinng';
 import { SpreadDetailService } from './spread-detail.service'
 import { ViewChild ,ElementRef} from '@angular/core';
-import { GalleryComponent} from 'dolphinng';
 @Component({
 	selector:'spread-detail',
 	templateUrl:'./spread-detail.component.html',
@@ -11,138 +10,109 @@ import { GalleryComponent} from 'dolphinng';
 	providers:[SpreadDetailService]
 })
 export class SpreadDetailComponent implements OnInit{
+    loading:boolean
 
-rolloverLoan:{
-	rolloverApplyId?	//展期申请id
-	rolloverTime?	//展期申请日期
-	memberId?	//会员id
-	memberName?	//会员名
-	appId?	//渠道ID
-	appName?	//渠道名称
-	borrowApplyId?	//借款申请单id
-	comfirmRolloverTime?	//批准展期日期
-	remarks?	//备注
-	status?	//状态（-1：不通过；0：待审批；1：通过）
-	statusDic?	//状态，中文
-	auditOneTime?	//一审时间
-	auditOneBy?	//一审员
-	auditOneRemarks?	//一审意见
-	auditTwoTime?	//二审时间
-	auditTwoBy?	//二审员
-	auditTwoRemarks?	//二审员意见
-	rolloverAmount?		//展期金额
-	rolloverDay?		//最长期限
-}={}
+    rolloverApplyId              //展期单号
+    borrowApplyId                //贷款单号 
+    memberId                     //会员ID
+    repaymentPrinciple           //展期金额(元)
+    companyName                  //会员名称
+    status                       //状态
+    statusName                   //状态,中文
+    createTime                   //申请日期
+    remarks                      //申请原因
+    auditOneTime	             //审批时间
+    auditOneBy	                 //审核员
+    auditOneRemarks              //审核意见
+    repaymentPlan	             //还款期数
+    rolloverDate	             //申请承诺还款日期
+    comfirmRolloverDate	         //批准还款日期
+    realRolloverDate	         //实际还款日期
+    rolloverRate	             //展期利率
+    paymentWayName
+    
 
-financeApply:{
-	approveAmount?	//借款金额
-	borrowHowlong?	//借款周期
-	productId?	//产品Id
-	productName?	//产品名称
-	borrowApplyId?
-}={}
+    rolloverData:{               //展期数据
+        rolloverApplyId?
+        createTime?
+        statusName?
+        memberId?
+        companyName?
+        resourceId?
+        remarks?
+        borrowApplyId?
+        repaymentPlan?
+        auditOneRemarks?
+    }={}     
+                              
+    financeData:{                //借款单数据
+        borrowApplyId?
+        approveAmount?
+        productName?
+        borrowHowlong?
+        resourceId?
+        productId?
+        repaymentWay?
+    }={}
 
-productsAttach:{
-	interestType?	//计息方式
-	interestTypeName?	//计息方式名称
-	paymentWay?	//还款方式
-	paymentWayName?	//还款方式名称
-	interestValue?	//利率
-	interestValuePercent?	//利率百分比
-}={}
+    productData:{                //产品参数数据
+        paymentWayName?
+        interestValue?
+        interestTypeName?
+    }={}
 
-repaymentPlan:{
-	repaymentPlan?	//还款期数
-	repaymentPlanDate?	//还款日
-	repaymentPrinciple?	//应还本金
-	repaymentInterest?	//应还利息
-	statusDic?	//状态字典
-}[]=[]
+    repaymentList:any[]          //还款计划数据
 
-
-	spreadId:number; 			//申请ID
-	memberTypeDic:string;	//会员类别
-	serviceMan:string;		//服务经理
-	createTime:string;		//申请时间
-    companyTypeDic:string;	//公司类型
-    foundTime:string;		//成立时间
-	registerCapital:number; //注册资金
-	licenceNum:string;		//营业执照号
-	companyAddress:string;	//公司地址
-	companyName:string;		//客户名称
-	linkName:string;		//联系人
-	linkMobile:string;		//联系手机
-	linkJob:string;			//联系人职位
-	isLegalDic:string;		//是否法人
-	linkIdcard:string;		//身份证
-	auditBy:string;			//审核人
-    auditDate:string;		//审核时间
-    auditRemark:string;		//审核意见
-
-    attch1Loadid
-	attch1Type
-	attch1TypeDic
-	attch2Loadid
-	attch2Type
-	attch2TypeDic
-	attch3Loadid
-	attch3Type
-	attch3TypeDic
-	attch4Loadid
-	attch4Type
-	attch4TypeDic
-	attch5Loadid
-	attch5Type
-	attch5TypeDic
-
-
-	@ViewChild(GalleryComponent) gallery:GalleryComponent;
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private spreadDetail:SpreadDetailService
-		){
-		// setTimeout(()=>{
-		// 	this.gallery.open();
-		// },3000);
-
-	}
+	){}
 	ngOnInit(){
-		this.getData();
-	}
+        this.rolloverApplyId=this.route.params['value']['id']
+        this.getDetail(this.rolloverApplyId)
+    }
 
-	getData(){
-		this.spreadDetail.getData(this.route.params['value']['id'])
-						.then(res=>{
-							console.log(res)
-							this.handle(res)
-						})
-						.catch(res=>{
-							this.pop.error({
-								title:'错误信息',
-								text:res.message
-							})
-						})
-	}
+    getDetail(id:string){
+        this.spreadDetail.getRolloverDetail(id)
+        .then(res=>{
+            console.log(res)
+            this.rolloverData=res.body.records[0]
+            return Promise.resolve(res.body.records[0])
+        })
+        .then(res=>{
+            this.spreadDetail.getfinanceApply(res.borrowApplyId)
+            .then(res=>{
+                console.log(res)
+                this.financeData=res.body.records[0]
+                return Promise.resolve(res.body.records[0])
+            })
+            .then(res=>{
+                this.spreadDetail.getProductsAttach(res.resourceId,res.productId,res.repaymentWay)
+                .then(res=>{
+                    console.log(res)
+                    this.productData=res.body.records[0]
+                    return Promise.resolve(res.body.records[0])
+                })
+                .then(res=>{
+                    this.spreadDetail.getRepaymentPlan(this.financeData.borrowApplyId)
+                    .then(res=>{
+                        console.log(res)
+                        this.repaymentList=res.body.records
+                    })
+                    .catch(res=>{
+                        this.pop.error({
+                                title:'错误信息',
+                            text:res.message
+                        })
+                    })  
+                })
+            })
+        })
+    }
 
-	handle(res){
-		console.log(res)
-		this.rolloverLoan=res.body.rolloverLoan
-		this.financeApply=res.body.financeApply
-		this.productsAttach=res.body.productsAttach
-		this.repaymentPlan=res.body.repaymentPlan
-
-	}
-
-
-	// checkAttach(e,id){
-	// 	let url=this.spreadDetail.getAttachUrl(id)
-	// 	this.gallery.open(e,url);
-	// }
-
-	back(){
+    back(){
 		window.history.back()
 	}
-
 }
