@@ -14,7 +14,7 @@
           </div> -->
           <label class="control-label pull-left">展期单号：</label>
           <div class="form-control-static pull-left">
-            {{rolloverData.rolloverApplyId|filterNull:false}}
+            {{rolloverData.rolloverApplyId | filterNull:false}}
           </div>
         </div>
         <div class="form-group ">
@@ -28,7 +28,7 @@
           </div> -->
           <label class="control-label pull-left">状态：</label>
           <div class="pull-left form-control-static" >
-            {{rolloverData.statusName|filterNull:false}}
+            {{rolloverData.statusName | filterNull:false}}
           </div>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <div class="form-group">
           <label class="control-label pull-left">创建时间：</label>
           <span class="form-control-static pull-left">
-            {{rolloverData.createTime  | effDateFormat | filterNull:false}}
+            {{rolloverData.createTime | filterNull:false | effDateFormat}}
           </span>
         </div>
       </div>
@@ -84,27 +84,33 @@
         <div class="form-group ">
           <label class="control-label pull-left">企业名称：</label>
           <div class="form-control-static pull-left">
-            {{rolloverData.companyName|filterNull:false}} ({{rolloverData.memberId|filterNull:false}})
+            {{rolloverData.companyName | filterNull:false}} ({{rolloverData.memberId|filterNull:false}})
           </div>
         </div>
         <div class="form-group ">
-          <label class="control-label pull-left">展期金额：</label>
-          <div class="form-control-static pull-left">
-            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
+          <label class="control-label pull-left">保证金：</label>
+          <div class="pull-left form-control-static" >
+            {{rolloverData.rolloverDeposit | yuanFormat:2:true}}
           </div>
         </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">展期保证金：</label>
-          <div class="form-control-static pull-left">
-            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
-          </div>
+        <div class="form-group">
+          <label class="control-label pull-left">展期利率：</label>
+          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">
+            {{rolloverData.rolloverRate | filterNull:false}}
+          </span>
         </div>
         <div class="form-group ">
+          <label class="control-label pull-left">批准还款日期：</label>
+          <div class="pull-left form-control-static" >
+             {{rolloverData.comfirmRolloverDate | filterNull:false | effDateFormat}}
+          </div>
+        </div>
+        <!-- <div class="form-group ">
           <label class="control-label pull-left">申请理由：</label>
-          <div class="form-control-static pull-left">
-            {{rolloverData.remarks | filterNull:false}}
+          <div class="pull-left form-control-static" >
+             {{rolloverData.remarks | filterNull:false}}
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <!-- <div class="form-group">
@@ -118,89 +124,154 @@
           </div>
         </div> -->
         <div class="form-group ">
-          <label class="control-label pull-left">承诺还款日期：</label>
+          <label class="control-label pull-left">展期金额：</label>
           <div class="form-control-static pull-left">
-            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
+            {{rolloverData.repaymentCapital | yuanFormat:2:true}}
           </div>
         </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">本期利息：</label>
-          <div class="form-control-static pull-left">
-            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
-          </div>
-        </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">展期利率：</label>
-          <div class="form-control-static pull-left">
-            <!-- {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span> -->
-          </div>
-        </div>
-      </div>
-    </section >
-    <section class="panel-body group mar-b-sm" >
-      <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group ">
-          <label class="control-label pull-left">批准还款日期：</label>
-          <div class="form-control-static pull-left">
-            <input type="text">
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
-          <label class="control-label pull-left">批准利率：</label>
-          <input type="text">
+          <label class="control-label pull-left">当期利息：</label>
+          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  
+            {{rolloverData.repaymentInterest | yuanFormat:2:true}}
+          </span>
+        </div>
+        <div class="form-group">
+          <label class="control-label pull-left">承诺还款日期：</label>
+          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">
+            {{rolloverData.rolloverDate | filterNull:false | effDateFormat}}
+          </span>
         </div>
       </div>
     </section >
-
-
     <section class="panel-body group mar-b-sm" >
-      <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group ">
+      <div class="form-group form-horizontal form-label-7 clearfix">
+        <div class="col-md-6">
           <label class="control-label pull-left">贷款单号：</label>
           <div class="form-control-static pull-left">
-            {{rolloverData.borrowApplyId|filterNull:false}}
+            {{rolloverData.borrowApplyId | filterNull:false}}
           </div>
         </div>
-      </div>
-      <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group">
+        <div class="col-md-6">
           <label class="control-label pull-left">还款期数：</label>
+          <span class="form-control-static pull-left">
+            {{rolloverData.currentPeriodStr | filterNull:false}}
+          </span>
         </div>
       </div>
+      <drop-down [show]="show">
+        <div class="form-group form-horizontal form-label-7 clearfix">
+          <div class="col-md-6">
+            <label class="control-label pull-left">贷款金额：</label>
+            <div class="form-control-static pull-left" >
+              {{financeData.approveAmount | filterNull:false}}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="control-label pull-left">贷款产品：</label>
+            <div class="form-control-static pull-left">
+              {{financeData.productName | filterNull:false}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-horizontal form-label-7 clearfix">
+          <div class="col-md-6">
+            <label class="control-label pull-left">贷款周期：</label>
+            <div class="form-control-static pull-left" >
+              {{financeData.ratedCycle | filterNull:false}}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="control-label pull-left">还款方式：</label>
+            <div class="form-control-static pull-left">
+              {{financeData.paymentWayDic | filterNull:false}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-horizontal form-label-7 clearfix">
+          <div class="col-md-6">
+            <label class="control-label pull-left">利率：</label>
+            <div class="pull-left form-control-static" >
+              {{financeData.rate | percent | filterNull:false}}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="control-label pull-left">计息方式：</label>
+            <div class="form-control-static pull-left">
+              {{financeData.rateTypeDic | filterNull:false}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-horizontal form-label-7 clearfix">
+          <div class="col-md-12">
+            <label class="control-label pull-left">还款计划：</label>
+            <div class="pull-left">
+              <table class="table showL b-t">
+                <thead>
+                    <tr>
+                        <th class="text-center">期数</th>
+                        <th class="text-center">还款日</th>
+                        <th class="text-center">应还本金(元)</th>
+                        <th class="text-center">应还利息(元)</th>
+                        <th class="text-center">状态</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of repaymentList" [class.bg-warning]="item.status==0">
+                    <td class="text-center">{{'第'+item.currentPeriod+'期'}}</td>
+                    <td class="text-center">{{item.repaymentDate | effDateFormat}}</td>
+                    <td class="text-right">{{item.repaymentCapital | yuanFormat:2:true}}</td>
+                    <td class="text-right">{{item.repaymentInterest | yuanFormat:2:true}}</td>
+                    <td class="text-center">{{item.statusName}}</td>
+                  </tr>
+                  <tr *ngIf="!repaymentList||repaymentList.length===0">
+                    <td colspan="4" class="text-disabled text-center"> 无</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </drop-down>
+      <span class="dropDowm text-center" *ngIf="!down"><i class="fa fa-angle-double-down" (click)="downEvent()"></i></span>
+      <span class="dropUp text-center" *ngIf="down"><i class="fa fa-angle-double-up" (click)="upEvent()"></i></span>
     </section>
-
     <section class="panel-body group mar-b-sm" >
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
           <label class="control-label pull-left">一审人员：</label>
           <div class="form-control-static pull-left">
-            {{rolloverData.auditOneBy|filterNull:false}}
+            {{rolloverData.auditOneBy | filterNull:false}}
           </div>
           <label class="control-label pull-left">一审意见：</label>
           <div class="form-control-static pull-left">
-            {{rolloverData.auditOneRemarks|filterNull:false}}
+            {{rolloverData.auditOneRemarks | filterNull:false}}
           </div>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">一审时间：</label>
-            {{rolloverData.auditOneTime|filterNull:false}}
-          
+            {{rolloverData.auditOneTime | filterNull:false | effDateFormat}}
         </div>
       </div>
     </section>
     <section class="panel-body group mar-b-sm" >
-      
+      <div class="col-md-6 form-horizontal form-label-7">
+        <div class="form-group ">
+          <label class="control-label pull-left">二审人员：</label>
+          <div class="form-control-static pull-left">
+            {{rolloverData.auditTwoBy | filterNull:false}}
+          </div>
+          <label class="control-label pull-left">二审意见：</label>
+          <div class="form-control-static pull-left">
+            {{rolloverData.auditTwoRemarks | filterNull:false}}
+          </div>
+        </div>
+      </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
-          <label class="control-label pull-left">二审意见：</label>
-          <div class="form-control">
-            <textarea name="" id="" cols="30" rows="10"></textarea>
-          </div>
-          
+          <label class="control-label pull-left">二审时间：</label>
+            {{rolloverData.auditTwoTime  | filterNull:false | effDateFormat}}
         </div>
       </div>
     </section>
@@ -327,8 +398,8 @@
 
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def m-l btn-def-success" (click)="rolloverLoanApplyReply(1)">通过<i class="fa fa-check-circle-o"></i></button>
-        <button class="btn-def m-l btn-def-danger" (click)="rolloverLoanApplyReply(-1)">拒绝<i class="fa fa-ban"></i></button>
+        <button class="btn-def m-l btn-def-success" (click)="back()">通过<i class="fa fa-check-circle-o"></i></button>
+        <button class="btn-def m-l btn-def-danger" (click)="back()">拒绝<i class="fa fa-ban"></i></button>
         <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
 

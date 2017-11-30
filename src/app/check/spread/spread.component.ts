@@ -152,7 +152,7 @@ export class SpreadComponent implements OnInit {
     createTime                   //申请日期
     status                       //状态
     statusName                   //状态,中文
-    repaymentDate                //展期开始日期
+    rolloverStartDate            //展期开始日期
 
     rows:number=10
 	page:number=0
@@ -258,7 +258,25 @@ export class SpreadComponent implements OnInit {
         this.loading=false
         this.dataList=res.body.records
         this.count=res.body.paginator.totalCount
+        // this.format(this.dataList)
     }
+
+    //展期开始日期格式化（由于展期是从第二天开始计算，所以展期开始日期需要加一天）
+    // format(dataList:any[]){
+    //     let temp:any
+    //     let dataString:any
+    //     let repaymentDate:string
+    //     let dataTimeArray:any[]
+    //     if(dataList&&dataList.length>0){
+    //         for(let i=0;i<dataList.length;i++){
+    //             dataTimeArray=dataList[i].repaymentDate.split(" ")
+    //             dataString=new Date(dataTimeArray[0]);
+    //             dataString.setDate(dataString.getDate()+1)
+    //             repaymentDate=dataString.getFullYear()+'-'+(dataString.getMonth()<10?('0'+dataString.getMonth()):dataString.getMonth())+'-'+(dataString.getDate()<10?('0'+dataString.getDate()):dataString.getDate())
+    //             dataList[i].repaymentDate=repaymentDate+' '+dataTimeArray[1]
+    //         }
+    //     }
+    // }
 
     check(data){
 		this.router.navigate(['check/spread/spreadCheck',data.rolloverApplyId])
