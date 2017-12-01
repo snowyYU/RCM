@@ -46,7 +46,8 @@ export class CreditCheckComponent implements OnInit{
     uniqueL:any[]=[]
 
 
-	
+	productLNotShow:any[]=[]
+
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
@@ -127,6 +128,8 @@ export class CreditCheckComponent implements OnInit{
 					this.creditProductList.forEach(e=>{
 						e.uniqueId=this.libF.createUniqueId(this.uniqueL)
 					})
+					//关小黑屋
+					this.darkroom()
 				}else{
 					this.pop.error({
 						title:"错误信息",
@@ -160,6 +163,26 @@ export class CreditCheckComponent implements OnInit{
 					text:"请求超时"
 				})
 			})
+	}
+	//这个方法用来存已选的产品
+	darkroom(){
+		this.productLNotShow=[]
+		this.creditProductList.forEach(e=>{
+			if (e.productId) {
+				this.productLNotShow.push(e.productId)
+				// code...
+			}
+		})
+		
+		
+	}
+	ifShowThis(id){
+		
+		if (this.productLNotShow.indexOf(id)<0) {
+			return false
+		}else{
+			return true
+		}
 	}
 
 	handle(res){
@@ -251,6 +274,13 @@ export class CreditCheckComponent implements OnInit{
 	
 
 	addProductItem(){
+		if (this.creditProductList.length>=this.productList.length) {
+			this.pop.info({
+				title:"提示信息",
+				text:"产品数不能大于"+this.productList.length
+			})
+			return
+		}
 		let item:productItem={
 			
 				productId:'',
@@ -260,7 +290,7 @@ export class CreditCheckComponent implements OnInit{
 				expiryDateEnd:'',
 				uniqueId:this.libF.createUniqueId(this.uniqueL)
 		}
-		console.log(this.uniqueL)
+		// console.log(this.uniqueL)
 
 		this.creditProductList.push(item)
 	}

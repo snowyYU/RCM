@@ -135,7 +135,7 @@
 
     </section>
   
-  <section class="bg-white clearfix productInfo pos-abt m-t-xl" style="min-height: 420px;">
+  <section class="bg-white clearfix productInfo pos-abt m-t-xl" style="height: 420px;overflow-y: scroll;">
       <div class="col-md-12">
           <table class="table showL b-t">
               <thead>
@@ -150,9 +150,15 @@
               <tbody >
                   <tr *ngFor="let item of creditProductList;let i=index">
                       <td>
-                        <select name="productId_{{item.uniqueId}}" class="form-control" [(ngModel)]="item.productId">
-                          <option [value]="option.productId" *ngFor="let option of productList">{{option.productName}}
-                          </option>
+                        <select name="productId_{{item.uniqueId}}" class="form-control" [(ngModel)]="item.productId" (change)="darkroom()">
+                          <ng-container *ngFor="let option of productList">
+                            <ng-container >
+                              <option [value]="option.productId" [hidden]="ifShowThis(option.productId)">{{option.productName}}
+                              </option>
+                            </ng-container>
+                          </ng-container>
+
+                              
                         </select>
                       </td>
                       <td style="width: 200px">
