@@ -6,6 +6,7 @@ import { PopService } from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { UseCheckService,SendData } from './use-check.service'
 import { GalleryComponent} from 'dolphinng';
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 
 import { PreviewerComponent } from '../../../../utils/previewer/previewer.component'
 import {img,file } from "../../../../utils/previewer/filetype"
@@ -46,6 +47,9 @@ export class UseCheckComponent implements OnInit{
 	secondCheckOpinion:string=''
 
 	attachment:object={}
+
+	//用于记录提交申请前的页面
+    memberDetailDomain
 	@ViewChild(GalleryComponent) gallery:GalleryComponent;
 	@ViewChild(PreviewerComponent) previewer:PreviewerComponent;
 
@@ -55,7 +59,8 @@ export class UseCheckComponent implements OnInit{
 		private pop:PopService,
 		private auth:AuthRoleService,
 		private useCheck:UseCheckService,
-		private library:LibraryService
+		private library:LibraryService,
+		private session:SessionStorageService
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
