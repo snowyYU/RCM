@@ -9,10 +9,10 @@
   <div class="tab-container">
     <ul class="nav nav-tabs nav-tab-info">
       <li [ngClass]="{'active':authApplyReplyNum==1}">
-        <a (click)="getList(1)">待审批</a>
+        <a (click)="page=0;authApplyReplyNum=1;navigate()">待审批</a>
       </li>
       <li [ngClass]="{'active':authApplyReplyNum==2}">
-        <a (click)="getList(2)">已审批</a>
+        <a (click)="page=0;authApplyReplyNum=2;navigate()">已审批</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -48,7 +48,7 @@
             <div class="clearfix">
               <div class="pull-right">
                 <paginator [(index)]="page" [count]="count" [changePageSizeAble]="true" [(pageSize)]="rows"
-                           (onChangePage)="getList(authApplyReplyNum)" size="sm" [showTotal]="true"></paginator>
+                           (onChangePage)="navigate()" size="sm" [showTotal]="true"></paginator>
               </div>
             </div>
           </p-footer>
