@@ -84,14 +84,32 @@
       </div>
     </section >
     <section class="panel-body group mar-b-sm" >
+      <!-- <div class="col-md-6 form-horizontal form-label-7">
+        <div class="form-group ">
+          <label class="control-label pull-left">展期合同：</label>
+          <div class="form-control-static pull-left">
+
+          </div>
+        </div>
+      </div> -->
+      <div class="col-md-6 form-horizontal form-label-7">
+        <div class="form-group">
+          <label class="control-label pull-left">展期凭证：</label>
+          <span class="form-control-static pull-left">
+            
+          </span>
+        </div>
+      </div>
+    </section>
+    <section class="panel-body group mar-b-sm p-b-none">
       <div class="form-group form-horizontal form-label-7 clearfix">
-        <div class="col-md-6">
+        <div class="col-md-6 p-l-none">
           <label class="control-label pull-left">贷款单号：</label>
           <div class="form-control-static pull-left">
             {{rolloverData.borrowApplyId | filterNull:false}}
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 p-l-none">
           <label class="control-label pull-left">还款期数：</label>
           <span class="form-control-static pull-left">
             {{rolloverData.currentPeriodStr | filterNull:false}}
@@ -99,14 +117,15 @@
         </div>
       </div>
       <drop-down [show]="show">
+        <div data-type="dropContent">
         <div class="form-group form-horizontal form-label-7 clearfix">
-          <div class="col-md-6">
+          <div class="col-md-6 p-l-none">
             <label class="control-label pull-left">贷款金额：</label>
             <div class="form-control-static pull-left" >
               {{financeData.approveAmount | filterNull:false}}
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 p-l-none">
             <label class="control-label pull-left">贷款产品：</label>
             <div class="form-control-static pull-left">
               {{financeData.productName | filterNull:false}}
@@ -114,13 +133,13 @@
           </div>
         </div>
         <div class="form-group form-horizontal form-label-7 clearfix">
-          <div class="col-md-6">
+          <div class="col-md-6 p-l-none">
             <label class="control-label pull-left">贷款周期：</label>
             <div class="form-control-static pull-left" >
               {{financeData.ratedCycle | filterNull:false}}
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 p-l-none">
             <label class="control-label pull-left">还款方式：</label>
             <div class="form-control-static pull-left">
               {{financeData.paymentWayDic | filterNull:false}}
@@ -128,13 +147,13 @@
           </div>
         </div>
         <div class="form-group form-horizontal form-label-7 clearfix">
-          <div class="col-md-6">
+          <div class="col-md-6 p-l-none">
             <label class="control-label pull-left">利率：</label>
             <div class="pull-left form-control-static" >
               {{financeData.rate | percent | filterNull:false}}
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 p-l-none">
             <label class="control-label pull-left">计息方式：</label>
             <div class="form-control-static pull-left">
               {{financeData.rateTypeDic | filterNull:false}}
@@ -142,7 +161,7 @@
           </div>
         </div>
         <div class="form-group form-horizontal form-label-7 clearfix">
-          <div class="col-md-12">
+          <div class="col-md-12 p-l-none m-t-sm">
             <label class="control-label pull-left">还款计划：</label>
             <div class="pull-left">
               <table class="table showL b-t">
@@ -171,6 +190,7 @@
             </div>
           </div>
         </div>
+        </div>
       </drop-down>
       <span class="dropDowm text-center" *ngIf="!down"><i class="fa fa-angle-double-down" (click)="downEvent()"></i></span>
       <span class="dropUp text-center" *ngIf="down"><i class="fa fa-angle-double-up" (click)="upEvent()"></i></span>
@@ -182,8 +202,10 @@
           <div class="form-control-static pull-left">
             {{rolloverData.auditOneBy | filterNull:false}}
           </div>
+        </div>
+        <div class="form-group ">
           <label class="control-label pull-left">一审意见：</label>
-          <div class="form-control-static pull-left">
+          <div class="pull-left form-control-static" >
             {{rolloverData.auditOneRemarks | filterNull:false}}
           </div>
         </div>
@@ -191,10 +213,12 @@
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">一审时间：</label>
+          <span class="form-control-static pull-left">
             {{rolloverData.auditOneTime | filterNull:false | effDateFormat}}
+          </span>
         </div>
       </div>
-    </section>
+    </section >
     <section class="panel-body group mar-b-sm" >
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
@@ -202,8 +226,10 @@
           <div class="form-control-static pull-left">
             {{rolloverData.auditTwoBy | filterNull:false}}
           </div>
+        </div>
+        <div class="form-group ">
           <label class="control-label pull-left">二审意见：</label>
-          <div class="form-control-static pull-left">
+          <div class="pull-left form-control-static" >
             {{rolloverData.auditTwoRemarks | filterNull:false}}
           </div>
         </div>
@@ -211,10 +237,12 @@
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">二审时间：</label>
+          <span class="form-control-static pull-left">
             {{rolloverData.auditTwoTime  | filterNull:false | effDateFormat}}
+          </span>
         </div>
       </div>
-    </section>
+    </section >
     <section class="clearfix">
       <div class="col-md-12 text-center">
         <button class="btn-def" (click)="back()">返回<i class="fa fa-arrow-circle-o-left"></i></button>
