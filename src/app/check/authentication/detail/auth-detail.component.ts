@@ -5,7 +5,7 @@ import { AuthDetailService } from './auth-detail.service'
 import { ViewChild ,ElementRef} from '@angular/core';
 import { GalleryComponent} from 'dolphinng';
 import { PreviewerComponent } from '../../../../utils/previewer/previewer.component'
-
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 import {img,file } from "../../../../utils/previewer/filetype"
 
 @Component({
@@ -56,6 +56,8 @@ export class AuthDetailComponent implements OnInit{
 	
 	attachment:object={}
 
+	memberDetailDomain  //存储跳转后返回页面
+
 	@ViewChild(GalleryComponent) gallery:GalleryComponent;
 	@ViewChild(PreviewerComponent) previewer:PreviewerComponent;
 
@@ -63,7 +65,8 @@ export class AuthDetailComponent implements OnInit{
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
-		private authDetail:AuthDetailService
+		private authDetail:AuthDetailService,
+		private sessionStorage:SessionStorageService
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
@@ -233,7 +236,14 @@ export class AuthDetailComponent implements OnInit{
 	//--end
 
 	back(){
-		this.router.navigate(['check/authentication'],{queryParams:{status:"2"}})
+		console.log(this.sessionStorage.memberDetailDomain)
+		if(!!this.sessionStorage.memberDetailDomain){
+			this.memberDetailDomain=this.sessionStorage.memberDetailDomain
+			this.sessionStorage.deleteItem('memberDetailDomain')
+			this.router.navigate([this.memberDetailDomain])
+		}else{
+			window.history.back()
+		}
 	}
 
 }

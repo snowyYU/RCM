@@ -6,7 +6,7 @@ import { ViewChild ,ElementRef} from '@angular/core';
 import { GalleryComponent} from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
-
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 import { PreviewerComponent } from '../../../../utils/previewer/previewer.component'
 
 import {img,file } from "../../../../utils/previewer/filetype"
@@ -60,6 +60,8 @@ export class AuthCheckComponent implements OnInit{
 
 	attachment:object={}
 
+	memberDetailDomain  //存储跳转后返回页面
+
 
 	@ViewChild(GalleryComponent) gallery:GalleryComponent;
 	@ViewChild(PreviewerComponent) previewer:PreviewerComponent;
@@ -70,7 +72,8 @@ export class AuthCheckComponent implements OnInit{
 		private pop:PopService,
 		private authRole:AuthRoleService,
 		private authCheck:AuthCheckService,
-		private submitLoading:SubmitLoadingService
+		private submitLoading:SubmitLoadingService,
+		private session:SessionStorageService
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
@@ -250,8 +253,24 @@ export class AuthCheckComponent implements OnInit{
 	//--end
 
 	back(){
-		this.router.navigate(['check/authentication'],{queryParams:{status:"1"}})
+		window.history.back()
 	}
+
+	submitConfirm(param: number) {
+		let str:string
+		if(param==1){
+			str='通过'
+		}else{
+			str='拒绝'
+		}
+		this.pop.confirm({
+			title: '操作确认',
+			text: '确认 '+str+' 审批申请吗？'
+		}).onConfirm(() => {
+			this.memberAuthApplyReply(param)
+		})
+
+    }
 
 	memberAuthApplyReply(result){
 		this.submitLoading.show=true
@@ -270,8 +289,8 @@ export class AuthCheckComponent implements OnInit{
 					text:'操作成功!'
 				})
 				this.submitLoading.show=false
-
-				this.router.navigate(['check/authentication'])
+				this.session.memberDetailDomain='check/authentication'
+				this.router.navigate(['check/authentication/authDetail',this.authId])
 			})
 			.catch(res=>{
 				this.pop.error({
