@@ -2,14 +2,6 @@ import { Injectable } from '@angular/core';
 import { MyHttp } from '../../../../services/myHttp/myhttp.service'
 import { MyHttpClient } from '../../../../services/myHttp/myhttpClient.service'
 
-
-// export interface SendData{
-//     rolloverApplyId?:string  	//展期申请ID
-//     extendRate?:number          //展期利率
-//     status?:number           	//展期审批状态
-//     auditTwoRemarks?:string  	//二审意见
-// }
-
 @Injectable()
 export class SpreadDetailService {
 	
@@ -51,25 +43,6 @@ export class SpreadDetailService {
 		})
     }
 
-	//获取金融产品参数
-    getProductsAttach(appId:string,productId:string,paymentWay:string):Promise<any>{
-		return this.myHttp.post({
-			api:this.myHttp.api.getProductsAttach,
-			query:{
-                appId:appId,
-                productId:productId,
-                paymentWay:paymentWay
-            }
-		}).toPromise().then(res=>{
-			let data=res
-			if (data.status==200) {
-				return Promise.resolve(data)
-			}else{
-				return Promise.reject(data)
-			}
-		})
-    }
-
 	//获取还款计划
     getRepaymentPlan(id:string):Promise<any>{
 		return this.myHttp.post({
@@ -86,19 +59,4 @@ export class SpreadDetailService {
 			}
 		})
     }
-
-	//保存审批结果
-  //   saveRollover(queryData:SendData):Promise<any>{
-		// return this.myHttp.post({
-		// 	api:this.myHttp.api.saveRollover,
-		// 	query:queryData
-		// }).toPromise().then(res=>{
-		// 	let data=res
-		// 	if (data.status==200) {
-		// 		return Promise.resolve(data)
-		// 	}else{
-		// 		return Promise.reject(data)
-		// 	}
-		// })
-  //   }
 }

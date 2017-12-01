@@ -5,6 +5,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { PopService } from 'dolphinng';
 import { UseDetailService } from './use-detail.service'
 import { GalleryComponent} from 'dolphinng';
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 
 import { PreviewerComponent } from '../../../../utils/previewer/previewer.component'
 import {img,file } from "../../../../utils/previewer/filetype"
@@ -45,6 +46,9 @@ export class UseDetailComponent implements OnInit{
 	secondCheckOpinion:string=''
 
 	attachment:object={}
+
+	//用于记录提交申请前的页面
+    memberDetailDomain
 	@ViewChild(GalleryComponent) gallery:GalleryComponent;
 	@ViewChild(PreviewerComponent) previewer:PreviewerComponent;
 
@@ -53,7 +57,8 @@ export class UseDetailComponent implements OnInit{
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private useDetail:UseDetailService,
-		private library:LibraryService
+		private library:LibraryService,
+		private session:SessionStorageService
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
@@ -229,8 +234,14 @@ export class UseDetailComponent implements OnInit{
 	//--end
 
 	back(){
-		window.history.back()
-		
+		console.log(this.session.memberDetailDomain)
+        if(!!this.session.memberDetailDomain){
+            this.memberDetailDomain=this.session.memberDetailDomain
+            this.session.deleteItem('memberDetailDomain')
+            this.router.navigate([this.memberDetailDomain])
+        }else{
+            window.history.back()
+        }
 	}
 
 }

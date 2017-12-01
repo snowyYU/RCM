@@ -3,6 +3,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { PopService } from 'dolphinng';
 import { SpreadDetailService } from './spread-detail.service'
 import { ViewChild ,ElementRef} from '@angular/core';
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service';
 @Component({
 	selector:'spread-detail',
 	templateUrl:'./spread-detail.component.html',
@@ -12,8 +13,8 @@ import { ViewChild ,ElementRef} from '@angular/core';
 export class SpreadDetailComponent implements OnInit{
     loading:boolean
     submitting:boolean=false
-    down:boolean=true
-    show:boolean=true
+    down:boolean=false
+    show:boolean=false
 
     rolloverApplyId            //展期单号
     createTime                //创建时间
@@ -56,6 +57,9 @@ export class SpreadDetailComponent implements OnInit{
     rateTypeDic                //计息方式，中文
     
     repaymentDate            //到期还款日
+
+    //用于记录提交申请前的页面
+    memberDetailDomain
 
     rolloverData:{          //展期数据
         rolloverApplyId?
@@ -102,7 +106,8 @@ export class SpreadDetailComponent implements OnInit{
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
-		private spreadDetail:SpreadDetailService
+		private spreadDetail:SpreadDetailService,
+        private sessionStorage:SessionStorageService
 	){}
 	ngOnInit(){
         this.rolloverApplyId=this.route.params['value']['id']
@@ -149,8 +154,15 @@ export class SpreadDetailComponent implements OnInit{
         this.show=false;
         setTimeout(()=>{this.down=false},300);
     }
-    
+
     back(){
-		window.history.back()
+		console.log(this.sessionStorage.memberDetailDomain)
+        if(!!this.sessionStorage.memberDetailDomain){
+            this.memberDetailDomain=this.sessionStorage.memberDetailDomain
+            this.sessionStorage.deleteItem('memberDetailDomain')
+            this.router.navigate([this.memberDetailDomain])
+        }else{
+            window.history.back()
+        }
 	}
 }

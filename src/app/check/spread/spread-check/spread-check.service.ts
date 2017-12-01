@@ -8,6 +8,7 @@ export interface SendData{
     extendRate?:number          //展期利率
     status?:number           	//展期审批状态
     auditTwoRemarks?:string  	//二审意见
+    comfirmRolloverTime:string  //批准还款日期
 }
 
 @Injectable()
@@ -40,25 +41,6 @@ export class SpreadCheckService {
 			api:this.myHttp.api.getfinanceApply,
 			query:{
                 borrowApplyId:id
-            }
-		}).toPromise().then(res=>{
-			let data=res
-			if (data.status==200) {
-				return Promise.resolve(data)
-			}else{
-				return Promise.reject(data)
-			}
-		})
-    }
-
-	//获取金融产品参数
-    getProductsAttach(appId:string,productId:string,paymentWay:string):Promise<any>{
-		return this.myHttp.post({
-			api:this.myHttp.api.getProductsAttach,
-			query:{
-                appId:appId,
-                productId:productId,
-                paymentWay:paymentWay
             }
 		}).toPromise().then(res=>{
 			let data=res
