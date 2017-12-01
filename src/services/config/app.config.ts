@@ -407,27 +407,23 @@ export const API = {
     展期审批
    */
   getRolloverList:{
-    url:'/lms/rolloverLoan/getByPage',
+    url:'lms/rolloverLoan/getByPage',
     method:'post'
   },
   getRolloverDetail:{
-    url:'/lms/rolloverLoan/getRolloverDetail',
+    url:'lms/rolloverLoan/getRolloverDetail',
     method:'post'
   },
   getfinanceApply:{
-    url:'/lms/rolloverLoan/getFinanceApply',
-    method:'post'
-  },
-  getProductsAttach:{
-    url:'/lms/rolloverLoan/getProductsAttach',
+    url:'lms/rolloverLoan/getFinanceApply',
     method:'post'
   },
   getRepaymentPlan:{
-    url:'/lms/rolloverLoan/getRepaymentPlan',
+    url:'lms/rolloverLoan/getRepaymentPlan',
     method:'post'
   },
   saveRollover:{
-    url:'/lms/rolloverLoan/rolloverApprove',
+    url:'lms/rolloverLoan/rolloverApprove',
     method:'post'
   },
   
