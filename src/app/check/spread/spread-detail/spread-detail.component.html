@@ -40,13 +40,13 @@
         <div class="form-group ">
           <label class="control-label pull-left">保证金：</label>
           <div class="pull-left form-control-static" >
-            {{rolloverData.rolloverDeposit | yuanFormat:2:true}}
+            {{rolloverData.rolloverDeposit | yuanFormat:2:true}}<span *ngIf="rolloverData.rolloverDeposit"> 元</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label pull-left">展期利率：</label>
           <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">
-            {{rolloverData.rolloverRate | filterNull:false}}
+            {{rolloverData.rolloverRate | percent |filterNull:false}}
           </span>
         </div>
         <div class="form-group ">
@@ -66,13 +66,13 @@
         <div class="form-group ">
           <label class="control-label pull-left">展期金额：</label>
           <div class="form-control-static pull-left">
-            {{rolloverData.repaymentCapital | yuanFormat:2:true}}
+            {{rolloverData.repaymentCapital | yuanFormat:2:true}}<span *ngIf="rolloverData.repaymentCapital"> 元</span>
           </div>
         </div>
         <div class="form-group">
           <label class="control-label pull-left">当期利息：</label>
           <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  
-            {{rolloverData.repaymentInterest | yuanFormat:2:true}}
+            {{rolloverData.repaymentInterest | yuanFormat:2:true}}<span *ngIf="rolloverData.repaymentInterest"> 元</span>
           </span>
         </div>
         <div class="form-group">
@@ -122,7 +122,7 @@
           <div class="col-md-6 p-l-none">
             <label class="control-label pull-left">贷款金额：</label>
             <div class="form-control-static pull-left" >
-              {{financeData.approveAmount | filterNull:false}}
+              {{financeData.approveAmount | filterNull:false}}<span *ngIf="financeData.approveAmount"> 元</span>
             </div>
           </div>
           <div class="col-md-6 p-l-none">
