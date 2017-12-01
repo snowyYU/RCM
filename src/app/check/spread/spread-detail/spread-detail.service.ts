@@ -1,32 +1,62 @@
-import { Injectable } from '@angular/core'
+import { Injectable } from '@angular/core';
+import { MyHttp } from '../../../../services/myHttp/myhttp.service'
 import { MyHttpClient } from '../../../../services/myHttp/myhttpClient.service'
 
 @Injectable()
-export class SpreadDetailService{
+export class SpreadDetailService {
+	
 	constructor(
-		private myHttp:MyHttpClient
-		){}
+		private myHttp:MyHttpClient,
+        ) {}
 
-	getData(id:number):Promise<any>{
-		return this.myHttp.get({
-			api:this.myHttp.api.spreadLoanDetail,
+	//获取展期详情
+	getRolloverDetail(id:string):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getRolloverDetail,
 			query:{
-				rolloverApplyId:id
-			}
+                rolloverApplyId:id
+            }
 		}).toPromise().then(res=>{
-			let data=res;
+			let data=res
 			if (data.status==200) {
-				 return Promise.resolve(data)
+				return Promise.resolve(data)
 			}else{
 				return Promise.reject(data)
 			}
 		})
-	}
+    }
 
-	getAttachUrl(id):any{
-		return this.myHttp.sShow(id,1)
+    //获取借款单详情
+    getfinanceApply(id:string):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getfinanceApply,
+			query:{
+                borrowApplyId:id
+            }
+		}).toPromise().then(res=>{
+			let data=res
+			if (data.status==200) {
+				return Promise.resolve(data)
+			}else{
+				return Promise.reject(data)
+			}
+		})
+    }
 
-	}
-
-
+	//获取还款计划
+    getRepaymentPlan(id:string):Promise<any>{
+		return this.myHttp.post({
+			api:this.myHttp.api.getRepaymentPlan,
+			query:{
+                borrowApplyId:id
+            }
+		}).toPromise().then(res=>{
+			let data=res
+			if (data.status==200) {
+				return Promise.resolve(data)
+			}else{
+				return Promise.reject(data)
+			}
+		})
+    }
 }

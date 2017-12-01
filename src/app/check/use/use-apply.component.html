@@ -1,0 +1,101 @@
+<div class="page-location">
+  <a class="h4 pad-r-xs font-bold">用款审批列表</a>
+  <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
+  <a class="page-location-item active">用款审批列表</a>
+</div>
+<div class="pad-l-def pad-r-def pad-b-def pad-t-sm">
+  <div class="form-inline form-group">
+    <div class="form-group">
+      <label class="control-label">贷款单号：</label>
+      <input class="form-control " placeholder="贷款单号" [(ngModel)]="borrowApplyId" name="borrowApplyId"/>
+    </div>
+    <div class="form-group">
+      <label class="control-label">企业名称：</label>
+      <input class="form-control " placeholder="企业名称关键字" [(ngModel)]="companyName" name="companyName"/>
+    </div>
+    <div class="form-group">
+      <button class="btn-def" (click)="rows=10;page=0;navigate()">搜索<i class="fa fa-search"></i></button>
+    </div>
+  </div>
+    
+  <div class="tab-container">
+    <ul class="nav nav-tabs nav-tab-info">
+      <li [ngClass]="{'active':status=='2'}">
+        <a (click)="status='2';navigate()">待审批</a>
+      </li>
+      <li [ngClass]="{'active':status=='3,-3'}">
+        <a (click)="status='3,-3';navigate()">已审批</a>
+      </li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active">
+        <p-dataTable  [value]="dataList" emptyMessage="{{loading?'':'暂无数据'}}"
+                     [loading]="loading" scrollable="true" scrollHeight="375px">
+
+          <p-column field="borrowApplyId" header="贷款单号" styleClass="text-center"  [style]="{'width':'130px'}"></p-column>
+          <p-column field="companyName" header="企业名称" [style]="{'width':'220px'}">
+            <ng-template let-loan="rowData" pTemplate="body">
+              <div textMaxLength="220px" title="{{loan.companyName}}">
+                {{loan.companyName}}
+              </div>
+            </ng-template>
+          </p-column>
+          <p-column field="productName" header="贷款产品"  [style]="{'width':'130px'}">
+            <ng-template let-loan="rowData" pTemplate="body">
+              <div textMaxLength="130px" title="{{loan.applyAmount|currencyFormat|filterNull}}">
+                {{loan.productName}}
+              </div>
+            </ng-template>
+          </p-column>
+          
+          <p-column styleClass="text-right text-gold" [style]="{'width':'120px'}">
+            <ng-template pTemplate="header" >
+              申请金额(元)
+            </ng-template>
+            <ng-template let-loan="rowData" pTemplate="body">
+              {{loan.applyAmount|currencyFormat|filterNull}}
+            </ng-template>
+          </p-column>
+          <p-column styleClass="text-right text-gold" [style]="{'width':'120px'}" *ngIf="status=='3,-3'">
+            <ng-template pTemplate="header" >
+              最终确认金额(元)
+            </ng-template>
+            <ng-template let-loan="rowData" pTemplate="body">
+              {{loan.approveAmount|currencyFormat|filterNull}}
+            </ng-template>
+          </p-column>
+          <p-column styleClass="text-center" [style]="{'width':'120px'}" >
+            <ng-template pTemplate="header" >
+              申请时间
+            </ng-template>
+            <ng-template let-loan="rowData" pTemplate="body">
+              {{loan.createTime  |date:'yyyy-MM-dd'|filterNull}}
+            </ng-template>
+          </p-column>
+          
+          <p-column field="statusName2" header="状态" styleClass="text-center"  [style]="{'width':'130px'}"></p-column>
+          <!-- <p-column field="remarks" header="备注" styleClass="text-center"></p-column>-->
+          <p-column [style]="{'width':'140px'}" >
+            <ng-template pTemplate="header" >
+              操作
+            </ng-template>
+            <ng-template let-loan="rowData" pTemplate="body">
+              <div class="table-btn-group">
+                <a class="table-btn" *ngIf="status=='2'" routerLink="/check/use/useCheck/{{loan.borrowApplyId}}">审批</a>
+                <a class="table-btn" *ngIf="status=='3,-3'" routerLink="/check/use/useDetail/{{loan.borrowApplyId}}">详情</a>
+              </div>
+            </ng-template>
+          </p-column>
+          <p-footer>
+            <div class="clearfix">
+              <div class="pull-right">
+                <paginator [(index)]="page" [count]="count" [changePageSizeAble]="true" [(pageSize)]="rows" (onChangePage)="navigate()" size="sm" [showTotal]="true"></paginator>
+              </div>
+            </div>
+          </p-footer>
+        </p-dataTable>
+
+      </div>
+      </div>
+    </div>
+</div>

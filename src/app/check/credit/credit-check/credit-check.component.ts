@@ -1,10 +1,12 @@
 import { Component,OnInit } from '@angular/core';
 import { Router,ActivatedRoute } from '@angular/router';
 import { PopService } from 'dolphinng';
-import { CreditCheckService,SendData } from './credit-check.service'
+import { CreditCheckService,SendData,productItem } from './credit-check.service'
 import { GalleryComponent} from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
-
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
+import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
+import { LibraryService } from 'snowy-library-ng'
 @Component({
 	selector:'credit-check',
 	templateUrl:'./credit-check.component.html',
@@ -15,6 +17,7 @@ export class CreditCheckComponent implements OnInit{
 	creditAuthId:number; 			//申请ID
 	createTime:string;		//申请时间	
 
+	appId
 	expiryDateBegin
 	expiryDateEnd
 	addCreditValue
@@ -29,29 +32,43 @@ export class CreditCheckComponent implements OnInit{
 	auditBy:string;			//审核人
     auditRemark:string;		//审核意见
     auditDate:string;		//审核时间
+    memberRatingGrate=""
 
+    memberRating=""			//评级
+    memberRatingL:any[]=[]
 
+    //授信产品列表
+    creditProductList:any[]=[]
+    productList:any[]=[]
+    productListKey={}
 
 	
+    uniqueL:any[]=[]
 
 
+	productLNotShow:any[]=[]
 
-	
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private authRole:AuthRoleService,
-		private creditCheck:CreditCheckService
+		private session:SessionStorageService,
+		private creditCheck:CreditCheckService,
+		private submitLoading:SubmitLoadingService,
+		private libF:LibraryService
 		){
-		// setTimeout(()=>{
-		// 	this.gallery.open();
-		// },3000);
+		for (let i=1; i <100; i++) {
+			this.uniqueL.push(i)
+		}
 		
 	} 
 	ngOnInit(){
 		this.getData();
 		this.auditBy=this.authRole.userName
+		this.submitLoading.show=false
+		this.getCreditProducts()
+		this.getMemberRatingL()
 	}
 
 	getData(){
@@ -59,6 +76,13 @@ export class CreditCheckComponent implements OnInit{
 						.then(res=>{
 							console.log(res)
 							this.handle(res)
+						})
+						.then(res=>{
+							this.getCreditProducts()
+						})
+						.then(res=>{
+							console.log("test,you know",res)
+							this.getProductList()
 						})
 						.catch(res=>{
 							this.pop.error({
@@ -68,8 +92,102 @@ export class CreditCheckComponent implements OnInit{
 						})
 	}
 
+	getProductList(){
+		this.creditCheck.getProductList(this.appId)
+			.then((res)=>{
+				if (res.status==200) {
+					this.productList=res.body.records
+					res.body.records.forEach(e=>{
+						this.productListKey[e.productId]=e
+					})
+				}else{
+					this.pop.error({
+						title:"错误信息",
+						text:res.message
+					})
+				}
+			})
+			.catch((res)=>{
+				this.pop.error({
+					title:"错误信息",
+					text:"请求超时"
+				})
+			})
+	}
+
+	getCreditProducts(){
+		console.log(this.memberId)
+		if (!this.memberId) {
+			return
+		}
+		this.creditCheck.getCreditProducts(this.memberId)
+			.then((res)=>{
+				if (res.status) {
+
+					this.creditProductList=res.arr
+					this.creditProductList.forEach(e=>{
+						e.uniqueId=this.libF.createUniqueId(this.uniqueL)
+					})
+					//关小黑屋
+					this.darkroom()
+				}else{
+					this.pop.error({
+						title:"错误信息",
+						text:res.message
+					})
+				}
+			})
+			.catch((res)=>{
+				this.pop.error({
+					title:"错误信息",
+					text:res.message
+				})
+			})
+	}
+	getMemberRatingL(){
+		this.creditCheck.getMemberRatingL()
+			.then(res=>{
+				if (res.status==200) {
+					this.memberRatingL=res.body.records
+					
+				}else{
+					this.pop.error({
+						title:"错误信息",
+						text:res.message
+					})
+				}
+			})
+			.catch((res)=>{
+				this.pop.error({
+					title:"错误信息",
+					text:"请求超时"
+				})
+			})
+	}
+	//这个方法用来存已选的产品
+	darkroom(){
+		this.productLNotShow=[]
+		this.creditProductList.forEach(e=>{
+			if (e.productId) {
+				this.productLNotShow.push(e.productId)
+				// code...
+			}
+		})
+		
+		
+	}
+	ifShowThis(id){
+		
+		if (this.productLNotShow.indexOf(id)<0) {
+			return false
+		}else{
+			return true
+		}
+	}
+
 	handle(res){
 		console.log(res)
+		this.appId=res.body.appId
 		this.creditAuthId=res.body.creditAuthId; 			//申请ID
 		this.createTime=res.body.createTime
 		this.expiryDateBegin=res.body.expiryDateBegin
@@ -84,7 +202,8 @@ export class CreditCheckComponent implements OnInit{
 		this.auditDate=res.body.auditDate
 		this.authRemark=res.body.authRemark
 	    this.auditRemark=res.body.auditRemark;		//审核意见
-
+	    this.memberRatingGrate=res.body.memberRatingGrate
+	    this.memberRating=res.body.memberRating
 	}
 
 
@@ -93,6 +212,18 @@ export class CreditCheckComponent implements OnInit{
 	}
 
 	creditAuthApplyReply(result){
+
+		this.submitLoading.show=true
+
+		//传的值，productName需要从键值对象
+
+		this.creditProductList.forEach(e=>{
+			if (this.productListKey[e.productId]) {
+				e.productName=this.productListKey[e.productId].productName
+			}
+		})
+		console.log(this.creditProductList)
+
 		let data:SendData={
 			creditAuthId:this.creditAuthId,
 			expiryDateBegin:this.expiryDateBegin,
@@ -100,7 +231,10 @@ export class CreditCheckComponent implements OnInit{
 			addCreditValue:this.addCreditValue,
 			auditBy:this.auditBy,
 			status:result,
-			auditRemark:this.auditRemark
+			auditRemark:this.auditRemark,
+			creditAuthVo2:this.creditProductList,
+			memberRatingGrate:this.memberRatingGrate,
+			memberRating:this.memberRating
 		}
 		this.creditCheck.creditAuthApplyReply(data)
 			.then(res=>{
@@ -109,6 +243,8 @@ export class CreditCheckComponent implements OnInit{
 					title:'提示信息',
 					text:'操作成功!'
 				})
+				this.submitLoading.show=false
+
 				this.router.navigate(['check/credit'])
 			})
 			.catch(res=>{
@@ -116,7 +252,50 @@ export class CreditCheckComponent implements OnInit{
 					title:'错误信息',
 					text:res.message
 				})
+				this.submitLoading.show=false
+
 			})
+	}
+
+	goToDetail(){
+		console.log(this.route)
+		console.log(this.router.url)
+		this.session.deleteItem('memberDetailDomain')
+		this.session.memberDetailDomain=this.router.url
+		this.router.navigate(['memberM/memberManage/detail',this.memberId])
+	}
+
+	/**这里涉及了angular一个比较复杂的处理
+	1.因为使用了ngfor循环渲染出了一个表格，并且每行有双向绑定的数据，这里引用了生成不重复随机数的方法，
+	用以给name动态命名
+	2.添加的逻辑为向循环数组中push进一个新的对象（对象的结构可以在service层定义，顺便把获取的数据给规范了）
+	3.删除的逻辑为获取此条数据在数组中的位置，然后在数组中删除
+	*/
+	
+
+	addProductItem(){
+		if (this.creditProductList.length>=this.productList.length) {
+			this.pop.info({
+				title:"提示信息",
+				text:"产品数不能大于"+this.productList.length
+			})
+			return
+		}
+		let item:productItem={
+			
+				productId:'',
+				productName:'',
+				creditValue:'',
+				expiryDateBegin:'',
+				expiryDateEnd:'',
+				uniqueId:this.libF.createUniqueId(this.uniqueL)
+		}
+		// console.log(this.uniqueL)
+
+		this.creditProductList.push(item)
+	}
+	deleteProductItem(index){
+		this.creditProductList.splice(index,1)
 	}
 
 

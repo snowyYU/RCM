@@ -7,6 +7,7 @@ import {Observable} from "rxjs/Observable";
 export interface MyHttpAPIOptions {
   url: string;
   method: string;
+  host?:string
 }
 export interface HttpClientOptions {
   body?: any,
@@ -56,7 +57,8 @@ export class MyHttpClient {
           url += '?' + urlParams;
         }
       }
-      url = host + url;
+
+      url = (parameters.api.host||host)+url;
       console.info('HOST',host);
       console.info('url',url);
       return url;
@@ -161,18 +163,34 @@ export class MyHttpClient {
      * @param  {number}          mode   [description]
      * @return {Observable<any>}        [description]
      */
-    sShow(fileId:number,mode:number){
-        let url=this.api.fileServer+'/fileserver/file/download?fileId='+fileId+'&mode='+mode
-        return url
-    }
+    sShow(fileId:number,mode?:string){
+        if (mode) {
+          let url=this.api.fileServer+'file/preview?fileId='+fileId+'&mode='+mode
+          return url
+        }else{
+          let url=this.api.fileServer+'file/preview?fileId='+fileId
+          return url
+        }
 
+        
+    }
+    sDownLoad(fileId:number,mode?:string){
+        if (mode) {
+          let url=this.api.fileServer+'file/download?fileId='+fileId+'&mode='+mode
+          return url
+        }else{
+          let url=this.api.fileServer+'file/download?fileId='+fileId
+          return url
+        }
+        
+    }
     /**
      * 文件删除接口
      * @param  {[type]}          fileId [description]
      * @return {Observable<any>}        [description]
      */
     sDelete(fileId):Observable<any>{
-        let url=this.api.fileServer+'/fileserver/file/delete?fileId='+fileId
+        let url=this.api.fileServer+'file/delete?fileId='+fileId
         return this.http.post(url,null)
     }
   

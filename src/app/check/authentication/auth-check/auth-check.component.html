@@ -128,33 +128,48 @@
               <tr *ngIf="attch1Type">
                 <td>{{attch1TypeDic}}</td>
                 <!-- <td><a class="text-info" (click)="gallery.open($event,1, ['',''])">查看</a></td> -->
-                <td><a class="text-info" (click)="checkAttach($event,attch1Loadid)">
-                  <i class="fa fa-search" title="查看"></i>
-                </a></td>
+                <td>
+                  <preview-or-download [fileId]="attch1Loadid" (tranferFileType)="tranferFileType($event,attch1Loadid)">
+                    <a class="fa fa-search text-info m-r-md" (click)="show($event,attch1Loadid)" title="查看"></a>
+                    <a class="fa fa-download text-info" (click)="download(attch1Loadid)" title="下载"></a>
+                  </preview-or-download>
+                </td>
               </tr>
               <tr *ngIf="attch2Type">
                 <td>{{attch2TypeDic}}</td>
-                <td><a class="text-info" (click)="checkAttach($event,attch2Loadid)">
-                  <i class="fa fa-search" title="查看"></i>
-                </a></td>
+                <td>
+                  <preview-or-download [fileId]="attch2Loadid" (tranferFileType)="tranferFileType($event,attch2Loadid)">
+                    <a class="fa fa-search text-info m-r-md" (click)="show($event,attch2Loadid)" title="查看"></a>
+                    <a class="fa fa-download text-info" (click)="download(attch2Loadid)" title="下载"></a>
+                  </preview-or-download>
+                </td>
               </tr>
               <tr *ngIf="attch3Type">
                 <td>{{attch3TypeDic}}</td>
-                <td><a class="text-info" (click)="checkAttach($event,attch3Loadid)">
-                  <i class="fa fa-search" title="查看"></i>
-                </a></td>
+                <td>
+                  <preview-or-download [fileId]="attch3Loadid" (tranferFileType)="tranferFileType($event,attch3Loadid)">
+                    <a class="fa fa-search text-info m-r-md" (click)="show($event,attch3Loadid)" title="查看"></a>
+                    <a class="fa fa-download text-info" (click)="download(attch3Loadid)" title="下载"></a>
+                  </preview-or-download>
+                </td>
               </tr>
               <tr *ngIf="attch4Type">
                 <td>{{attch4TypeDic}}</td>
-                <td><a class="text-info" (click)="checkAttach($event,attch4Loadid)">
-                  <i class="fa fa-search" title="查看"></i>
-                </a></td>
+                <td>
+                  <preview-or-download [fileId]="attch4Loadid" (tranferFileType)="tranferFileType($event,attch4Loadid)">
+                    <a class="fa fa-search text-info m-r-md" (click)="show($event,attch4Loadid)" title="查看"></a>
+                    <a class="fa fa-download text-info" (click)="download(attch4Loadid)" title="下载"></a>
+                  </preview-or-download>
+                </td>
               </tr>
               <tr *ngIf="attch5Type">
                 <td>{{attch5TypeDic}}</td>
-                <td><a class="text-info" (click)="checkAttach($event,attch5Loadid)">
-                  <i class="fa fa-search" title="查看"></i>
-                </a></td>
+                <td>
+                  <preview-or-download [fileId]="attch5Loadid" (tranferFileType)="tranferFileType($event,attch5Loadid)">
+                    <a class="fa fa-search text-info m-r-md" (click)="show($event,attch5Loadid)" title="查看"></a>
+                    <a class="fa fa-download text-info" (click)="download(attch5Loadid)" title="下载"></a>
+                  </preview-or-download>
+                </td>
               </tr>
 
             </tbody>
@@ -180,7 +195,7 @@
             <label class="control-label">审批意见：</label>
           </td>
           <td >
-            <textarea name="auditRemark"  rows="5" class="form-control width-textarea" placeholder="小于200字" [(ngModel)]="auditRemark"></textarea>
+            <textarea name="auditRemark"  rows="5" class="form-control width-textarea" placeholder="小于200字" maxlength="200" [(ngModel)]="auditRemark"></textarea>
           </td>
         </tr>
       </table>
@@ -188,11 +203,13 @@
 
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def m-l btn-def-success" (click)="memberAuthApplyReply(1)">通过<i class="fa fa-check-circle-o"></i></button>
-        <button class="btn-def m-l btn-def-danger" (click)="memberAuthApplyReply(-1)">拒绝<i class="fa fa-ban"></i></button>
+        <button class="btn-def m-l btn-def-success" (click)="submitConfirm(1)">通过<i class="fa fa-check-circle-o"></i></button>
+        <button class="btn-def m-l btn-def-danger" (click)="submitConfirm(-1)">拒绝<i class="fa fa-ban"></i></button>
         <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
     </section>
   </form>
 </div>
 <gallery #gallery size="md"></gallery>
+<previewer></previewer>
+

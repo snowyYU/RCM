@@ -3,11 +3,11 @@
   <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
   <a class="page-location-item active">产品授信审批<!-- <i class="pad-l-min fa fa-angle-right"></i> --></a>
 </div>
-<div class="wrapper">
+<div class="wrapper pos-rlt">
   <form #form>
 
     <!-- <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent"> -->
-      <section class="panel-body group mar-b-sm">
+    <section class="panel-body group mar-b-sm">
       <div class=" col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label  pull-left" >申请ID：</label>
@@ -32,14 +32,18 @@
           <label class="control-label pull-left">会员名称：</label>
           <div class="form-control-static pull-left">
             {{memberName|filterNull:false}} <span *ngIf="memberId">({{memberId}})</span>
+            <span *ngIf="memberId">
+              <!-- <a class="text-info" [routerLink]="['/memberM/memberManage/detail',memberId]">详情</a> -->
+              <a class="text-info" (click)="goToDetail()">详情</a>
+            </span>
           </div>
         </div>
-        <div class="form-group ">
+        <!-- <div class="form-group ">
           <label class="control-label pull-left">申请产品：</label>
           <div class="pull-left form-control-static" >
             {{productName|filterNull:false}}
           </div>
-        </div>
+        </div> -->
         <div class="form-group ">
           <label class="control-label pull-left">服务经理：</label>
           <div class="pull-left form-control-static" >
@@ -48,10 +52,10 @@
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group no-b-margin">
+        <!-- <div class="form-group no-b-margin">
           <label class="control-label pull-left">产品类别：</label>
           <span class="form-control-static pull-left">  {{productTypeName | filterNull:false}}</span>
-        </div>
+        </div> -->
       </div>
     </section >
     <section class="panel-body group mar-b-sm" >
@@ -62,7 +66,30 @@
             {{addCreditValue | filterNull:false | yuanFormat:2:true}}<span *ngIf="addCreditValue">元</span>
           </div>
         </div>
-        <div class="form-group ">
+        <div class="form-group">
+          <label class="control-label pull-left">原授信额度：</label>
+          <span class="form-control-static pull-left">  {{oldCreditValue | filterNull:false | yuanFormat:2:true}}</span><span class="form-control-static pull-left"  *ngIf="oldCreditValue">元</span>
+        </div>
+        <div class="form-group">
+          <label class="control-label pull-left">申请原因：</label>
+          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  {{authRemark | filterNull:false}}</span>
+        </div>
+        <div class="form-group">
+          <label class="control-label pull-left">会员评级：</label>
+          <div class="pull-left">
+            <select name="memberRating" class="form-control" [(ngModel)]="memberRating">
+              <option *ngFor="let item of memberRatingL" [value]="item.value">{{item.label}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group no-b-margin form-inline">
+          <label class="control-label pull-left">会员评分：</label>
+          <div class="pull-left input-group">
+            <input type="text" name="memberRatingGrate" class="form-control" [(ngModel)]="memberRatingGrate">
+            <span class="input-group-addon">分</span>
+          </div>
+        </div>
+        <!-- <div class="form-group ">
           <label class="control-label pull-left required">有效期：</label>
           <div class="pull-left " >
             <div class="input-group date-input-group">
@@ -71,17 +98,10 @@
               <input class="form-control" datePicker [(ngModel)]="expiryDateEnd" name="endTime" placeholder="选择日期" />
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
-        <div class="form-group">
-          <label class="control-label pull-left">原授信额度：</label>
-          <span class="form-control-static pull-left">  {{oldCreditValue | filterNull:false | yuanFormat:2:true}}</span><span class="form-control-static pull-left"  *ngIf="oldCreditValue">元</span>
-        </div>
-        <div class="form-group no-b-margin">
-          <label class="control-label pull-left">申请原因：</label>
-          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  {{authRemark | filterNull:false}}</span>
-        </div>
+        
       </div>
     </section >
     <section class="wrapper group m-t form-label-7">
@@ -100,7 +120,7 @@
             <label class="control-label">审批意见：</label>
           </td>
           <td >
-            <textarea name="auditRemark"  rows="5" class="form-control width-textarea" placeholder="小于200字" [(ngModel)]="auditRemark"></textarea>
+            <textarea name="auditRemark"  rows="5" class="form-control width-textarea" placeholder="小于200字" maxlength="200" [(ngModel)]="auditRemark"></textarea>
           </td>
         </tr>
       </table>
@@ -114,6 +134,74 @@
       </div>
 
     </section>
+  
+  <section class="bg-white clearfix productInfo pos-abt m-t-xl" style="height: 420px;overflow-y: scroll;">
+      <div class="col-md-12">
+          <table class="table showL b-t">
+              <thead>
+                  <tr>
+                      <th>产品</th>
+                      <th>额度(元)</th>
+                      <th>有效期</th>
+                      <th>操作</th>
+                  </tr>
+              </thead>
+   
+              <tbody >
+                  <tr *ngFor="let item of creditProductList;let i=index">
+                      <td>
+                        <select name="productId_{{item.uniqueId}}" class="form-control" [(ngModel)]="item.productId" (change)="darkroom()">
+                          <ng-container *ngFor="let option of productList">
+                            <ng-container >
+                              <option [value]="option.productId" [hidden]="ifShowThis(option.productId)">{{option.productName}}
+                              </option>
+                            </ng-container>
+                          </ng-container>
+
+                              
+                        </select>
+                      </td>
+                      <td style="width: 200px">
+                        <input name="creditValue_{{item.uniqueId}}" type="text" [(ngModel)]="item.creditValue" class="form-control" >
+                      </td>
+                      <td style="width: 180px">
+                        <div class="input-group">
+                          
+                          <div class="pull-left form-group">
+                            <datetime-picker [(value)]="item.expiryDateBegin" [max]="item.expiryDateEnd">
+                              <input class="form-control" [(ngModel)]="item.expiryDateBegin" name="startTime_{{item.uniqueId}}" placeholder="开始日期" />
+                            </datetime-picker>
+                          </div>
+                          
+                          <div class="pull-left">
+                            <datetime-picker [(value)]="item.expiryDateEnd" [min]="item.expiryDateBegin">
+                              <input class="form-control" [(ngModel)]="item.expiryDateEnd" name="endTime_{{item.uniqueId}}" placeholder="结束日期" />
+                            </datetime-picker>
+                            
+                            
+                          </div>
+                        </div>
+                      </td>
+                      <td><a class="text-danger" *ngIf="creditProductList.length>1" (click)="deleteProductItem(i)">删除</a></td>
+                  </tr>
+                  <tr *ngIf="!creditProductList||creditProductList.length===0">
+                    <td colspan="4" class="text-disabled text-center"> 无</td>
+                  </tr>
+                  <tr>
+                    <td colspan="4">
+                      <a class="text-info" (click)="addProductItem()">
+                      +添加
+                      </a>
+                    </td>
+                    
+                  </tr>
+
+              </tbody>
+          </table>
+      </div>
+  </section>
   </form>
 </div>
 <gallery #gallery></gallery>
+
+

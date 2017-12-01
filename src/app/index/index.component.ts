@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router'
 import  {SettingService}  from '../../services/setting/setting.service';
 import  {AuthRoleService}  from '../../services/authRole/authRole.service';
+import { SubmitLoadingService } from '../../utils/submit-loading/submit-loading.service'
 @Component({
   selector: 'index',
   templateUrl: './index.component.html',
@@ -9,13 +10,17 @@ import  {AuthRoleService}  from '../../services/authRole/authRole.service';
   providers:[SettingService,AuthRoleService]
 })
 export class IndexComponent {
+
+  
+
   setting:SettingService;
   role:string=this.authRoleService.role;
   userName:string=this.authRoleService.userName;
   constructor(
     private router:Router,
     private settingService:SettingService,
-    public authRoleService:AuthRoleService
+    public authRoleService:AuthRoleService,
+    public submitLoading:SubmitLoadingService
     ){
     this.setting=this.settingService.getSetting();
     // this.role=this.authRoleService.role;

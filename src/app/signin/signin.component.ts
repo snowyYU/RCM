@@ -13,12 +13,12 @@ import { config } from '../../services/config/app.config'
   selector: 'signin',
   templateUrl: './signin.component.html',
   styleUrls: ['./signin.component.less'],
-  providers:[AuthRoleService]
+  providers:[AuthRoleService,SignInService]
 })
 export class SigninComponent {
 
-  user:string='陈林鹏';
-  password:string='123456';
+  user:string='';
+  password:string='';
   submiting:boolean=false;
   msg:string;
 

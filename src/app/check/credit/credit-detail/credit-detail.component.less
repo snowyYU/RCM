@@ -22,6 +22,51 @@
 	width:74px;
 }
 
+.productInfo{
+  top: 175px;
+  height: 220px;
+  overflow-y: auto;
+}
+.tbody-style{
+  background-color:#fff;
+}
+.tfoot-style{
+  border: 0 !important;
+}
+.tabel-bg-color{
+  background-color:#f6f6f6;
+}
+.caption-style{
+  color:#000;
+}
+
+.approved-pass::after{
+  content: " ";
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top:152px;
+  right:45px;
+  background-image: url('../../../../assets/img/pass.png');
+  background-size:150px 150px;
+  background-repeat: no-repeat;
+  background-position-y: -13px;
+}
+
+.approved-refuse::after{
+  content: " ";
+  width: 150px;
+  height: 150px;
+  position: absolute;
+  top:152px;
+  right:45px;
+  background-image: url('../../../../assets/img/refuse.png');
+  background-size:150px 150px;
+  background-repeat: no-repeat;
+  background-position-y: -13px;
+}
+
+
 .table tr td,.table tr th{
   border: 1px solid #ddd
 }
@@ -29,22 +74,12 @@
 .table thead tr th{
   border-bottom: none;
 }
-.uploadBtn{
-  position: absolute;
-  top: 0px;
-  opacity: 0;
-  width: 54px;
-  left: 0px;
-  height: 34px;
-}
 
 .table > tbody > tr > td, .table > tfoot > tr > td, .table > thead > tr > th{
   padding: 8px 8px
 }
 
-
-//new
-section{
+.section-control{
   padding: 10px 40px;
 }
 .form-group{
@@ -52,9 +87,6 @@ section{
 }
 .form-control-static{
   color:#b6550f;
-}
-select.min-width{
-  min-width: 175px;
 }
 
 .text-info.disabled{

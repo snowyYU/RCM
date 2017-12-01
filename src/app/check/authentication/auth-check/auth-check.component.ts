@@ -5,6 +5,11 @@ import { AuthCheckService,SendData } from './auth-check.service'
 import { ViewChild ,ElementRef} from '@angular/core';
 import { GalleryComponent} from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
+import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
+import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
+import { PreviewerComponent } from '../../../../utils/previewer/previewer.component'
+
+import {img,file } from "../../../../utils/previewer/filetype"
 
 @Component({
 	selector:'auth-check',
@@ -53,15 +58,22 @@ export class AuthCheckComponent implements OnInit{
 	attch5TypeDic
 	
 
+	attachment:object={}
+
+	memberDetailDomain  //存储跳转后返回页面
 
 
 	@ViewChild(GalleryComponent) gallery:GalleryComponent;
+	@ViewChild(PreviewerComponent) previewer:PreviewerComponent;
+
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
 		private authRole:AuthRoleService,
-		private authCheck:AuthCheckService
+		private authCheck:AuthCheckService,
+		private submitLoading:SubmitLoadingService,
+		private session:SessionStorageService
 		){
 		// setTimeout(()=>{
 		// 	this.gallery.open();
@@ -71,6 +83,9 @@ export class AuthCheckComponent implements OnInit{
 	ngOnInit(){
 		this.getData();
 		this.auditBy=this.authRole.userName
+
+		this.submitLoading.show=false
+
 	}
 
 	getData(){
@@ -129,19 +144,137 @@ export class AuthCheckComponent implements OnInit{
 		this.attch5Type=res.body.attch5Type?res.body.attch5Type:""
 		this.attch5TypeDic=res.body.attch5TypeDic?res.body.attch5TypeDic:""
 
+
+		//封装文件的
+		if (this.attch1Loadid) {
+			this.attachment[this.attch1Loadid]={
+				fileLoadId:this.attch1Loadid,
+				fileType:this.attch1Type,
+				extension:""
+			}
+		}
+		if (this.attch2Loadid) {
+			this.attachment[this.attch2Loadid]={
+				fileLoadId:this.attch2Loadid,
+				fileType:this.attch2Type,
+				extension:""
+			}
+		}
+		if (this.attch3Loadid) {
+			this.attachment[this.attch3Loadid]={
+				fileLoadId:this.attch3Loadid,
+				fileType:this.attch3Type,
+				extension:""
+			}
+		}
+		if (this.attch4Loadid) {
+			this.attachment[this.attch4Loadid]={
+				fileLoadId:this.attch4Loadid,
+				fileType:this.attch4Type,
+				extension:""
+			}
+		}
+		if (this.attch5Loadid) {
+			this.attachment[this.attch5Loadid]={
+				fileLoadId:this.attch5Loadid,
+				fileType:this.attch5Type,
+				extension:""
+			}
+		}
+
 	}
 
 
 	checkAttach(e,id){
-		let url=this.authCheck.getAttachUrl(id)
-		this.gallery.open(e,url);
+		let url=this.authCheck.getFileUrl(id)
+		// this.gallery.open(e,url);
 	}
+
+	//2017.11.14
+	//附件部分大改
+	//show方法，获取文件信息方法，下载方法--start
+	show(e,fileLoadId){
+		console.log(fileLoadId)
+		
+		if (fileLoadId) {
+			let url:any=this.authCheck.getFileUrl(fileLoadId)
+			let extension=this.attachment[fileLoadId].extension
+			let event=e
+
+			// this.gallery.open(e,url);
+			//这里判断上传文件的类型
+			//分为可以预览的和不可以预览的，不可以预览的需要下载
+			console.log("show 方法中的文件后缀",extension)
+
+			if(img.indexOf(extension)>=0||file.indexOf(extension)>=0){
+				if (img.indexOf(extension)>=0) {
+					this.previewer.open(event,url,"img")
+					
+				}else if (file.indexOf(extension)>=0) {
+					this.previewer.open(event,url,"file")
+					
+				}
+			}else{
+				this.pop.confirm({
+					title:"提示框",
+					text:"此文件不支持预览，是否下载查看？"
+				}).onConfirm(()=>{
+					this.download(fileLoadId)
+				})
+			}
+		}/*else{
+			this.pop.error({
+				title:'错误提示',
+				text:'无此文件！'
+			})
+		}*/
+	}
+
+	tranferFileType(fileType,fileLoadId){
+		this.attachment[fileLoadId].extension=fileType
+		console.log(fileType)
+	}
+
+	download(fileLoadId){
+		if (!!this.attachment[fileLoadId]) {
+			let url=this.authCheck.downLoadFile(this.attachment[fileLoadId].fileLoadId)
+			// window.open(url)
+			window.location.href =url
+			
+		}else{
+		
+			this.pop.info({
+				title:"提示信息",
+				text:"下载失败"
+			})
+		}
+	}
+
+	//--end
 
 	back(){
-		this.router.navigate(['check/authentication'],{queryParams:{status:"1"}})
+		window.history.back()
 	}
 
+	submitConfirm(param: number) {
+		let str:string
+		if(param==1){
+			str='通过'
+		}else{
+			str='拒绝'
+		}
+		this.pop.confirm({
+			title: '操作确认',
+			text: '确认 '+str+' 审批申请吗？'
+		}).onConfirm(() => {
+			this.memberAuthApplyReply(param)
+		})
+
+    }
+
 	memberAuthApplyReply(result){
+		this.submitLoading.show=true
+
 		let data:SendData={
 			authId:this.authId,
 			auditBy:this.auditBy,
@@ -155,13 +288,17 @@ export class AuthCheckComponent implements OnInit{
 					title:'提示信息',
 					text:'操作成功!'
 				})
-				this.router.navigate(['check/authentication'])
+				this.submitLoading.show=false
+				this.session.memberDetailDomain='check/authentication'
+				this.router.navigate(['check/authentication/authDetail',this.authId])
 			})
 			.catch(res=>{
 				this.pop.error({
 					title:'错误信息',
 					text:res.message
 				})
+				this.submitLoading.show=false
+				
 			})
 	}
 

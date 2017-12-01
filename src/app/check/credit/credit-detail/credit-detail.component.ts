@@ -21,14 +21,17 @@ export class CreditDetailComponent implements OnInit{
 	productName
 	productTypeName
 	serviceMan:string;		//服务经理
+	totalCreditValue:number=0
 
 	oldCreditValue
 	authRemark
 	auditBy:string;			//审核人
     auditRemark:string;		//审核意见
     auditDate:string;		//审核时间
-	
+	status
     statusDic               //状态，中文
+    productList
+
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
@@ -49,11 +52,24 @@ export class CreditDetailComponent implements OnInit{
 						.then(res=>{
 							console.log(res)
 							this.handle(res)
-						})
-						.catch(res=>{
-							this.pop.error({
-								title:'错误信息',
-								text:res.message
+							return Promise.resolve(res.body.memberId)
+							.then(res=>{
+								this.creditDetail.getProductsList(res)
+								.then(res=>{
+									console.log(res)
+									this.productList=res.body.records
+									if(this.productList&&this.productList.length>0){
+										for(let i=0;i<this.productList.length;i++){
+											this.totalCreditValue+=this.productList[i].creditFacility.creditValue
+										}
+									}
+								})
+								.catch(res=>{
+									this.pop.error({
+										title:'错误信息',
+										text:res.message
+									})
+								})
 							})
 						})
 	}
@@ -75,6 +91,7 @@ export class CreditDetailComponent implements OnInit{
 		this.authRemark=res.body.authRemark
 		this.auditBy=res.body.auditBy;			//审核人
 	    this.auditRemark=res.body.auditRemark;		//审核意见
+	    this.status=res.body.status
 	    this.statusDic=res.body.statusDic       //状态，中文
 	}
 

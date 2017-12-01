@@ -31,6 +31,7 @@
       <nav-item icon="glyphicon glyphicon-user" text="审批事项" *ngIf="authRoleService.fnIn(['10','11','12','13'])">
           <sub-nav-item text="认证审批" link="/check/authentication" *ngIf="authRoleService.fnIn(['11'])"></sub-nav-item>
           <sub-nav-item text="授信审批" link="/check/credit" *ngIf="authRoleService.fnIn(['12'])"></sub-nav-item>
+          <sub-nav-item text="用款审批" link="/check/use" *ngIf="authRoleService.fnIn(['13'])"></sub-nav-item>
           <sub-nav-item text="展期审批" link="/check/spread" *ngIf="authRoleService.fnIn(['13'])"></sub-nav-item>
       </nav-item>
 
@@ -65,3 +66,4 @@
     </div>
   </div>
 </root-container>
+<submit-loading [show]="submitLoading.show"></submit-loading>

@@ -9,6 +9,9 @@ import { CreditComponent } from './credit/credit.component'
 import { CreditCheckComponent } from './credit/credit-check/credit-check.component'
 import { CreditDetailComponent } from './credit/credit-detail/credit-detail.component'
 
+import { UseApplyComponent } from './use/use-apply.component'
+import { UseDetailComponent } from './use/detail/use-detail.component'
+import { UseCheckComponent } from './use/check/use-check.component'
 
 import { SpreadComponent } from './spread/spread.component'
 import { SpreadDetailComponent } from './spread/spread-detail/spread-detail.component'
@@ -48,6 +51,18 @@ const routes: Routes =[
 		path:'credit/creditDetail/:id',
 		component:CreditDetailComponent
 
+	},
+	{
+		path:'use',
+		component:UseApplyComponent
+	},
+	{
+		path:'use/useDetail/:id',
+		component:UseDetailComponent
+	},
+	{
+		path:'use/useCheck/:id',
+		component:UseCheckComponent
 	},
 	{
 		path:'spread',

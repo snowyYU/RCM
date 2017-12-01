@@ -1,0 +1,1865 @@
+<div class="wrapper">
+  <section class="text-center">
+    <div class="btn-group">
+      <button class="btn btn-info">企业基本信息</button>
+      <button class="btn btn-default" (click)="runSituation()">运营状况</button>
+      <button class="btn btn-default" (click)="riskM()">风控补充</button>
+    </div>
+  </section>
+  <section class="clearfix" id="borrower">
+    <form #part1F="ngForm" (ngSubmit)='save1()' HTML5Validate>
+      <div class="page-location">
+        <a class="h4 pad-r-xs font-bold">借款人信息</a>
+        <i class="fa fa-caret-right text-lg" *ngIf="!part1S" (click)="part1S=!part1S"></i>
+        <i class="fa fa-caret-down text-lg" *ngIf="part1S" (click)="part1S=!part1S"></i>
+        <span class="m-l-sm">(注:申请人需为法定代表或直接控制人，占股不得少于20%)</span>
+        <a class="text-info pull-right" *ngIf="part1S&&!part1&&memberVo.serviceMan==authRole.userName" (click)="edit('part1')">编辑</a>
+        <!-- <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part1&&part1S" [disabled]="!part1F.form.valid">保存</button> -->
+        <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part1&&part1S">保存</button>
+        <button type="button" class="btn btn-default btn-sm pull-right m-r-xs" *ngIf="part1&&part1S" (click)="cancel('part1')">放弃</button>
+      </div>
+      <!-- <div class="col-md-12 padder-v b-b l-h-2x">借款人信息 
+        <span>(注:申请人需为法定代表或直接控制人，占股不得少于20%)</span>
+        <button type="button" class="btn pull-right" *ngIf="!part1" (click)="edit('part1')">编辑</button>
+        <button type="submit" class="btn btn-info pull-right" *ngIf="part1&&part1S" [disabled]="!part1F.form.valid">保存</button>
+        <button type="button" class="btn pull-right m-r-xs" *ngIf="part1&&part1S" (click)="cancel('part1')">放弃</button>
+      </div> -->
+      <div class="padder-v  col-md-12" *ngIf="!part1&&part1S">
+        <div class="col-md-12 border-content ">
+          <div class="form-group clearfix m-t-md">
+            <div class="col-md-6">
+              <label for="" class="control-label">姓名:</label>
+              <div class="col-md-6 text-content">{{companyborrowerVo.borrwerPerson | filterNull:false}}</div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">身份证号码:</label>
+              <div class="col-md-6 text-content">{{companyborrowerVo.borrwerIdcard | filterNull:false}}</div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">最高学历:</label>
+              <div class="col-md-6 text-content">{{companyborrowerVo.borrwerDegree | filterNull:false}}</div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">联系手机:</label>
+              <div class="col-md-6 text-content">{{companyborrowerVo.borrwerMobile | filterNull:false}}</div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">婚姻状况:</label>
+              <div class="col-md-6 text-content">{{companyborrowerVo.borrwerMarryDic | filterNull:false}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 group m-t padder-v">
+          <div class="group-title">相关证照</div>
+          <div class="clearfix">
+            <div class="col-md-12 row">
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-7 p-l-none">申请人身份证（正面）</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0104']" (click)="show('0104',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0104'].fileLoadId" *ngIf="attachment['0104']" (tranferFileType)="tranferFileType($event,'0104')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0104']" (click)="show($event,'0104')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0104']" (click)="download('0104')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0104']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0104']" (click)="show('0104',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">申请人身份证（反面）</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0105']" (click)="show('0105',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0105'].fileLoadId" *ngIf="attachment['0105']" (tranferFileType)="tranferFileType($event,'0105')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0105']" (click)="show($event,'0105')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0105']" (click)="download('0105')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0105']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0105']" (click)="show('0105',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-7 p-l-none">户口本</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0110']" (click)="show('0110',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0110'].fileLoadId" *ngIf="attachment['0110']" (tranferFileType)="tranferFileType($event,'0110')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0110']" (click)="show($event,'0110')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0110']" (click)="download('0110')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0110']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0110']" (click)="show('0110',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">申请人与经营场所合照</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0112']" (click)="show('0112',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0112'].fileLoadId" *ngIf="attachment['0112']" (tranferFileType)="tranferFileType($event,'0112')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0112']" (click)="show($event,'0112')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0112']" (click)="download('0112')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0112']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0112']" (click)="show('0112',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-7 p-l-none">结婚证（正面）</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0108']" (click)="show('0108',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0108'].fileLoadId" *ngIf="attachment['0108']" (tranferFileType)="tranferFileType($event,'0108')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0108']" (click)="show($event,'0108')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0108']" (click)="download('0108')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0108']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0108']" (click)="show('0108',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">结婚证（反面）</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0109']" (click)="show('0109',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0109'].fileLoadId" *ngIf="attachment['0109']" (tranferFileType)="tranferFileType($event,'0109')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0109']" (click)="show($event,'0109')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0109']" (click)="download('0109')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0109']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0109']" (click)="show('0109',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-7 p-l-none">配偶身份证（正面）</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0106']" (click)="show('0106',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0106'].fileLoadId" *ngIf="attachment['0106']" (tranferFileType)="tranferFileType($event,'0106')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0106']" (click)="show($event,'0106')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0106']" (click)="download('0106')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0106']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0106']" (click)="show('0106',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">配偶身份证（反面）</div>
+                  <!-- <div class="col-md-5"><a class="text-disabled" [class.text-info]="attachment['0107']" (click)="show('0107',$event)">查看</a></div> -->
+                  <div class="col-md-5">
+                    <preview-or-download [fileId]="attachment['0107'].fileLoadId" *ngIf="attachment['0107']" (tranferFileType)="tranferFileType($event,'0107')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0107']" (click)="show($event,'0107')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0107']" (click)="download('0107')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0107']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0107']" (click)="show('0107',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- part1编辑模板 -->
+      <div class="padder-v clearfix col-md-12" *ngIf="part1&&part1S">
+        <div class="col-md-12 border-content ">
+          <div class="form-group clearfix l-h-2x m-t-md">
+            <div class="col-md-6">
+              <label for="" class="control-label">姓名:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="borrwerPerson" class="form-control" maxlength="30" [(ngModel)]="companyborrowerVo.borrwerPerson"> -->
+                <input type="text" name="borrwerPerson" class="form-control" [(ngModel)]="companyborrowerVo.borrwerPerson" pattern="^.{0,50}$" #borrwerPersonRef="ngModel" [HTML5Validate]="[[!!(borrwerPersonRef.errors&&borrwerPersonRef.errors.pattern),'借款人姓名应少于50字']]" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">身份证号码:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="borrwerIdcard" class="form-control" maxlength="18" [(ngModel)]="companyborrowerVo.borrwerIdcard"> -->
+                <input type="text" name="borrwerIdcard" class="form-control" [(ngModel)]="companyborrowerVo.borrwerIdcard" #borrwerIdcardRef="ngModel" pattern="^\d{17}[\dxX]$" [HTML5Validate]="[[!!(borrwerIdcardRef.errors&&borrwerIdcardRef.errors.pattern),'身份证号输入有误，请输入正确的身份证号']]" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group clearfix l-h-2x">
+            <div class="col-md-6">
+              <label for="" class="control-label">最高学历:</label>
+              <div class="col-md-6">
+                <select name="borrwerDegree" id="" class="form-control" [(ngModel)]="companyborrowerVo.borrwerDegree">
+                  <option value="初中及以下">初中及以下</option>
+                  <option value="中专">中专</option>
+                  <option value="高中">高中</option>
+                  <option value="大专">大专</option>
+                  <option value="本科">本科</option>
+                  <option value="硕士及以上">硕士及以上</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">联系手机:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="borrwerMobile" class="form-control" maxlength="11" disabled [(ngModel)]="companyborrowerVo.borrwerMobile"> -->
+                <input type="text" name="borrwerMobile" class="form-control" disabled [(ngModel)]="companyborrowerVo.borrwerMobile" pattern="^1[0-9]{10}$" #borrwerMobileRef="ngModel" [HTML5Validate]="[[!!(borrwerMobileRef.errors&&borrwerMobileRef.errors.pattern),'联系手机输入有误，请输入正确的手机号码']]" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group clearfix l-h-2x">
+            <div class="col-md-6">
+              <label for="" class="control-label">婚姻状况:</label>
+              <div class="col-md-6">
+                <div class="pull-left form-inline m-r-lg" *ngFor="let item of marryList">
+                  <div class="radio">
+                    <label class="i-checks">
+                      <input type="radio" name="borrwerMarry" class="form-control " [value]="item.value" [(ngModel)]="borrwerMarry"><i></i> {{item.label}}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 group m-t padder-v">
+          <div class="group-title">相关证照</div>
+          <div class="clearfix">
+            <div class="col-md-12 row">
+              <div class="form-group clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0104']">
+                      <a class="text-info" (click)="show($event,'0104')">申请人身份证（正面）</a>
+                    </div>
+                    <div *ngIf="!attachment['0104']">申请人身份证（正面）</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0104']&&(!uploader1_1.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_1" />
+                    </label>
+                    <div *ngIf="attachment['0104']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0104','uploader1_1')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_1.queue[0]&&(uploader1_1.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_1.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>申请人身份证(正面)</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0104']">
+                            <a class="text-info" (click)="show('0104',$event)">{{attachment['0104'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_1.queue[0]?(!uploader1_1.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_1.queue[0]?uploader1_1.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_1.queue[0]?uploader1_1.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_1.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_1.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0104']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_1" />
+                          </div>
+                          <div *ngIf="attachment['0104']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0104']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_1" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0104','uploader1_1')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+                <!-- <div class="col-md-6 p-r-none">
+                  <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>申请人身份证(正面)</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0104']">
+                            <a class="text-info" (click)="show('0104',$event)">{{attachment['0104'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_1.queue[0]?(!uploader1_1.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_1.queue[0]?uploader1_1.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_1.queue[0]?uploader1_1.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_1.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_1.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0104']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_1" />
+                          </div>
+                          <div *ngIf="attachment['0104']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0104']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_1" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0104','uploader1_1')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div> -->
+                <div class="col-md-6">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0105']">
+                      <a class="text-info" (click)="show($event,'0105')">申请人身份证（反面）</a>
+                    </div>
+                    <div *ngIf="!attachment['0105']">申请人身份证（反面）</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0105']&&(!uploader1_2.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_2" />
+                    </label>
+                    <div *ngIf="attachment['0105']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0105','uploader1_2')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_2.queue[0]&&(uploader1_2.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_2.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>申请人身份证(反面)</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0105']">
+                            <a class="text-info" (click)="show('0105',$event)">{{attachment['0105'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_2.queue[0]?(!uploader1_2.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_2.queue[0]?uploader1_2.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_2.queue[0]?uploader1_2.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_2.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_2.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0105']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_2" />
+                          </div>
+                          <div *ngIf="attachment['0105']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0105']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_2" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0105','uploader1_2')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0110']">
+                      <a class="text-info" (click)="show($event,'0110')">户口本</a>
+                    </div>
+                    <div *ngIf="!attachment['0110']">户口本</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0110']&&(!uploader1_3.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_3" />
+                    </label>
+                    <div *ngIf="attachment['0110']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0110','uploader1_3')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_3.queue[0]&&(uploader1_3.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_3.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>户口本</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0110']">
+                            <a class="text-info" (click)="show('0110',$event)">{{attachment['0110'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_3.queue[0]?(!uploader1_3.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_3.queue[0]?uploader1_3.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_3.queue[0]?uploader1_3.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_3.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_3.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0110']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_3" />
+                          </div>
+                          <div *ngIf="attachment['0110']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0110']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_3" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0110','uploader1_3')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0112']">
+                      <a class="text-info" (click)="show($event,'0112')">申请人与经营场所合照</a>
+                    </div>
+                    <div *ngIf="!attachment['0112']">申请人与经营场所合照</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0112']&&(!uploader1_4.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_4" />
+                    </label>
+                    <div *ngIf="attachment['0112']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0112','uploader1_4')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_4.queue[0]&&(uploader1_4.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_4.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>申请人与经营场所合照</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0112']">
+                            <a class="text-info" (click)="show('0112',$event)">{{attachment['0112'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_4.queue[0]?(!uploader1_4.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_4.queue[0]?uploader1_4.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_4.queue[0]?uploader1_4.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_4.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_4.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0112']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_4" />
+                          </div>
+                          <div *ngIf="attachment['0112']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0112']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_4" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0112','uploader1_4')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0108']">
+                      <a class="text-info" (click)="show($event,'0108')">结婚证（正面）</a>
+                    </div>
+                    <div *ngIf="!attachment['0108']">结婚证（正面）</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0108']&&(!uploader1_5.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_5" />
+                    </label>
+                    <div *ngIf="attachment['0108']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0108','uploader1_5')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_5.queue[0]&&(uploader1_5.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_5.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>结婚证（正面）</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0108']">
+                            <a class="text-info" (click)="show('0108',$event)">{{attachment['0108'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_5.queue[0]?(!uploader1_5.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_5.queue[0]?uploader1_5.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_5.queue[0]?uploader1_5.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_5.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_5.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0108']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_5" />
+                          </div>
+                          <div *ngIf="attachment['0108']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0108']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_5" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0108','uploader1_5')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0109']">
+                      <a class="text-info" (click)="show($event,'0109')">结婚证（反面）</a>
+                    </div>
+                    <div *ngIf="!attachment['0109']">结婚证（反面）</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0109']&&(!uploader1_6.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_6" />
+                    </label>
+                    <div *ngIf="attachment['0109']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0109','uploader1_6')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_6.queue[0]&&(uploader1_6.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_6.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>结婚证（反面）</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0109']">
+                            <a class="text-info" (click)="show('0109',$event)">{{attachment['0109'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_6.queue[0]?(!uploader1_6.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_6.queue[0]?uploader1_6.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_6.queue[0]?uploader1_6.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_6.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_6.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0109']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_6" />
+                          </div>
+                          <div *ngIf="attachment['0109']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0109']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_6" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0109','uploader1_6')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+              </div>
+              <div class=" clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0106']">
+                      <a class="text-info" (click)="show($event,'0106')">配偶身份证（正面）</a>
+                    </div>
+                    <div *ngIf="!attachment['0106']">配偶身份证（正面）</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0106']&&(!uploader1_7.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_7" />
+                    </label>
+                    <div *ngIf="attachment['0106']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0106','uploader1_7')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_7.queue[0]&&(uploader1_7.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_7.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>配偶身份证（正面）</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0106']">
+                            <a class="text-info" (click)="show('0106',$event)">{{attachment['0106'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_7.queue[0]?(!uploader1_7.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_7.queue[0]?uploader1_7.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_7.queue[0]?uploader1_7.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_7.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_7.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0106']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_7" />
+                          </div>
+                          <div *ngIf="attachment['0106']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0106']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_7" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0106','uploader1_7')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0107']">
+                      <a class="text-info" (click)="show($event,'0107')">配偶身份证（反面）</a>
+                    </div>
+                    <div *ngIf="!attachment['0107']">配偶身份证（反面）</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0107']&&(!uploader1_8.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_8" />
+                    </label>
+                    <div *ngIf="attachment['0107']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0107','uploader1_8')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader1_8.queue[0]&&(uploader1_8.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader1_8.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                    <thead>
+                      <tr>
+                        <th>配偶身份证（反面）</th>
+                        <th width="75">状态</th>
+                        <th width="80">进度</th>
+                        <th width="142">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div *ngIf="attachment['0107']">
+                            <a class="text-info" (click)="show('0107',$event)">{{attachment['0107'].attachName}}</a>
+                          </div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_8.queue[0]?(!uploader1_8.queue[0].uploaded):true">
+                            等待上传
+                          </div>
+                          <div *ngIf="uploader1_8.queue[0]?uploader1_8.queue[0].success==true:false">上传成功</div>
+                          <div *ngIf="uploader1_8.queue[0]?uploader1_8.queue[0].error==true:false">上传失败</div>
+                        </td>
+                        <td>
+                          <div *ngIf="uploader1_8.queue[0]">
+                            <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                              <div class="progress-bar bg-success" [style.width.%]="uploader1_8.queue[0].progress">
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0107']">上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_8" />
+                          </div>
+                          <div *ngIf="attachment['0107']">
+                            <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0107']">重新上传
+                              <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader1_8" />
+                            </div>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0107','uploader1_8')">删除</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+  <section class="m-t clearfix" id="companyInfo">
+    <form #part2F="ngForm" (ngSubmit)='save2()' HTML5Validate>
+      <div class="page-location">
+        <a class="h4 pad-r-xs font-bold">公司信息</a>
+        <i class="fa fa-caret-right text-lg" *ngIf="!part2S" (click)="part2S=!part2S"></i>
+        <i class="fa fa-caret-down text-lg" *ngIf="part2S" (click)="part2S=!part2S"></i>
+        <a class="text-info pull-right" *ngIf="part2S&&!part2&&memberVo.serviceMan==authRole.userName" (click)="edit('part2')">编辑</a>
+        <!-- <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part2&&part2S" [disabled]="!part2F.form.valid">保存</button> -->
+        <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part2&&part2S">保存</button>
+        <button type="button" class="btn btn-default btn-sm pull-right m-r-xs" *ngIf="part2&&part2S" (click)="cancel('part2')">放弃</button>
+      </div>
+      <!-- <div class="col-md-12 padder-v b-b l-h-2x">公司信息
+      <button type="button" class="btn pull-right" *ngIf="!part2" (click)="edit('part2')">编辑</button>
+      <button type="submit" class="btn btn-info pull-right" *ngIf="part2" [disabled]="!part2F.form.valid">保存</button>
+      <button type="button" class="btn pull-right m-r-xs" *ngIf="part2" (click)="cancel('part2')">放弃</button>
+    </div> -->
+      <div class="padder-v clearfix col-md-12" *ngIf="!part2&&part2S">
+        <div class="col-md-12 border-content">
+          <div class="form-group clearfix m-t">
+            <div class="col-md-6">
+              <label for="" class="control-label">公司名称:</label>
+              <div class="col-md-6 text-content">{{memberVo.companyName | filterNull:false}}</div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">公司类型:</label>
+              <div class="col-md-6 text-content">{{companyVo.companyTypeName | filterNull:false}}</div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">注册资金:</label>
+              <div class="col-md-6 text-content">{{companyVo.registerCapital | filterNull:false | yuanFormat:2:true}}<span *ngIf="companyVo.registerCapital">万元</span></div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">注册时间:</label>
+              <div class="col-md-6 text-content">{{companyVo.foundTime | filterNull:false | effDateFormat}}</div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">联系人:</label>
+              <div class="col-md-6 text-content">{{companyVo.linkName | filterNull:false}}</div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">联系手机:</label>
+              <div class="col-md-6 text-content">{{companyVo.linkMobile | filterNull:false}}</div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">营业执照号:</label>
+              <div class="col-md-6 text-content">{{companyVo.licenceNum | filterNull:false}}</div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">企业地址:</label>
+              <div class="col-md-7 text-content word-wrap">{{companyVo.companyAddress | filterNull:false}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 group m-t padder-v">
+          <div class="group-title">相关证照</div>
+          <div class="clearfix">
+            <div class="col-md-12 row">
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-6 p-l-none">公司章程</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0102']" (click)="show('0102',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0102'].fileLoadId" *ngIf="attachment['0102']" (tranferFileType)="tranferFileType($event,'0102')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0102']" (click)="show($event,'0102')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0102']" (click)="download('0102')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0102']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0102']" (click)="show('0102',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-6">验资报告</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0103']" (click)="show('0103',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0103'].fileLoadId" *ngIf="attachment['0103']" (tranferFileType)="tranferFileType($event,'0103')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0103']" (click)="show($event,'0103')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0103']" (click)="download('0103')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0103']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0103']" (click)="show('0103',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-6 p-l-none">公司门面照</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0113']" (click)="show('0113',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0113'].fileLoadId" *ngIf="attachment['0113']" (tranferFileType)="tranferFileType($event,'0113')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0113']" (click)="show($event,'0113')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0113']" (click)="download('0113')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0113']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0113']" (click)="show('0113',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-6">职业资格证书（财务）</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0201']" (click)="show('0201',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0201'].fileLoadId" *ngIf="attachment['0201']" (tranferFileType)="tranferFileType($event,'0201')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0201']" (click)="show($event,'0201')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0201']" (click)="download('0201')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0201']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0201']" (click)="show('0201',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-6 p-l-none">四证合一</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0101']" (click)="show('0101',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0101'].fileLoadId" *ngIf="attachment['0101']" (tranferFileType)="tranferFileType($event,'0101')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0101']" (click)="show($event,'0101')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0101']" (click)="download('0101')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0101']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0101']" (click)="show('0101',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 公司信息编辑模板 -->
+      <div class="padder-v clearfix col-md-12" *ngIf="part2&&part2S">
+        <div class="col-md-12 border-content ">
+          <div class="form-group clearfix l-h-2x m-t-md">
+            <div class="col-md-6">
+              <label for="" class="control-label">公司名称:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="companyName" class="form-control" maxlength="30" disabled [(ngModel)]="memberVo.companyName"> -->
+                <input type="text" name="companyName" class="form-control" disabled [(ngModel)]="memberVo.companyName" pattern="^.{0,50}$" #companyNameRef="ngModel" [HTML5Validate]="[[!!(companyNameRef.errors&&companyNameRef.errors.pattern),'公司名称应少于50字']]">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">公司类型:</label>
+              <div class="col-md-6">
+                <select name="companyTypeName" class="form-control" [(ngModel)]="companyVo.companyType">
+                  <option [value]="undefined" hidden>请选择</option>
+                  <option [value]="item.value" *ngFor="let item of companyTypeList">{{item.label}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group clearfix l-h-2x">
+            <div class="col-md-6">
+              <label for="" class="control-label">注册资金:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="registerCapital" class="form-control" maxlength="30" [(ngModel)]="companyVo.registerCapital"> -->
+                <input type="text" name="registerCapital" class="form-control" [(ngModel)]="companyVo.registerCapital" pattern="^[0-9]{1,9}(\.[0-9]{1,2})?$" #registerCapitalRef="ngModel" [HTML5Validate]="[[!!(registerCapitalRef.errors&&registerCapitalRef.errors.pattern),'注册资金输入有误，请输入9位(含)以内整数,可保留两位小数']]" />
+              </div>万元
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">注册时间:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" datePicker name="foundTime" class="form-control" maxlength="30" [(ngModel)]="companyVo.foundTime"> -->
+                <input type="text" datePicker name="foundTime" class="form-control" [opt-max]="todayDate" [(ngModel)]="companyVo.foundTime" autocomplete="off" pattern="^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$" #foundTimeRef="ngModel" [HTML5Validate]="[[!!(foundTimeRef.errors&&foundTimeRef.errors.pattern),'注册时间输入有误，YYYY-mm-dd']]" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group clearfix l-h-2x">
+            <div class="col-md-6">
+              <label for="" class="control-label">联系人:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="linkName" class="form-control" maxlength="30" [(ngModel)]="companyVo.linkName"> -->
+                <input type="text" name="linkName" class="form-control" [(ngModel)]="companyVo.linkName" pattern="^.{0,10}$" #linkNameRef="ngModel" [HTML5Validate]="[[!!(linkNameRef.errors&&linkNameRef.errors.pattern),'联系人长度应少于10字']]" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">联系手机:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="linkMobile" class="form-control" maxlength="11" [(ngModel)]="companyVo.linkMobile"> -->
+                <input type="text" name="linkMobile" class="form-control" [(ngModel)]="companyVo.linkMobile" pattern="^1[0-9]{10}$" #linkMobileRef="ngModel" [HTML5Validate]="[[!!(linkMobileRef.errors&&linkMobileRef.errors.pattern),'联系手机输入有误，请输入正确的手机号码']]" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group clearfix l-h-2x">
+            <div class="col-md-6">
+              <label for="" class="control-label">营业执照号:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="licenceNum" class="form-control" maxlength="20" [(ngModel)]="companyVo.licenceNum"> -->
+                <input type="text" name="licenceNum" class="form-control" [(ngModel)]="companyVo.licenceNum" pattern="^[0-9a-zA-Z]{0,30}$" #licenceNumRef="ngModel" [HTML5Validate]="[[!!(licenceNumRef.errors&&licenceNumRef.errors.pattern),'营业执照号输入有误，请输入正确的营业执照号']]" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">企业地址:</label>
+              <div class="col-md-6">
+                <div class="row">
+                  <div class="col-md-6">
+                    <select name="provnice" class="form-control" [(ngModel)]="province" (ngModelChange)='getCityList($event)'>
+                      <option [value]="undefined" hidden>请选择</option>
+                      <option [value]='item.name' *ngFor="let item of provinceList">{{item.name}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-6">
+                    <select name="city" id="" class="form-control" [(ngModel)]="city" [disabled]='!province'>
+                      <option [value]="undefined" hidden>请选择</option>
+                      <option [value]="item.name" *ngFor="let item of cityList">{{item.name}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row m-t-xs">
+                  <div class="col-md-12">
+                    <!-- <input type="text" name="detailAddress" class="form-control " [(ngModel)]="detailAddress"> -->
+                    <input type="text" name="detailAddress" class="form-control " [(ngModel)]="detailAddress" pattern="^.{0,180}$" #detailAddressRef="ngModel" [HTML5Validate]="[[!!(detailAddressRef.errors&&detailAddressRef.errors.pattern),'企业详细地址应少于180字']]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 group m-t padder-v">
+          <div class="group-title">相关证照</div>
+          <div class="clearfix">
+            <div class="col-md-12 row">
+              <div class="form-group clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0102']">
+                      <a class="text-info" (click)="show($event,'0102')">公司章程</a>
+                    </div>
+                    <div *ngIf="!attachment['0102']">公司章程</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0102']&&(!uploader2_1.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_1" />
+                    </label>
+                    <div *ngIf="attachment['0102']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0102','uploader2_1')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader2_1.queue[0]&&(uploader2_1.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader2_1.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                  <thead>
+                    <tr>
+                      <th>公司章程</th>
+                      <th width="75">状态</th>
+                      <th width="80">进度</th>
+                      <th width="142">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div *ngIf="attachment['0102']">
+                          <a class="text-info" (click)="show('0102',$event)">{{attachment['0102'].attachName}}</a>
+                        </div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_1.queue[0]?(!uploader2_1.queue[0].uploaded):true">
+                          等待上传
+                        </div>
+                        <div *ngIf="uploader2_1.queue[0]?uploader2_1.queue[0].success==true:false">上传成功</div>
+                        <div *ngIf="uploader2_1.queue[0]?uploader2_1.queue[0].error==true:false">上传失败</div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_1.queue[0]">
+                          <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                            <div class="progress-bar bg-success" [style.width.%]="uploader2_1.queue[0].progress">
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0102']">上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_1" />
+                        </div>
+                        <div *ngIf="attachment['0102']">
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0102']">重新上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_1" />
+                          </div>
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0102','uploader2_1')">删除</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0103']">
+                      <a class="text-info" (click)="show($event,'0103')">验资报告</a>
+                    </div>
+                    <div *ngIf="!attachment['0103']">验资报告</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0103']&&(!uploader2_2.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_2" />
+                    </label>
+                    <div *ngIf="attachment['0103']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0103','uploader2_2')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader2_2.queue[0]&&(uploader2_2.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader2_2.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                  <thead>
+                    <tr>
+                      <th>验资报告</th>
+                      <th width="75">状态</th>
+                      <th width="80">进度</th>
+                      <th width="142">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div *ngIf="attachment['0103']">
+                          <a class="text-info" (click)="show('0103',$event)">{{attachment['0103'].attachName}}</a>
+                        </div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_2.queue[0]?(!uploader2_2.queue[0].uploaded):true">
+                          等待上传
+                        </div>
+                        <div *ngIf="uploader2_2.queue[0]?uploader2_2.queue[0].success==true:false">上传成功</div>
+                        <div *ngIf="uploader2_2.queue[0]?uploader2_2.queue[0].error==true:false">上传失败</div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_2.queue[0]">
+                          <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                            <div class="progress-bar bg-success" [style.width.%]="uploader2_2.queue[0].progress">
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0103']">上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_2" />
+                        </div>
+                        <div *ngIf="attachment['0103']">
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0103']">重新上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_2" />
+                          </div>
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0103','uploader2_2')">删除</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0113']">
+                      <a class="text-info" (click)="show($event,'0113')">公司门面照</a>
+                    </div>
+                    <div *ngIf="!attachment['0113']">公司门面照</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0113']&&(!uploader2_3.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_3" />
+                    </label>
+                    <div *ngIf="attachment['0113']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0113','uploader2_3')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader2_3.queue[0]&&(uploader2_3.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader2_3.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                  <thead>
+                    <tr>
+                      <th>公司门面照</th>
+                      <th width="75">状态</th>
+                      <th width="80">进度</th>
+                      <th width="142">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div *ngIf="attachment['0113']">
+                          <a class="text-info" (click)="show('0113',$event)">{{attachment['0113'].attachName}}</a>
+                        </div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_3.queue[0]?(!uploader2_3.queue[0].uploaded):true">
+                          等待上传
+                        </div>
+                        <div *ngIf="uploader2_3.queue[0]?uploader2_3.queue[0].success==true:false">上传成功</div>
+                        <div *ngIf="uploader2_3.queue[0]?uploader2_3.queue[0].error==true:false">上传失败</div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_3.queue[0]">
+                          <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                            <div class="progress-bar bg-success" [style.width.%]="uploader2_3.queue[0].progress">
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0113']">上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_3" />
+                        </div>
+                        <div *ngIf="attachment['0113']">
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0113']">重新上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_3" />
+                          </div>
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0113','uploader2_3')">删除</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0201']">
+                      <a class="text-info" (click)="show($event,'0201')">职业资格证书（财务）</a>
+                    </div>
+                    <div *ngIf="!attachment['0201']">职业资格证书（财务）</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0201']&&(!uploader2_4.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_4" />
+                    </label>
+                    <div *ngIf="attachment['0201']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0201','uploader2_4')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader2_4.queue[0]&&(uploader2_4.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader2_4.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                  <thead>
+                    <tr>
+                      <th>职业资格证书（财务）</th>
+                      <th width="75">状态</th>
+                      <th width="80">进度</th>
+                      <th width="142">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div *ngIf="attachment['0201']">
+                          <a class="text-info" (click)="show('0201',$event)">{{attachment['0201'].attachName}}</a>
+                        </div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_4.queue[0]?(!uploader2_4.queue[0].uploaded):true">
+                          等待上传
+                        </div>
+                        <div *ngIf="uploader2_4.queue[0]?uploader2_4.queue[0].success==true:false">上传成功</div>
+                        <div *ngIf="uploader2_4.queue[0]?uploader2_4.queue[0].error==true:false">上传失败</div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_4.queue[0]">
+                          <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                            <div class="progress-bar bg-success" [style.width.%]="uploader2_4.queue[0].progress">
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0201']">上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_4" />
+                        </div>
+                        <div *ngIf="attachment['0201']">
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0201']">重新上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_4" />
+                          </div>
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0201','uploader2_4')">删除</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+                </div>
+              </div>
+              <div class=" clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0101']">
+                      <a class="text-info" (click)="show($event,'0101')">四证合一</a>
+                    </div>
+                    <div *ngIf="!attachment['0101']">四证合一</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0101']&&(!uploader2_5.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_5" />
+                    </label>
+                    <div *ngIf="attachment['0101']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0101','uploader2_5')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader2_5.queue[0]&&(uploader2_5.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader2_5.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                  <thead>
+                    <tr>
+                      <th>四证合一</th>
+                      <th width="75">状态</th>
+                      <th width="80">进度</th>
+                      <th width="142">操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div *ngIf="attachment['0101']">
+                          <a class="text-info" (click)="show('0101',$event)">{{attachment['0101'].attachName}}</a>
+                        </div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_5.queue[0]?(!uploader2_5.queue[0].uploaded):true">
+                          等待上传
+                        </div>
+                        <div *ngIf="uploader2_5.queue[0]?uploader2_5.queue[0].success==true:false">上传成功</div>
+                        <div *ngIf="uploader2_5.queue[0]?uploader2_5.queue[0].error==true:false">上传失败</div>
+                      </td>
+                      <td>
+                        <div *ngIf="uploader2_5.queue[0]">
+                          <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                            <div class="progress-bar bg-success" [style.width.%]="uploader2_5.queue[0].progress">
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0101']">上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_5" />
+                        </div>
+                        <div *ngIf="attachment['0101']">
+                          <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0101']">重新上传
+                            <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader2_5" />
+                          </div>
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0101','uploader2_5')">删除</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+                </div>
+                <div class="col-md-6">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+  <section class="m-t clearfix" id="legalPerson">
+    <form #part3F="ngForm" (ngSubmit)='save3()' HTML5Validate>
+      <div class="page-location">
+        <a class="h4 pad-r-xs font-bold">法人基本情况</a>
+        <i class="fa fa-caret-right text-lg" *ngIf="!part3S" (click)="part3S=!part3S"></i>
+        <i class="fa fa-caret-down text-lg" *ngIf="part3S" (click)="part3S=!part3S"></i>
+        <a class="text-info pull-right" *ngIf="part3S&&!part3&&memberVo.serviceMan==authRole.userName" (click)="edit('part3')">编辑</a>
+        <!-- <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part3&&part3S" [disabled]="!part3F.form.valid">保存</button> -->
+        <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part3&&part3S">保存</button>
+        <button type="button" class="btn btn-default btn-sm pull-right m-r-xs" *ngIf="part3&&part3S" (click)="cancel('part3')">放弃</button>
+      </div>
+      <!-- <div class="col-md-12 padder-v b-b l-h-2x">法人基本情况
+        <button type="button" class="btn pull-right" *ngIf="!part3" (click)="edit('part3')">编辑</button>
+        <button type="submit" class="btn btn-info pull-right" *ngIf="part3"  [disabled]="!part3F.form.valid">保存</button>
+        <button type="button" class="btn pull-right m-r-xs" *ngIf="part3" (click)="cancel('part3')">放弃</button>
+      </div> -->
+      <div class="padder-v clearfix col-md-12" *ngIf="!part3&&part3S">
+        <div class="col-md-12 border-content">
+          <div class="form-group clearfix m-t-md">
+            <div class="col-md-6">
+              <label for="" class="control-label">法人姓名:</label>
+              <div class="col-md-6 text-content">{{companyLegalVo.legalPerson | filterNull:false}}</div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">法人身份证:</label>
+              <div class="col-md-6 text-content">{{companyLegalVo.legalIdcard | filterNull:false}}</div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">最高学历:</label>
+              <div class="col-md-6 text-content">{{companyLegalVo.legalDegree | filterNull:false}}</div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">婚姻状况:</label>
+              <div class="col-md-6 text-content">{{companyLegalVo.legalMarryDic | filterNull:false}}</div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">联系手机:</label>
+              <div class="col-md-6 text-content">{{companyLegalVo.legalMobile | filterNull:false}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 编辑模板 -->
+      <div class="padder-v clearfix col-md-12" *ngIf="part3&&part3S">
+        <div class="col-md-12 border-content ">
+          <div class="form-group clearfix l-h-2x m-t-md">
+            <div class="col-md-6">
+              <label for="" class="control-label">法人姓名:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="legalPerson" class="form-control" maxlength="30" [(ngModel)]="companyLegalVo.legalPerson"> -->
+                <input type="text" name="legalPerson" class="form-control" [(ngModel)]="companyLegalVo.legalPerson" pattern="^.{0,10}$" #legalPersonRef="ngModel" [HTML5Validate]="[[!!(legalPersonRef.errors&&legalPersonRef.errors.pattern),'法人姓名应少于10字']]" />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">法人身份证:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="legalIdcard" class="form-control" maxlength="18" [(ngModel)]="companyLegalVo.legalIdcard"> -->
+                <input type="text" name="legalIdcard" class="form-control" [(ngModel)]="companyLegalVo.legalIdcard" pattern="^\d{17}[\dxX]$" #legalIdcardRef="ngModel" [HTML5Validate]="[[!!(legalIdcardRef.errors&&legalIdcardRef.errors.pattern),'法人身份证输入有误，请输入正确的身份证号']]" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">最高学历:</label>
+              <div class="col-md-6">
+                <select name="legalDegree" class="form-control" [(ngModel)]="companyLegalVo.legalDegree">
+                  <option value="初中及以下">初中及以下</option>
+                  <option value="中专">中专</option>
+                  <option value="高中">高中</option>
+                  <option value="大专">大专</option>
+                  <option value="本科">本科</option>
+                  <option value="硕士及以上">硕士及以上</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="" class="control-label">婚姻状况:</label>
+              <div class="col-md-6">
+                <div class="pull-left form-inline m-r-lg" *ngFor="let item of marryList">
+                  <div class="radio">
+                    <label class="i-checks">
+                      <input type="radio" name="legalMarry" class="form-control " [value]="item.value" [(ngModel)]="companyLegalVo.legalMarry"><i></i> {{item.label}}
+                    </label>
+                  </div>
+                </div>
+                <!-- <input type="text" name=legalMarry"" class="form-control" [(ngModel)]="companyLegalVo.legalMarry"> -->
+              </div>
+            </div>
+          </div>
+          <div class="form-group clearfix">
+            <div class="col-md-6">
+              <label for="" class="control-label">联系手机:</label>
+              <div class="col-md-6">
+                <!-- <input type="text" name="legalMobile" class="form-control" maxlength="11" [(ngModel)]="companyLegalVo.legalMobile"> -->
+                <input type="text" name="legalMobile" class="form-control" [(ngModel)]="companyLegalVo.legalMobile" pattern="^1[0-9]{10}$" #legalMobileRef="ngModel" [HTML5Validate]="[[!!(legalMobileRef.errors&&legalMobileRef.errors.pattern),'联系手机输入有误，请输入正确的手机号码']]" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </section>
+  <section class="m-t clearfix" id="bankInfo">
+    <div class="page-location">
+      <a class="h4 pad-r-xs font-bold">银行信息</a>
+      <i class="fa fa-caret-right text-lg" *ngIf="!part4S" (click)="part4S=!part4S"></i>
+      <i class="fa fa-caret-down text-lg" *ngIf="part4S" (click)="part4S=!part4S"></i>
+    </div>
+    <div class="wrapper" *ngIf="part4S">
+      <form #part4_1F="ngForm" (ngSubmit)='save5()'>
+        <div class="clearfix group col-md-12">
+          <div class="group-title">银行卡信息</div>
+          <div class="col-md-12 m-t">
+            <!-- <a class="text-info pull-right" *ngIf="!part4_1" (click)="edit('part4_1')">吃屎啊</a> -->
+            <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part4_1" [disabled]="!part4_1F.form.valid">提交</button>
+            <button type="button" class="btn btn-default btn-sm pull-right m-r-xs" *ngIf="part4_1" (click)="cancel('part4_1')">放弃</button>
+          </div>
+          <div *ngIf="!part4_1">
+            <div class="col-md-12 border-content m-b padder-v" *ngFor="let item of companyBankCardVos">
+              <button class="table-btn pull-right" [disabled]="!item.authStatus" [class.text-disabled]="!item.authStatus" (click)="bankCardEdit(item)" *ngIf="memberVo.serviceMan==authRole.userName" type="button">编辑</button>
+              <div class="form-group clearfix m-t-md">
+                <div class="col-md-6">
+                  <label for="" class="control-label">银行卡号:</label>
+                  <div class="col-md-6 text-content">{{item.cardNo | filterNull:false}}</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="" class="control-label">开户名:</label>
+                  <div class="col-md-6 text-content">{{item.cardName | filterNull:false}}</div>
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <label for="" class="control-label">银行名称:</label>
+                  <div class="col-md-6 text-content">{{item.bankName | filterNull:false}}</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="" class="control-label">支行名称:</label>
+                  <div class="col-md-8 text-content">{{item.subbankName | filterNull:false}}</div>
+                </div>
+              </div>
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <label for="" class="control-label">卡类型:</label>
+                  <div class="col-md-6 text-content">{{item.typeDic | filterNull:false}}</div>
+                </div>
+                <div class="col-md-6">
+                  <label for="" class="control-label">状态:</label>
+                  <div class="col-md-6" [ngClass]="{'text-success':item.authStatus==1,'text-danger':item.authStatus!=1}">{{item.authStatusDic | filterNull:false}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <a class="text-info" *ngIf="memberVo.serviceMan==authRole.userName" (click)="bankCardAdd()">+添加</a>
+            </div>
+          </div>
+          
+        </div>
+      </form>
+      <form #part4_2F="ngForm" (ngSubmit)='save4()'>
+        <div class="form-group col-md-12 group m-t padder-v">
+          <div class="group-title">相关证照</div>
+          <div class="col-md-12">
+            <a class="text-info pull-right" *ngIf="!part4_2&&memberVo.serviceMan==authRole.userName" (click)="edit('part4_2')">编辑</a>
+            <button type="submit" class="btn btn-info btn-sm pull-right" *ngIf="part4_2" [disabled]="!part4_2F.form.valid">保存</button>
+            <button type="button" class="btn btn-default btn-sm pull-right m-r-xs" *ngIf="part4_2" (click)="cancel('part4_2')">放弃</button>
+          </div>
+          <div class="clearfix" *ngIf="!part4_2">
+            <div class="col-md-12 row">
+              <div class="form-group clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-6 p-l-none">开户证明</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0501']" (click)="show('0501',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0501'].fileLoadId" *ngIf="attachment['0501']" (tranferFileType)="tranferFileType($event,'0501')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0501']" (click)="show($event,'0501')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0501']" (click)="download('0501')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0501']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0501']" (click)="show('0501',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-6">银行卡</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0502']" (click)="show('0502',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0502'].fileLoadId" *ngIf="attachment['0502']" (tranferFileType)="tranferFileType($event,'0502')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0502']" (click)="show($event,'0502')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0502']" (click)="download('0502')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0502']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0502']" (click)="show('0502',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-md-6">
+                  <div class="col-md-6 p-l-none">网银流水</div>
+                  <!-- <div class="col-md-6"><a class="text-disabled" [class.text-info]="attachment['0504']" (click)="show('0504',$event)">查看</a></div> -->
+                  <div class="col-md-6">
+                    <preview-or-download [fileId]="attachment['0504'].fileLoadId" *ngIf="attachment['0504']" (tranferFileType)="tranferFileType($event,'0504')">
+                      <a class="fa fa-search text-disabled m-r-md" [class.text-info]="attachment['0504']" (click)="show($event,'0504')" title="查看"></a>
+                      <a class="fa fa-download" [class.text-info]="attachment['0504']" (click)="download('0504')" title="下载"></a>
+                    </preview-or-download>
+                    <a *ngIf="!attachment['0504']" class="fa fa-search text-disabled" title="查看"></a>
+                    <!-- <a class="fa fa-search text-disabled" [class.text-info]="attachment['0504']" (click)="show('0504',$event)" title="查看"></a> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix" *ngIf="part4_2">
+            <div class="col-md-12 row m-t">
+              <div class="form-group clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0501']">
+                      <a class="text-info" (click)="show($event,'0501')">开户证明</a>
+                    </div>
+                    <div *ngIf="!attachment['0501']">开户证明</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0501']&&(!uploader3_1.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_1" />
+                    </label>
+                    <div *ngIf="attachment['0501']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0501','uploader3_1')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader3_1.queue[0]&&(uploader3_1.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader3_1.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                <thead>
+                  <tr>
+                    <th>开户证明</th>
+                    <th width="75">状态</th>
+                    <th width="80">进度</th>
+                    <th width="142">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div *ngIf="attachment['0501']">
+                        <a class="text-info" (click)="show('0501',$event)">{{attachment['0501'].attachName}}</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="uploader3_1.queue[0]?(!uploader3_1.queue[0].uploaded):true">
+                        等待上传
+                      </div>
+                      <div *ngIf="uploader3_1.queue[0]?uploader3_1.queue[0].success==true:false">上传成功</div>
+                      <div *ngIf="uploader3_1.queue[0]?uploader3_1.queue[0].error==true:false">上传失败</div>
+                    </td>
+                    <td>
+                      <div *ngIf="uploader3_1.queue[0]">
+                        <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                          <div class="progress-bar bg-success" [style.width.%]="uploader3_1.queue[0].progress">
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0501']">上传
+                        <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_1" />
+                      </div>
+                      <div *ngIf="attachment['0501']">
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0501']">重新上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_1" />
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0501','uploader3_1')">删除</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+                </div>
+                <div class="col-md-6">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0502']">
+                      <a class="text-info" (click)="show($event,'0502')">银行卡</a>
+                    </div>
+                    <div *ngIf="!attachment['0502']">银行卡</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0502']&&(!uploader3_2.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_2" />
+                    </label>
+                    <div *ngIf="attachment['0502']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0502','uploader3_2')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader3_2.queue[0]&&(uploader3_2.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader3_2.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                <thead>
+                  <tr>
+                    <th>银行卡</th>
+                    <th width="75">状态</th>
+                    <th width="80">进度</th>
+                    <th width="142">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div *ngIf="attachment['0502']">
+                        <a class="text-info" (click)="show('0502',$event)">{{attachment['0502'].attachName}}</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="uploader3_2.queue[0]?(!uploader3_2.queue[0].uploaded):true">
+                        等待上传
+                      </div>
+                      <div *ngIf="uploader3_2.queue[0]?uploader3_2.queue[0].success==true:false">上传成功</div>
+                      <div *ngIf="uploader3_2.queue[0]?uploader3_2.queue[0].error==true:false">上传失败</div>
+                    </td>
+                    <td>
+                      <div *ngIf="uploader3_2.queue[0]">
+                        <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                          <div class="progress-bar bg-success" [style.width.%]="uploader3_2.queue[0].progress">
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0502']">上传
+                        <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_2" />
+                      </div>
+                      <div *ngIf="attachment['0502']">
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0502']">重新上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_2" />
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0502','uploader3_2')">删除</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+                </div>
+              </div>
+              <div class="clearfix">
+                <div class="col-md-6 p-r-none p-l-none">
+                  <div class="col-md-7">
+                    <div *ngIf="attachment['0504']">
+                      <a class="text-info" (click)="show($event,'0504')">网银流水</a>
+                    </div>
+                    <div *ngIf="!attachment['0504']">网银流水</div>
+                  </div>
+                  <div class="col-md-5">
+                    <label class="text-info pos-rlt" *ngIf="!attachment['0504']&&(!uploader3_3.queue[0])">上传
+                      <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_3" />
+                    </label>
+                    <div *ngIf="attachment['0504']">
+                      <i class="glyphicon glyphicon-ok text-success"></i>
+                      <a class="text-danger" (click)="deleteFile('0504','uploader3_3')">删除</a>
+                    </div>
+                    <!-- 进度条模块 -->
+                    <div *ngIf="uploader3_3.queue[0]&&(uploader3_3.queue[0].success==false)">
+                      <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                        <div class="progress-bar bg-success" [style.width.%]="uploader3_3.queue[0].progress">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <table class="form-group clearfix table table-striped m-b-none showL text-center">
+                <thead>
+                  <tr>
+                    <th>网银流水</th>
+                    <th width="75">状态</th>
+                    <th width="80">进度</th>
+                    <th width="142">操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <div *ngIf="attachment['0504']">
+                        <a class="text-info" (click)="show('0504',$event)">{{attachment['0504'].attachName}}</a>
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="uploader3_3.queue[0]?(!uploader3_3.queue[0].uploaded):true">
+                        等待上传
+                      </div>
+                      <div *ngIf="uploader3_3.queue[0]?uploader3_3.queue[0].success==true:false">上传成功</div>
+                      <div *ngIf="uploader3_3.queue[0]?uploader3_3.queue[0].error==true:false">上传失败</div>
+                    </td>
+                    <td>
+                      <div *ngIf="uploader3_3.queue[0]">
+                        <div class="active m-b-none m-t-xs progress progress-sm progress-striped">
+                          <div class="progress-bar bg-success" [style.width.%]="uploader3_3.queue[0].progress">
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="btn btn-info btn-sm pos-rlt" *ngIf="!attachment['0504']">上传
+                        <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_3" />
+                      </div>
+                      <div *ngIf="attachment['0504']">
+                        <div class="btn btn-info btn-sm pos-rlt" *ngIf="attachment['0504']">重新上传
+                          <input type="file" accept="image/png,image/gif,image/jpg|,image/jpeg,image/bmp" class="uploadBtn" [uploader]="uploader3_3" />
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger" (click)="deleteFile('0504','uploader3_3')">删除</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <section class="text-center">
+    <div class="col-md-12">
+      <button class="btn-def m-b-md" (click)="back()">返回<i class="fa fa-arrow-circle-o-left"></i></button>
+    </div>
+  </section>
+</div>
+<gallery #gallery size="md"></gallery>
+<previewer></previewer>
