@@ -91,7 +91,7 @@ export class SpreadCheckComponent implements OnInit{
         auditOneRemarks?
         auditOneTime?
         auditTwoTime?
-        auditTwoeBy?
+        auditTwoBy?
         auditTwoRemarks?
     }={}     
                               
@@ -196,7 +196,7 @@ export class SpreadCheckComponent implements OnInit{
         this.submitting=true
         let queryData:SendData={
             rolloverApplyId:this.rolloverApplyId,
-            extendRate:this.rolloverRate,
+            extendRate:this.rolloverRate*0.01,
             status:param,
             auditTwoRemarks:this.auditTwoRemarks,
             comfirmRolloverTime:this.comfirmRolloverDate?this.comfirmRolloverDate+' 00:00:01':''
