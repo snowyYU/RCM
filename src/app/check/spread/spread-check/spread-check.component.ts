@@ -164,7 +164,6 @@ export class SpreadCheckComponent implements OnInit{
 
     submitConfirm(param: number) {
 		let str:string
-
 		if(param==3){
 			if(!this.rolloverRate||this.rolloverRate==''){
 				this.pop.error({

@@ -8,24 +8,12 @@
     <section class="panel-body group mar-b-sm" >
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
-          <!-- <label class="control-label pull-left">展期申请ID：</label>
-          <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverApplyId|filterNull:false}}
-          </div> -->
           <label class="control-label pull-left">展期单号：</label>
           <div class="form-control-static pull-left">
             {{rolloverData.rolloverApplyId | filterNull:false}}
           </div>
         </div>
         <div class="form-group ">
-          <!-- <label class="control-label pull-left">企业名称：</label>
-          <div class="pull-left form-control-static" >
-            {{rolloverLoan.memberName|filterNull:false}} ({{rolloverLoan.memberId|filterNull:false}})
-            <span *ngIf="rolloverLoan.memberId">
-              <a class="text-info" (click)="goToDetail()">详情</a>
-              
-            </span>
-          </div> -->
           <label class="control-label pull-left">状态：</label>
           <div class="pull-left form-control-static" >
             {{rolloverData.statusName | filterNull:false}}
@@ -33,14 +21,6 @@
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
-        <!-- <div class="form-group">
-          <label class="control-label pull-left">申请日期：</label>
-          <span class="form-control-static pull-left">  {{rolloverLoan.rolloverTime | effDateFormat | filterNull:false}}</span>
-        </div>
-        <div class="form-group no-b-margin">
-          <label class="control-label pull-left">来源渠道：</label>
-          <span class="form-control-static pull-left">  {{rolloverLoan.appName | filterNull:false}}</span>
-        </div> -->
         <div class="form-group">
           <label class="control-label pull-left">创建时间：</label>
           <span class="form-control-static pull-left">
@@ -51,36 +31,6 @@
     </section >
     <section class="panel-body group mar-b-sm" >
       <div class="col-md-6 form-horizontal form-label-7">
-        <!-- <div class="form-group ">
-          <label class="control-label pull-left">展期金额：</label>
-          <div class="form-control-static pull-left">
-            {{rolloverLoan.rolloverAmount|filterNull:false|yuanFormat:2:true}}<span *ngIf="rolloverLoan.rolloverAmount">元</span>
-          </div>
-        </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">展期保证金：</label>
-          <div class="pull-left form-control-static" >
-            --
-          </div>
-        </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">最长期限：</label>
-          <div class="pull-left form-control-static" >
-            {{rolloverLoan.rolloverDay|filterNull:false}}<span *ngIf="rolloverLoan.rolloverDay">天</span>
-          </div>
-        </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">本期利息：</label>
-          <div class="pull-left form-control-static" >
-            --
-          </div>
-        </div>
-        <div class="form-group ">
-          <label class="control-label pull-left">展期开始：</label>
-          <div class="pull-left form-control-static" >
-             {{rolloverLoan.comfirmRolloverTime | effDateFormat | filterNull:false}}
-          </div>
-        </div> -->
         <div class="form-group ">
           <label class="control-label pull-left">企业名称：</label>
           <div class="form-control-static pull-left">
@@ -118,16 +68,6 @@
         </div> -->
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
-        <!-- <div class="form-group">
-          <label class="control-label pull-left">申请原因：</label>
-          <span class="form-control-static pull-left col-md-9 p-l-none word-wrap">  {{rolloverLoan.remarks | filterNull:false}}</span>
-        </div>
-        <div class="form-group no-b-margin">
-          <label class="control-label pull-left">回执/凭证：</label>
-          <div class="form-control-static pull-left">
-            --
-          </div>
-        </div> -->
         <div class="form-group ">
           <label class="control-label pull-left">展期金额：</label>
           <div class="form-control-static pull-left">
