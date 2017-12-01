@@ -19,7 +19,6 @@ import { LibraryService } from "snowy-library-ng"
 	providers:[UseCheckService]
 })
 export class UseCheckComponent implements OnInit{
-	
           
 	borrowApplyId	//贷款单号：
 	createTime	//申请时间：
@@ -236,6 +235,22 @@ export class UseCheckComponent implements OnInit{
 
 	//--end
 
+	submitConfirm(param: number) {
+		let str:string
+		if(param==3){
+			str='通过'
+		}else{
+			str='拒绝'
+		}
+		this.pop.confirm({
+			title: '操作确认',
+			text: '确认 '+str+' 审批申请吗？'
+		}).onConfirm(() => {
+			this.secondApprove(param)
+		})
+
+    }
+
 	secondApprove(status){
 		let data:SendData={
 			borrowApplyId:this.borrowApplyId,
@@ -254,7 +269,8 @@ export class UseCheckComponent implements OnInit{
 						title:"提示信息",
 						text:"操作成功"
 					})
-					window.history.back()
+					this.session.memberDetailDomain='check/use'
+            		this.router.navigate(['check/use/useDetail',this.borrowApplyId])
 				}else{
 					this.pop.error({
 						title:"错误信息",
@@ -273,7 +289,6 @@ export class UseCheckComponent implements OnInit{
 
 	back(){
 		window.history.back()
-		
 	}
 
 }

@@ -164,7 +164,22 @@ export class SpreadCheckComponent implements OnInit{
 
     submitConfirm(param: number) {
 		let str:string
+
 		if(param==3){
+			if(!this.rolloverRate||this.rolloverRate==''){
+				this.pop.error({
+                        title:'错误信息',
+                        text:'展期利率不能为空'
+                    })
+				return
+			}
+			if(!this.comfirmRolloverDate||this.comfirmRolloverDate==''){
+				this.pop.error({
+                        title:'错误信息',
+                        text:'批准还款日期不能为空'
+                    })
+				return
+			}
 			str='通过'
 		}else{
 			str='拒绝'
