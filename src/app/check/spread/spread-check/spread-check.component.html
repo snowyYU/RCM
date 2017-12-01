@@ -96,7 +96,7 @@
         <div class="form-group">
           <label class="control-label m-t-xs pull-left">展期利率：</label>
           <span class="form-control-static pull-left">
-            <input type="text" name="rolloverRate" class="form-control"  required placeholder="请输入" [(ngModel)]="rolloverRate"
+            <input type="text" name="rolloverRate" class="form-control"  required placeholder="请输入" autocomplete="off" [(ngModel)]="rolloverRate"
                    [HTML5Validate]="[[rolloverRate==='','请输入展期利率：！']]"
               />
           </span>
@@ -399,8 +399,8 @@
 
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def m-l btn-def-success" (click)="back()">通过<i class="fa fa-check-circle-o"></i></button>
-        <button class="btn-def m-l btn-def-danger" (click)="back()">拒绝<i class="fa fa-ban"></i></button>
+        <button class="btn-def m-l btn-def-success" (click)="submitConfirm(3)">通过<i class="fa fa-check-circle-o"></i></button>
+        <button class="btn-def m-l btn-def-danger" (click)="submitConfirm(-3)">拒绝<i class="fa fa-ban"></i></button>
         <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
 
