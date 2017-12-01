@@ -110,16 +110,6 @@ export class UseApplyComponent implements OnInit{
 		this.dataList=res.body.records;
 	}
 
-	check(data){
-		this.router.navigate(['check/credit/creditCheck',data.creditAuthId])
-	}
-
-	detail(data){
-		this.router.navigate(['check/credit/creditDetail',data.creditAuthId])
-	}
-
 	
-	closeModal(){
-		this.creditModal=false
-	}
+	
 }
