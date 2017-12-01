@@ -129,14 +129,19 @@ export class UseDetailComponent implements OnInit{
 		this.useDetail.getProveDataList(this.route.params['value']['id'])
 			.then(res=>{
 				console.log(res)
-				this.proveDataList=res.body.records
-				this.attachment=this.library.changeToKeyValue(this.proveDataList,"fileLoadId")
-				console.log(this.attachment)
+				if (res.status==200) {
+					this.proveDataList=res.body.records
+					this.attachment=this.library.changeToKeyValue(this.proveDataList,"fileLoadId")
+					console.log(this.attachment)
+				}else{
+					this.proveDataList=[]
+				}
+				
 			})
 			.catch(res=>{
 				this.pop.error({
 					title:'错误信息',
-					text:res.message
+					text:'请求超时'
 				})
 			})
 	}
@@ -144,9 +149,12 @@ export class UseDetailComponent implements OnInit{
 		this.useDetail.getLogList(this.borrowApplyId,2)
 			.then(res=>{
 				console.log(res)
-				this.firstCheckPeople=res.body.records[0].createBy
-				this.firstCheckTime=res.body.records[0].createTime
-				this.firstCheckOpinion=res.body.records[0].remarks
+				if (res.body.records[0]) {
+					this.firstCheckPeople=res.body.records[0].createBy
+					this.firstCheckTime=res.body.records[0].createTime
+					this.firstCheckOpinion=res.body.records[0].remarks
+				}
+					
 			})
 	}
 	getSecondLogList(){

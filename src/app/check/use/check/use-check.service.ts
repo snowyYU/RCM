@@ -55,11 +55,7 @@ export class UseCheckService{
 			}
 		}).toPromise().then(res=>{
 			let data=res;
-			if (data.status==200) {
-				 return Promise.resolve(data)
-			}else{
-				return Promise.reject(data)
-			}
+			return Promise.resolve(data)
 		})
 	}
 

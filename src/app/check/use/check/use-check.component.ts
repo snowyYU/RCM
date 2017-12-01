@@ -132,14 +132,19 @@ export class UseCheckComponent implements OnInit{
 		this.useCheck.getProveDataList(this.route.params['value']['id'])
 			.then(res=>{
 				console.log(res)
-				this.proveDataList=res.body.records
-				this.attachment=this.library.changeToKeyValue(this.proveDataList,"fileLoadId")
-				console.log(this.attachment)
+				if (res.status==200) {
+					this.proveDataList=res.body.records
+					this.attachment=this.library.changeToKeyValue(this.proveDataList,"fileLoadId")
+					console.log(this.attachment)
+				}else{
+					this.proveDataList=[]
+				}
+				
 			})
 			.catch(res=>{
 				this.pop.error({
 					title:'错误信息',
-					text:res.message
+					text:'请求超时'
 				})
 			})
 	}
