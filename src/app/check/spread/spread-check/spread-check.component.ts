@@ -170,18 +170,21 @@ import { SessionStorageService } from '../../../../services/session-storage/sess
 
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
+import { DateService } from '../../../../services/date/date.service'
 
 @Component({
 	selector:'spread-check',
 	templateUrl:'./spread-check.component.html',
 	styleUrls:['./spread-check.component.less'],
-	providers:[SpreadCheckService]
+	providers:[SpreadCheckService,DateService]
 })
 export class SpreadCheckComponent implements OnInit{
     loading:boolean
     submitting:boolean=false
-    down:boolean=true
-    show:boolean=true
+    down:boolean=false
+    show:boolean=false
+    //拜访日期在当日之前
+	maxDate
 
     extendRate
 
@@ -276,11 +279,17 @@ export class SpreadCheckComponent implements OnInit{
 		private spreadCheck:SpreadCheckService,
 		private auth:AuthRoleService,
 		private submitLoading:SubmitLoadingService,
+		private dateService:DateService
 		){} 
 
 	ngOnInit(){
         this.rolloverApplyId=this.route.params['value']['id']
         this.getDetail(this.rolloverApplyId)
+
+        this.maxDate=this.dateService.format({
+			date:this.dateService.todayDate(),
+			formatType:'yyyy-MM-dd'
+		});
     }
 
     getDetail(id:string){

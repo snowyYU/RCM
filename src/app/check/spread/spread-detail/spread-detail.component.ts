@@ -12,8 +12,8 @@ import { ViewChild ,ElementRef} from '@angular/core';
 export class SpreadDetailComponent implements OnInit{
     loading:boolean
     submitting:boolean=false
-    down:boolean=true
-    show:boolean=true
+    down:boolean=false
+    show:boolean=false
 
     rolloverApplyId            //展期单号
     createTime                //创建时间
