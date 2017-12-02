@@ -48,6 +48,8 @@ export class CreditCheckComponent implements OnInit{
 
 	productLNotShow:any[]=[]
 
+	totalCreditMount:number=0
+
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
@@ -206,6 +208,15 @@ export class CreditCheckComponent implements OnInit{
 	    this.memberRating=res.body.memberRating
 	}
 
+	countCreditMount(){
+		let count=0
+		this.creditProductList.forEach(e=>{
+			if (typeof e.creditValue == "number") {
+				count=count+e.creditValue
+			}
+		})
+		this.totalCreditMount=count
+	}
 
 	back(){
 		this.router.navigate(['check/credit'],{queryParams:{status:'1'}})
@@ -296,6 +307,7 @@ export class CreditCheckComponent implements OnInit{
 	}
 	deleteProductItem(index){
 		this.creditProductList.splice(index,1)
+		this.countCreditMount()
 	}
 
 
