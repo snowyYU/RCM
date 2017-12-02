@@ -26,7 +26,7 @@
     "ng2-cookies": "^1.0.12",
     "primeng": "^4.2.0",
     "rxjs": "^5.4.2",
-    "snowy-library-ng": "^1.0.1",
+    "snowy-library-ng": "^1.0.3",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
