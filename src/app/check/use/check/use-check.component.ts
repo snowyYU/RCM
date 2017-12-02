@@ -30,7 +30,7 @@ export class UseCheckComponent implements OnInit{
 	applyAmount	//申请金额：
 	approveAmount	//贷款金额：
 	productName	//贷款产品：
-	borrowHowlong	//贷款周期：
+	ratedCycle	//贷款周期：
 	repaymentWay	//还款方式：
 	rate:any=0	//利率：
 	rateType	//计息方式：
@@ -46,6 +46,8 @@ export class UseCheckComponent implements OnInit{
 	secondCheckOpinion:string=''
 
 	attachment:object={}
+
+	checkResult
 
 	//用于记录提交申请前的页面
     memberDetailDomain
@@ -125,9 +127,9 @@ export class UseCheckComponent implements OnInit{
 		this.applyAmount=res.body.applyAmount	//申请金额：
 		this.approveAmount=res.body.approveAmount	//贷款金额：
 		this.productName=res.body.productName	//贷款产品：
-		this.borrowHowlong=res.body.borrowHowlong	//贷款周期：
+		this.ratedCycle=res.body.ratedCycle	//贷款周期：
 		this.repaymentWay=res.body.paymentWay	//还款方式：
-		this.rate=res.body.rate?res.body.rate:0	//利率：
+		this.rate=res.body.rate?res.body.rate*100:0	//利率：
 		this.rateType=res.body.rateType	//计息方式：
 
 	}
@@ -255,7 +257,7 @@ export class UseCheckComponent implements OnInit{
 		let data:SendData={
 			borrowApplyId:this.borrowApplyId,
 			approveAmount:this.approveAmount,
-			rate:this.rate,
+			rate:this.rate*0.01,
 			status:status,
 			remarks:this.secondCheckOpinion,
 			auditOneBy:this.auth.userName
