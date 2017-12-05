@@ -19,6 +19,7 @@ export class AuthDetailComponent implements OnInit{
 	appName:string;			//来源渠道
 	memberTypeDic:string;	//会员类别
 	serviceMan:string;		//服务经理
+	status
 	statusDic:string;		//状态
 	createTime:string;		//申请时间	
     companyTypeDic:string;	//公司类型
@@ -96,6 +97,7 @@ export class AuthDetailComponent implements OnInit{
 		this.authId=res.body.authId; 			//申请ID
 		this.createTime=res.body.createTime;		//申请时间	
 		this.companyName=res.body.companyName;		//客户名称
+		this.status=res.body.status
 		this.statusDic=res.body.statusDic;		//状态
 		this.guestFromDic=res.body.guestFromDic  //获客途径
 		this.appName=res.body.appName;			//来源渠道

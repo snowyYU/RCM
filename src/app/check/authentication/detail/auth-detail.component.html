@@ -3,7 +3,7 @@
   <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
   <a class="page-location-item active">会员认证详情</a>
 </div>
-<div class="wrapper">
+<div class="wrapper" [ngClass]="{'approved-pass':status==1,'approved-refuse':status==-1}">
   <form #form>
     <!-- <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent"> -->
       <section class="panel-body group mar-b-sm" >

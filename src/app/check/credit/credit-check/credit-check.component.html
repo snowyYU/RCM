@@ -135,8 +135,8 @@
 
     </section>
   
-  <section class="bg-white clearfix productInfo pos-abt m-t-xl" style="height: 400px;overflow-y: scroll;">
-      <div class="col-md-12">
+  <section class="bg-white clearfix productInfo pos-abt m-t-xl row" style="height: 400px;overflow-y: scroll;">
+      <div class="col-md-12 no-padding">
           <table class="table showL b-t">
               <thead>
                   <tr>
@@ -149,7 +149,7 @@
    
               <tbody >
                   <tr *ngFor="let item of creditProductList;let i=index">
-                      <td>
+                      <td style="width: 120px">
                         <select name="productId_{{item.uniqueId}}" class="form-control" [(ngModel)]="item.productId" (change)="darkroom()">
                           <ng-container *ngFor="let option of productList">
                             <ng-container >
@@ -161,20 +161,20 @@
                               
                         </select>
                       </td>
-                      <td style="width: 200px">
+                      <td style="width: 140px">
                         <input name="creditValue_{{item.uniqueId}}" type="number" [(ngModel)]="item.creditValue" (blur)="countCreditMount()" class="form-control" >
                       </td>
-                      <td style="width: 180px">
+                      <td style="width: 100px">
                         <div class="input-group">
                           
                           <div class="pull-left form-group">
-                            <datetime-picker [(value)]="item.expiryDateBegin" [max]="item.expiryDateEnd">
+                            <datetime-picker [(value)]="item.expiryDateBegin" [max]="item.expiryDateEnd" direction="bottom">
                               <input class="form-control" [(ngModel)]="item.expiryDateBegin" name="startTime_{{item.uniqueId}}" placeholder="开始日期" />
                             </datetime-picker>
                           </div>
                           
                           <div class="pull-left">
-                            <datetime-picker [(value)]="item.expiryDateEnd" [min]="item.expiryDateBegin">
+                            <datetime-picker [(value)]="item.expiryDateEnd" [min]="item.expiryDateBegin" direction="bottom">
                               <input class="form-control" [(ngModel)]="item.expiryDateEnd" name="endTime_{{item.uniqueId}}" placeholder="结束日期" />
                             </datetime-picker>
                             
@@ -182,7 +182,7 @@
                           </div>
                         </div>
                       </td>
-                      <td><a class="text-danger" *ngIf="creditProductList.length>1" (click)="deleteProductItem(i)">删除</a></td>
+                      <td style="width: 40px"><a class="text-danger" *ngIf="creditProductList.length>1" (click)="deleteProductItem(i)">删除</a></td>
                   </tr>
                   <tr *ngIf="!creditProductList||creditProductList.length===0">
                     <td colspan="4" class="text-disabled text-center"> 无</td>

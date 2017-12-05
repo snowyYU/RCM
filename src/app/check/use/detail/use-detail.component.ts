@@ -30,8 +30,8 @@ export class UseDetailComponent implements OnInit{
 	applyAmount	//申请金额：
 	approveAmount	//贷款金额：
 	productName	//贷款产品：
-	borrowHowlong	//贷款周期：
-	repaymentWay	//还款方式：
+	ratedCycle	//贷款周期：
+	paymentWay	//还款方式：
 	rate	//利率：
 	rateType	//计息方式：
 
@@ -87,8 +87,8 @@ export class UseDetailComponent implements OnInit{
 				this.useDetail.getDicData_fbps("payment_way")
 					.then(res=>{
 						res.body.records.forEach(e=>{
-							if (e.value==this.repaymentWay) {
-								this.repaymentWay=e.label
+							if (e.value==this.paymentWay) {
+								this.paymentWay=e.label
 							}
 						})
 					})
@@ -123,9 +123,10 @@ export class UseDetailComponent implements OnInit{
 		this.applyAmount=res.body.applyAmount	//申请金额：
 		this.approveAmount=res.body.approveAmount	//贷款金额：
 		this.productName=res.body.productName	//贷款产品：
-		this.borrowHowlong=res.body.borrowHowlong	//贷款周期：
-		this.repaymentWay=res.body.repaymentWay	//还款方式：
+		this.ratedCycle=res.body.ratedCycle	//贷款周期：
+		this.paymentWay=res.body.paymentWay	//还款方式：
 		this.rate=res.body.rate	//利率：
+		
 		this.rateType=res.body.rateType	//计息方式：
 
 	}
