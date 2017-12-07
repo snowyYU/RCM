@@ -33,8 +33,10 @@ export class AuthCheckComponent implements OnInit{
 	linkName:string;		//联系人
 	linkMobile:string;		//联系手机
 	linkJob:string;			//联系人职位
-	isLegalDic:string;		//是否法人
-	linkIdcard:string;		//身份证
+	// isLegalDic:string;		//是否法人
+	// linkIdcard:string;		//身份证
+	legalName:string        //法人姓名
+	legalIdcard:string      //法人身份证
 	auditBy:string;			//审核人
     auditDate:string;		//审核时间
     auditRemark:string;		//审核意见
@@ -120,7 +122,9 @@ export class AuthCheckComponent implements OnInit{
 		this.linkName=res.body.linkName;		//联系人
 		this.linkMobile=res.body.linkMobile;		//联系手机
 		this.linkJob=res.body.linkJob;			//联系人职位
-		this.isLegalDic=res.body.isLegalDic;		//是否法人
+		// this.isLegalDic=res.body.isLegalDic;		//是否法人
+		this.legalName=res.body.legalName	    //法人姓名
+		this.legalIdcard=res.body.legalIdcard   //法人身份证
 		//this.auditBy=res.body.auditBy;			//审核人
 	    this.auditDate=res.body.auditDate;		//审核时间
 	    this.auditRemark=res.body.auditRemark;		//审核意见
