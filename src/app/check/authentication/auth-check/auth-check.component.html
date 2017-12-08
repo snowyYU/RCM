@@ -85,6 +85,12 @@
             {{isLegalDic}}
           </div>
         </div>
+        <div class="form-group" *ngIf="isLegalDic=='是'">
+          <label  class="control-label pull-left">法人身份证：</label>
+          <div class="form-control-static pull-left">
+            {{linkIdcard}}
+          </div>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">

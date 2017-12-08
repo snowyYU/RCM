@@ -112,6 +112,7 @@ export class AuthDetailComponent implements OnInit{
 		this.linkMobile=res.body.linkMobile;		//联系手机
 		this.linkJob=res.body.linkJob;			//联系人职位
 		this.isLegalDic=res.body.isLegalDic;		//是否法人
+		this.linkIdcard=res.body.linkIdcard		//idcard
 		this.auditBy=res.body.auditBy;			//审核人
 	    this.auditDate=res.body.auditDate;		//审核时间
 	    this.auditRemark=res.body.auditRemark;		//审核意见
