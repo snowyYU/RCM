@@ -77,15 +77,15 @@
         <div class="form-group">
           <label class="control-label pull-left">会员评级：</label>
           <div class="pull-left">
-            <select name="memberRating" class="form-control" [(ngModel)]="memberRating">
+            <select name="memberRating" class="form-control" [(ngModel)]="memberRating" (change)="memberRatingChange()">
               <option *ngFor="let item of memberRatingL" [value]="item.value">{{item.label}}</option>
             </select>
           </div>
         </div>
         <div class="form-group no-b-margin form-inline">
-          <label class="control-label pull-left">会员评分：</label>
+          <label class="control-label pull-left w-lg">会员评分：</label>
           <div class="pull-left input-group">
-            <input type="number" name="memberRatingGrate" class="form-control" [(ngModel)]="memberRatingGrate">
+            <input type="number" name="memberRatingGrate" class="form-control" [(ngModel)]="memberRatingGrate" [placeholder]="memberRatingGrateLimit.placeholder" [max]="memberRatingGrateLimit.max" [min]="memberRatingGrateLimit.min" style="width: 200px">
             <span class="input-group-addon">分</span>
           </div>
         </div>

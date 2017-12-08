@@ -36,11 +36,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">企业名称：</label>
           <div class="form-control-static pull-left">
-            {{companyName|filterNull:false}} <span *ngIf="memberId">({{memberId}})</span>
-            <span *ngIf="memberId">
-              <!-- <a class="text-info" [routerLink]="['/memberM/memberManage/detail',memberId]">详情</a> -->
-              <!-- <a class="text-info" (click)="goToDetail()">详情</a> -->
-            </span>
+            {{companyName|filterNull:false}}
           </div>
         </div>
         

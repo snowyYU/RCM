@@ -132,7 +132,16 @@ export class CreditCheckService{
 			}
 		})
 	}
-
+	getRateRange(level){
+		return this.myHttp.post({
+			api:this.myHttp.api.rateRange,
+			query:{
+				memberClass:level
+			}
+		}).toPromise().then(res=>{
+			return Promise.resolve(res)
+		})
+	}
 
 
 }

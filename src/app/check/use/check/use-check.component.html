@@ -36,18 +36,14 @@
         <div class="form-group ">
           <label class="control-label pull-left">企业名称：</label>
           <div class="form-control-static pull-left">
-            {{companyName|filterNull:false}} <span *ngIf="memberId">({{memberId}})</span>
-            <span *ngIf="memberId">
-              <!-- <a class="text-info" [routerLink]="['/memberM/memberManage/detail',memberId]">详情</a> -->
-              <!-- <a class="text-info" (click)="goToDetail()">详情</a> -->
-            </span>
+            {{companyName|filterNull:false}}
           </div>
         </div>
         
         <div class="form-group ">
           <label class="control-label pull-left">申请金额：</label>
           <div class="pull-left form-control-static" >
-            {{applyAmount|filterNull:false}}
+            {{applyAmount|filterNull:false}}元
           </div>
         </div>
         <div class="form-group ">
@@ -69,6 +65,9 @@
             <span class="input-group-addon">%</span>
           </div>
         </div> 
+        <div class="form-group font-xs form-control-static">
+          <i class="fa fa-exclamation"></i> 此会员信用评分为<span>{{score}}</span>分，建议浮动利率±<span>{{floatRate}}</span>%
+        </div>
         <div class="form-group form-inline">
           <label class="control-label pull-left m-t-xs">最终确认金额：</label>
           <div class="form-control-static pull-left input-group">
@@ -99,7 +98,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">计息方式：</label>
           <div class="pull-left form-control-static" >
-            {{rateType|filterNull:false}}
+            {{rateTypeDic|filterNull:false}}
           </div>
         </div>
       </div>

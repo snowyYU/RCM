@@ -32,6 +32,8 @@ export class CreditDetailComponent implements OnInit{
     statusDic               //状态，中文
     productList
 
+    memberRating			//会员评级
+    memberRatingGrate		//会员评分：
 	constructor(
 		private router:Router,
 		private route:ActivatedRoute,
@@ -60,7 +62,9 @@ export class CreditDetailComponent implements OnInit{
 									this.productList=res.body.records
 									if(this.productList&&this.productList.length>0){
 										for(let i=0;i<this.productList.length;i++){
-											this.totalCreditValue+=this.productList[i].creditFacility.creditValue
+											if (this.productList[i].creditFacility) {
+												this.totalCreditValue+=this.productList[i].creditFacility.creditValue
+											}
 										}
 									}
 								})
@@ -93,6 +97,8 @@ export class CreditDetailComponent implements OnInit{
 	    this.auditRemark=res.body.auditRemark;		//审核意见
 	    this.status=res.body.status
 	    this.statusDic=res.body.statusDic       //状态，中文
+	    this.memberRating=res.body.memberRating
+		this.memberRatingGrate=res.body.memberRatingGrate
 	}
 
 
