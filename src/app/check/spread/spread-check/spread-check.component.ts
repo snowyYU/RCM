@@ -110,6 +110,8 @@ export class SpreadCheckComponent implements OnInit{
 
     repaymentList:any[]     //还款计划数据
 
+    contractList
+
     constructor(
 		private router:Router,
 		private route:ActivatedRoute,
@@ -136,31 +138,34 @@ export class SpreadCheckComponent implements OnInit{
         .then(res=>{
             console.log(res)
             this.rolloverData=res.body
-            return Promise.resolve(res.body)
+            return this.spreadCheck.getfinanceApply(res.body.borrowApplyId)
         })
         .then(res=>{
-            this.spreadCheck.getfinanceApply(res.borrowApplyId)
-            .then(res=>{
-                console.log(res)
-                this.financeData=res.body.records[0]
-                return Promise.resolve(res.body.records[0])
-            })
-            .then(res=>{
-                this.spreadCheck.getRepaymentPlan(res.borrowApplyId)
-                .then(res=>{
-                    console.log(res)
-                    this.repaymentList=res.body.records
-                })
-                .catch(res=>{
-                    this.pop.error({
-                        title:'错误信息',
-                        text:res.message
-                    })
-                })  
-
-            })
+            this.financeData=res.body.records[0]
+            return this.spreadCheck.getRepaymentPlan(this.financeData.borrowApplyId)
         })
+        .then(res=>{
+            this.repaymentList=res.body.records
+            return this.spreadCheck.getContractList(this.financeData.borrowApplyId)
+
+        })
+        .then(res=>{
+            if (res.status==200) {
+                console.log(res)
+                this.contractList=res.body.records
+            }
+        })
+        .catch(res=>{
+            this.pop.error({
+                title:'错误信息',
+                text:res.message
+            })
+        })  
+        
     }
+
+    //获取合同附件
+    
 
     submitConfirm(param: number) {
 		let str:string
@@ -220,6 +225,7 @@ export class SpreadCheckComponent implements OnInit{
             this.submitting=false
         })
     }
+
 
     downEvent(){
         this.show=true;

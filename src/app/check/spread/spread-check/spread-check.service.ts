@@ -69,7 +69,7 @@ export class SpreadCheckService {
 		})
     }
 
-	保存审批结果
+	//保存审批结果
     saveRollover(queryData:SendData):Promise<any>{
 		return this.myHttp.post({
 			api:this.myHttp.api.saveRollover,
@@ -83,4 +83,15 @@ export class SpreadCheckService {
 			}
 		})
     }
+    getContractList(id):Promise<any>{
+    	return this.myHttp.post({
+    		api:this.myHttp.api.contractList,
+    		query:id
+    	}).toPromise().then(res=>{
+    		return Promise.resolve(res)
+    	})
+    }
+
+
+    
 }

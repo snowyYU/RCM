@@ -12,6 +12,7 @@ import { FilterNullPipe } from '../../pipe/filter-null/filter-null.pipe'
 import { FilterMultiplyPipe } from '../../pipe/filter-multiply/filter-multiply.pipe'
 import { PreviewerComponent } from '../../utils/previewer/previewer.component'
 import { PreviewOrDownloadComponent } from '../../utils/preview-or-download/preview-or-download.component'
+import { PreviewBtnComponent } from '../../utils/preview-btn/preview-btn.component'
 import { DropDownComponent } from '../../utils/drop-down/drop-down.component'
 import { MySrcDirective } from '../../utils/previewer/mySrc.directive'
 import { HTML5ValidateDirective } from '../../directives/HTML5Validate/HTML5Validate.directive'
@@ -57,6 +58,7 @@ import { CommonModule as MyCommonModule } from 'dolphinng'
     MySrcDirective,
     PreviewerComponent,
     PreviewOrDownloadComponent,
+    PreviewBtnComponent,
     DropDownComponent,
     HTML5ValidateDirective,
     // DatetimePickerComponent
@@ -83,6 +85,7 @@ import { CommonModule as MyCommonModule } from 'dolphinng'
     PreviewerComponent,
     PreviewOrDownloadComponent,
     DropDownComponent,
+    PreviewBtnComponent,
     HTML5ValidateDirective,
     // DatetimePickerComponent
   ]
