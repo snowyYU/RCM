@@ -29,7 +29,7 @@ export class SpreadComponent implements OnInit {
 	page:number=0
     count:number
     
-    qryStatus=2                     //请求状态
+    qryStatus=-1                     //请求状态
     keyWord                         //请求关键字
 
     dictList:any[]
