@@ -371,7 +371,10 @@ export const API = {
     url:'sem/creditAuth/creditAuthApplyReply',
     method:'post'
   },
-
+  rateRange:{
+    url:'rm/fractionGrade/getById',
+    method:'post'
+  },
   /*
     用款审批
    */
@@ -402,7 +405,11 @@ export const API = {
     method:'get',
     host:host_fbps
   },
-
+  getScore:{
+    url:'base/products/getScore',
+    method:'get',
+    host:host_fbps
+  },
   /*
     展期审批
    */
@@ -426,7 +433,10 @@ export const API = {
     url:'lms/rolloverLoan/rolloverApprove',
     method:'post'
   },
-  
+  contractList:{
+    url:'lms/rolloverLoan/contractList',
+    method:'get'
+  },
   /*-----------------------------------会员管理---------------------------------------*/
   /*-----------------------------------会员管理---------------------------------------*/
   vipManageList:{//会员管理列表
