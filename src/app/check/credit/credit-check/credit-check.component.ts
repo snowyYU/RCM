@@ -267,7 +267,7 @@ export class CreditCheckComponent implements OnInit{
 		//手动校验
 		if (result>0) {
 			if (this.memberRating) {
-				if ((this.memberRatingGrate>this.memberRatingGrateLimit.min)&&(this.memberRatingGrate<=this.memberRatingGrateLimit.max)) {
+				if ((this.memberRatingGrate>=this.memberRatingGrateLimit.min)&&(this.memberRatingGrate<=this.memberRatingGrateLimit.max)) {
 					
 				}else{
 					console.log(this.memberRatingGrateLimit.placeholder)
