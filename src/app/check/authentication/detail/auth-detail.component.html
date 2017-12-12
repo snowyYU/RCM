@@ -79,10 +79,22 @@
             {{linkJob | filterNull:false}}
           </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label  class="control-label pull-left">是否法人：</label>
           <div class="form-control-static pull-left">
             {{isLegalDic}}
+          </div>
+        </div> -->
+        <div class="form-group">
+          <label  class="control-label pull-left">法人姓名：</label>
+          <div class="form-control-static pull-left">
+            {{legalName}}
+          </div>
+        </div>
+        <div class="form-group">
+          <label  class="control-label pull-left">法人身份证：</label>
+          <div class="form-control-static pull-left">
+            {{legalIdcard}}
           </div>
         </div>
         <div class="form-group" *ngIf="isLegalDic=='是'">
