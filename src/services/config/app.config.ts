@@ -83,7 +83,7 @@ class Config{
     this.initSystems();
   }
   init(){
-    this.name='fbps_web';
+    this.name='rcm_web';
     this.version='0.01';
     this.env={
       production:environment.production,
@@ -104,9 +104,9 @@ class Config{
         file:'http://121.46.18.25:9090/oss/'
       },
       prod:{
-        api:'http://192.168.10.10:9090/crm/',
-        oauth:'http://192.168.10.10:9090/ims/',
-        fbps:'http://192.168.10.10:9090/fbps/',
+        api:'http://120.76.244.160:8082/crm/',
+        oauth:'http://120.76.244.160:8082/ims/',
+        fbps:'http://120.76.244.160:8082/fbps/',
         file:'http://121.46.18.25:9090/oss/'
       }
     };
@@ -123,15 +123,15 @@ class Config{
       link:{//链接
         dev:'http://192.168.10.10:8091/fbps',
         test:'http://192.168.10.10:9091/fbps',
-        prod:'',
+        prod:'http://fsmp.money56.com:8083/fbps',
       },
       active:false
     },{
       name:'客户关系管理系统',
       link:{//链接
-        dev:'http://192.168.10.10:8090/crm',
-        test:'http://192.168.10.10:9090/crm',
-        prod:'',
+        dev:'http://192.168.10.10:8091/crm',
+        test:'http://192.168.10.10:9091/crm',
+        prod:'http://fsmp.money56.com:8083/crm',
       },
       active:false
     },{
@@ -139,15 +139,15 @@ class Config{
       link:{//链接
         dev:'http://192.168.10.10:8091/rcm',
         test:'http://192.168.10.10:9091/rcm',
-        prod:'',
+        prod:'http://fsmp.money56.com:8083/rcm',
       },
-      active:true
+      active:false
     },{
       name:'银行账户管理系统',
       link:{//链接
         dev:'',
-        test:'',
-        prod:'',
+        test:'http://192.168.10.10:9091/ams',
+        prod:'http://fsmp.money56.com:8082/ams',
       },
       active:false
     },{
@@ -155,9 +155,9 @@ class Config{
       link:{//链接
         dev:'http://192.168.10.10:8091/ims',
         test:'http://192.168.10.10:9091/ims',
-        prod:'',
+        prod:'http://fsmp.money56.com:8083/ims',
       },
-      active:false
+      active:true
     }];
   }
 

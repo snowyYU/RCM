@@ -70,7 +70,7 @@ export class UseCheckService{
 		})
 	}
 
-	getFloatRange(score,appId):Promise<any>{
+	getScore(score,appId):Promise<any>{
 		return this.myHttp.get({
 			api:this.myHttp.api.getScore,
 			query:{
@@ -82,7 +82,7 @@ export class UseCheckService{
 		})
 	}
 
-	getScore(memberId):Promise<any>{
+	memberDetailMain(memberId):Promise<any>{
 		return this.myHttp.get({
 			api:this.myHttp.api.memberDetailMain,
 			query:{

@@ -7,6 +7,7 @@ import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
 import { LibraryService } from 'snowy-library-ng'
+import { config } from '../../../../services/config/app.config';
 @Component({
 	selector:'credit-check',
 	templateUrl:'./credit-check.component.html',
@@ -42,6 +43,7 @@ export class CreditCheckComponent implements OnInit{
     productList:any[]=[]
     productListKey={}
 
+	disabled:boolean=true//判断是否可以点击添加
 	
     uniqueL:any[]=[]
 
@@ -118,6 +120,9 @@ export class CreditCheckComponent implements OnInit{
 			.then((res)=>{
 				if (res.status==200) {
 					this.productList=res.body.records
+					if (this.productList&&this.productList.length>0) {
+						this.disabled=false
+					}
 					res.body.records.forEach(e=>{
 						this.productListKey[e.productId]=e
 					})
@@ -144,7 +149,6 @@ export class CreditCheckComponent implements OnInit{
 		this.creditCheck.getCreditProducts(this.memberId)
 			.then((res)=>{
 				if (res.status) {
-
 					this.creditProductList=res.arr
 					if (res.arr instanceof Array) {
 						if (res.arr[0]) {
@@ -267,7 +271,7 @@ export class CreditCheckComponent implements OnInit{
 		//手动校验
 		if (result>0) {
 			if (this.memberRating) {
-				if ((this.memberRatingGrate>this.memberRatingGrateLimit.min)&&(this.memberRatingGrate<=this.memberRatingGrateLimit.max)) {
+				if ((this.memberRatingGrate>=this.memberRatingGrateLimit.min)&&(this.memberRatingGrate<=this.memberRatingGrateLimit.max)) {
 					
 				}else{
 					console.log(this.memberRatingGrateLimit.placeholder)
@@ -348,10 +352,15 @@ export class CreditCheckComponent implements OnInit{
 
 	addProductItem(){
 		if (this.creditProductList.length>=this.productList.length) {
-			this.pop.info({
-				title:"提示信息",
-				text:"产品数不能大于"+this.productList.length
-			})
+			// this.pop.info({
+			// 	title:"提示信息",
+			// 	text:"产品数不能大于"+this.productList.length
+			// })
+			if(this.disabled){
+				
+			}else{
+				this.disabled=true
+			}
 			return
 		}
 		let item:productItem={

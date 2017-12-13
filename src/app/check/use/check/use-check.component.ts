@@ -103,14 +103,14 @@ export class UseCheckComponent implements OnInit{
 					})
 			})
 			.then(res=>{
-				return this.getScore()
+				return this.memberDetailMain()
 			})
 			.then(res=>{
-				console.log("after getScore function,the response",res)
+				console.log("after memberDetailMain function,the response",res)
 				if (res.status==200) {
 					this.score=res.body.memberRatingGrate
 
-					return this.getFloatRange(res.body.memberRatingGrate,res.body.appId)
+					return this.getScore(res.body.memberRatingGrate,res.body.appId)
 				}
 					
 			})
@@ -139,11 +139,11 @@ export class UseCheckComponent implements OnInit{
 				})
 	}
 
-	getScore(){
-		return this.useCheck.getScore(this.memberId)
+	memberDetailMain(){
+		return this.useCheck.memberDetailMain(this.memberId)
 	}
-	getFloatRange(score,appId){
-		return this.useCheck.getFloatRange(score,appId)
+	getScore(score,appId){
+		return this.useCheck.getScore(score,appId)
 	}
 
 

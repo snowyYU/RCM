@@ -66,7 +66,7 @@
           </div>
         </div> 
         <div class="form-group font-xs form-control-static">
-          <i class="fa fa-exclamation"></i> 此会员信用评分为<span>{{score}}</span>分，建议浮动利率±<span>{{floatRate}}</span>%
+          <i class="icon icon-info"></i> 此会员信用评分为<span>{{score}}</span>分，建议浮动利率<span *ngIf="floatRate!=0">±</span><span>{{floatRate | percent}}</span>
         </div>
         <div class="form-group form-inline">
           <label class="control-label pull-left m-t-xs">最终确认金额：</label>

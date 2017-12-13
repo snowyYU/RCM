@@ -62,7 +62,7 @@ export class SpreadDetailService {
     getContractList(id):Promise<any>{
     	return this.myHttp.post({
     		api:this.myHttp.api.contractList,
-    		query:id
+    		query:{borrowApplyId:id}
     	}).toPromise().then(res=>{
     		return Promise.resolve(res)
     	})
