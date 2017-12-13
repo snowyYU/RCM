@@ -32,7 +32,8 @@ export class UseApplyComponent implements OnInit{
 	modalMemberName
 	modalCreditList:any[]=[]
 
-	status:string="2"
+	status:string
+	tab:string="0"
 	constructor(
 		private useApply:UseApplyService,
 		private router:Router,
@@ -44,14 +45,13 @@ export class UseApplyComponent implements OnInit{
 
 	ngOnInit(){
 		this.subscribeRouteParams()
-
 	}
 
 	subscribeRouteParams(){
 		this.route.paramMap.subscribe((paramMap:ParamMap)=>{
 			paramMap['params']['rows']?this.rows=parseInt(paramMap['params']['rows']):null
 			paramMap['params']['page']?this.page=parseInt(paramMap['params']['page']):null
-			paramMap['params']['status']?this.status=paramMap['params']['status']:null
+			paramMap['params']['tab']?this.tab=paramMap['params']['tab']:null
 			paramMap['params']['companyName']?this.companyName=paramMap['params']['companyName']:null
 			paramMap['params']['borrowApplyId']?this.borrowApplyId=paramMap['params']['borrowApplyId']:null
 			this.loading=true
@@ -64,13 +64,13 @@ export class UseApplyComponent implements OnInit{
 		let routeParam:{
 			page:number;
 			rows:number;
-			status:string;
+			tab:string;
 			companyName?:string;
 			borrowApplyId?:string
 		}={
 			page:this.page,
 			rows:this.rows,
-			status:this.status
+			tab:this.tab
 		}
 		if (this.companyName) {
 			routeParam.companyName=this.companyName
@@ -83,7 +83,11 @@ export class UseApplyComponent implements OnInit{
 	}
 
 	getList(){
-		
+		if(this.tab=='0'){
+			this.status='2'
+		}else{
+			this.status='3,-3,5,6,-6,7,-7,8,9,10'
+		}
 		let sendData:SendData={
 			page:this.page+1,
 			rows:this.rows,
@@ -91,6 +95,7 @@ export class UseApplyComponent implements OnInit{
 			companyName:this.companyName,
 			borrowApplyId:this.borrowApplyId
 		}
+
 		this.useApply.getListData(sendData)
 					.then(res=>{
 						this.handleListData(res)
