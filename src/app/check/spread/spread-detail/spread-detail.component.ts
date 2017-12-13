@@ -146,12 +146,12 @@ export class SpreadDetailComponent implements OnInit{
 
         // })
         .then(res=>{
-            this.spreadDetail.getContractList(res.borrowApplyId)
+            this.spreadDetail.getContractList(res.rolloverApplyId)
                 .then(res=>{
                     console.log(res)
-                    this.contractList=res.records
-                    if (res.records[0]) {
-                        res.records.forEach(e=>{
+                    this.contractList=res.body.records
+                    if (res.body.records[0]) {
+                        res.body.records.forEach(e=>{
                             this.attachment[e.fileLoadId]=e
                         })
                     }
