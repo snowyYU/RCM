@@ -87,17 +87,30 @@
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group ">
           <label class="control-label pull-left">展期合同：</label>
-          <div class="form-control-static pull-left">
-
+          <div class="col-md-8 p-l-none form-control-static pull-left">
+            <div class="form-group" *ngFor="let item of contractList">
+              <div class="col-md-6" textMaxLength="140px">
+                {{item.fileName}}
+              </div>
+              <div class="col-md-6">
+                <preview-btn [fileId]="item.fileLoadId" (imgPreview)="previewer.open($event.event,$event.url,'img')" (pdfPreview)="previewer.open($event.event,$event.url,'file')">
+                  
+                </preview-btn>
+              </div>
+            </div>
           </div>
         </div>
       </div>
       <div class="col-md-6 form-horizontal form-label-7">
         <div class="form-group">
           <label class="control-label pull-left">展期凭证：</label>
-          <span class="form-control-static pull-left">
-            
-          </span>
+          <div class="form-control-static" >
+            <div class="col-md-6 p-l-none" *ngIf="rolloverData.fileLoadId">
+              <preview-btn [fileId]="rolloverData.fileLoadId" [showName]=true (imgPreview)="previewer.open($event.event,$event.url,'img')" (pdfPreview)="previewer.open($event.event,$event.url,'file')">
+                
+              </preview-btn>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -116,7 +129,7 @@
           </span>
         </div>
       </div>
-      <drop-down [show]="show">
+      <drop-down [show]="showArrow">
         <div data-type="dropContent">
         <div class="form-group form-horizontal form-label-7 clearfix">
           <div class="col-md-6 p-l-none">
@@ -163,7 +176,7 @@
         <div class="form-group form-horizontal form-label-7 clearfix">
           <div class="col-md-12 p-l-none m-t-sm">
             <label class="control-label pull-left">还款计划：</label>
-            <div class="pull-left">
+            <div class="col-md-10 m-t-sm">
               <table class="table showL b-t">
                 <thead>
                     <tr>
@@ -175,15 +188,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of repaymentList" [class.bg-warning]="item.status==0">
+                  <tr *ngFor="let item of repaymentList">
                     <td class="text-center">{{'第'+item.currentPeriod+'期'}}</td>
                     <td class="text-center">{{item.repaymentDate | effDateFormat}}</td>
-                    <td class="text-right">{{item.repaymentCapital | yuanFormat:2:true}}</td>
-                    <td class="text-right">{{item.repaymentInterest | yuanFormat:2:true}}</td>
+                    <td class="text-right text-gold">{{item.repaymentCapital | yuanFormat:2:true}}</td>
+                    <td class="text-right text-gold">{{item.repaymentInterest | yuanFormat:2:true}}</td>
                     <td class="text-center">{{item.statusName}}</td>
                   </tr>
                   <tr *ngIf="!repaymentList||repaymentList.length===0">
-                    <td colspan="4" class="text-disabled text-center"> 无</td>
+                    <td colspan="5" class="text-disabled text-center"> 无</td>
                   </tr>
                 </tbody>
               </table>
@@ -250,4 +263,5 @@
     </section>
   </form>
 </div>
-<gallery #gallery></gallery>
+<!-- <gallery #gallery></gallery> -->
+<previewer></previewer>

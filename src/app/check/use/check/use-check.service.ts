@@ -40,11 +40,8 @@ export class UseCheckService{
 			}
 		}).toPromise().then(res=>{
 			let data=res;
-			if (data.status==200) {
-				 return Promise.resolve(data)
-			}else{
-				return Promise.reject(data)
-			}
+			return Promise.resolve(data)
+			
 		})
 	}
 	getProveDataList(id:number):Promise<any>{
@@ -72,6 +69,30 @@ export class UseCheckService{
 			
 		})
 	}
+
+	getScore(score,appId):Promise<any>{
+		return this.myHttp.get({
+			api:this.myHttp.api.getScore,
+			query:{
+				score:score,
+				appId:appId
+			}
+		}).toPromise().then(res=>{
+			return Promise.resolve(res)
+		})
+	}
+
+	memberDetailMain(memberId):Promise<any>{
+		return this.myHttp.get({
+			api:this.myHttp.api.memberDetailMain,
+			query:{
+				memberId:memberId
+			}
+		}).toPromise().then(res=>{
+			return Promise.resolve(res)
+		})
+	}
+
 
 	secondApprove(sendData:SendData):Promise<any>{
 		return this.myHttp.post({

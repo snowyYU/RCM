@@ -20,11 +20,11 @@
     
   <div class="tab-container">
     <ul class="nav nav-tabs nav-tab-info">
-      <li [ngClass]="{'active':status=='2'}">
-        <a (click)="status='2';navigate()">待审批</a>
+      <li [ngClass]="{'active':tab=='0'}">
+        <a (click)="tab='0';navigate()">待审批</a>
       </li>
-      <li [ngClass]="{'active':status=='3,-3'}">
-        <a (click)="status='3,-3';navigate()">已审批</a>
+      <li [ngClass]="{'active':tab=='1'}">
+        <a (click)="tab='1';navigate()">已审批</a>
       </li>
     </ul>
     <div class="tab-content">
@@ -42,7 +42,7 @@
           </p-column>
           <p-column field="productName" header="贷款产品"  [style]="{'width':'130px'}">
             <ng-template let-loan="rowData" pTemplate="body">
-              <div textMaxLength="130px" title="{{loan.applyAmount|currencyFormat|filterNull}}">
+              <div textMaxLength="130px" title="{{loan.productName|filterNull}}">
                 {{loan.productName}}
               </div>
             </ng-template>
@@ -56,7 +56,7 @@
               {{loan.applyAmount|currencyFormat|filterNull}}
             </ng-template>
           </p-column>
-          <p-column styleClass="text-right text-gold" [style]="{'width':'120px'}" *ngIf="status=='3,-3'">
+          <p-column styleClass="text-right text-gold" [style]="{'width':'140px'}" *ngIf="tab=='1'">
             <ng-template pTemplate="header" >
               最终确认金额(元)
             </ng-template>
@@ -73,16 +73,14 @@
             </ng-template>
           </p-column>
           
-          <p-column field="statusName2" header="状态" styleClass="text-center"  [style]="{'width':'130px'}"></p-column>
+          <p-column field="statusName" header="状态" styleClass="text-center"  [style]="{'width':'130px'}"></p-column>
           <!-- <p-column field="remarks" header="备注" styleClass="text-center"></p-column>-->
-          <p-column [style]="{'width':'140px'}" >
-            <ng-template pTemplate="header" >
-              操作
-            </ng-template>
+          <p-column field="" header="操作" styleClass="text-center" [style]="{'width':'60px'}" >
+            
             <ng-template let-loan="rowData" pTemplate="body">
               <div class="table-btn-group">
-                <a class="table-btn" *ngIf="status=='2'" routerLink="/check/use/useCheck/{{loan.borrowApplyId}}">审批</a>
-                <a class="table-btn" *ngIf="status=='3,-3'" routerLink="/check/use/useDetail/{{loan.borrowApplyId}}">详情</a>
+                <a class="table-btn" *ngIf="tab=='0'" routerLink="/check/use/useCheck/{{loan.borrowApplyId}}">审批</a>
+                <a class="table-btn" *ngIf="tab=='1'" routerLink="/check/use/useDetail/{{loan.borrowApplyId}}">详情</a>
               </div>
             </ng-template>
           </p-column>

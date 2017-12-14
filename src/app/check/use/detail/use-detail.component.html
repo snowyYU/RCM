@@ -3,7 +3,7 @@
   <a class="page-location-item"><i class="page-location-icon glyphicon glyphicon-briefcase"></i>审批事项<i class="pad-l-min fa fa-angle-right"></i></a>
   <a class="page-location-item active">用款审批详情</a>
 </div>
-<div class="wrapper">
+<div class="wrapper" [ngClass]="{'approved-pass':status==3,'approved-refuse':status==-3}">
   <form #form>
     <!-- <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent"> -->
       <section class="panel-body group mar-b-sm">
@@ -36,31 +36,27 @@
         <div class="form-group ">
           <label class="control-label pull-left">企业名称：</label>
           <div class="form-control-static pull-left">
-            {{companyName|filterNull:false}} <span *ngIf="memberId">({{memberId}})</span>
-            <span *ngIf="memberId">
-              <!-- <a class="text-info" [routerLink]="['/memberM/memberManage/detail',memberId]">详情</a> -->
-              <!-- <a class="text-info" (click)="goToDetail()">详情</a> -->
-            </span>
+            {{companyName|filterNull:false}}
           </div>
         </div>
         
         <div class="form-group ">
           <label class="control-label pull-left">申请金额：</label>
           <div class="pull-left form-control-static" >
-            {{applyAmount|filterNull:false}}
+            {{applyAmount|filterNull:false}}元
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">贷款周期：</label>
           <div class="pull-left form-control-static" >
-            {{borrowHowlong|filterNull:false}}
+            {{ratedCycle|filterNull:false}}
           </div>
         </div>
         
         <div class="form-group ">
           <label class="control-label pull-left">利率：</label>
           <div class="form-control-static pull-left">
-            {{rate | filterNull}}
+            {{rate | percent|filterNull }}
           </div>
         </div>  
        
@@ -87,7 +83,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">还款方式：</label>
           <div class="pull-left form-control-static" >
-            {{repaymentWay|filterNull:false}}
+            {{paymentWay|filterNull:false}}
           </div>
         </div>
         <div class="form-group ">

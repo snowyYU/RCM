@@ -69,6 +69,8 @@ export class SpreadCheckComponent implements OnInit{
     //用于记录提交申请前的页面
     memberDetailDomain
 
+    attachment:object={}
+
     rolloverData:{          //展期数据
         rolloverApplyId?
         createTime?
@@ -110,6 +112,8 @@ export class SpreadCheckComponent implements OnInit{
 
     repaymentList:any[]     //还款计划数据
 
+    contractList
+
     constructor(
 		private router:Router,
 		private route:ActivatedRoute,
@@ -136,31 +140,87 @@ export class SpreadCheckComponent implements OnInit{
         .then(res=>{
             console.log(res)
             this.rolloverData=res.body
+            this.attachment[res.body.fileLoadId]={}
             return Promise.resolve(res.body)
         })
+        // .then(res=>{
+        //     this.spreadCheck.getContractList(res.borrowApplyId)
+        //         .then(res=>{
+        //             console.log(res)
+        //     })
+        //     return Promise.resolve(res)
+
+        // })
         .then(res=>{
-            this.spreadCheck.getfinanceApply(res.borrowApplyId)
-            .then(res=>{
-                console.log(res)
-                this.financeData=res.body.records[0]
-                return Promise.resolve(res.body.records[0])
-            })
-            .then(res=>{
-                this.spreadCheck.getRepaymentPlan(res.borrowApplyId)
+            this.spreadCheck.getContractList(res.rolloverApplyId)
                 .then(res=>{
                     console.log(res)
-                    this.repaymentList=res.body.records
+                    this.contractList=res.body.records
+                    if (res.body.records[0]) {
+                        res.body.records.forEach(e=>{
+                            this.attachment[e.fileLoadId]=e
+                        })
+                    }
+            })
+            this.spreadCheck.getfinanceApply(res.borrowApplyId)
+                .then(res=>{
+                    console.log(res)
+                    this.financeData=res.body.records[0]
+                    return Promise.resolve(res.body.records[0])
                 })
-                .catch(res=>{
-                    this.pop.error({
-                        title:'错误信息',
-                        text:res.message
+                .then(res=>{
+                    this.spreadCheck.getRepaymentPlan(res.borrowApplyId)
+                    .then(res=>{
+                        console.log(res)
+                        this.repaymentList=res.body.records
                     })
-                })  
+                    .catch(res=>{
+                        this.pop.error({
+                            title:'错误信息',
+                            text:res.message
+                        })
+                    })  
+
+                })
 
             })
-        })
+        .catch()
+        
     }
+
+    // getDetail(id:string){
+    //     this.spreadCheck.getRolloverDetail(id)
+    //     .then(res=>{
+    //         console.log(res)
+    //         this.rolloverData=res.body
+    //         return this.spreadCheck.getfinanceApply(res.body.borrowApplyId)
+    //     })
+    //     .then(res=>{
+    //         this.financeData=res.body.records[0]
+    //         return this.spreadCheck.getRepaymentPlan(this.financeData.borrowApplyId)
+    //     })
+    //     .then(res=>{
+    //         this.repaymentList=res.body.records
+    //         return this.spreadCheck.getContractList(this.rolloverData.rolloverApplyId)
+
+    //     })
+    //     .then(res=>{
+    //         if (res.status==200) {
+    //             console.log(res)
+    //             this.contractList=res.body.records
+    //         }
+    //     })
+    //     .catch(res=>{
+    //         this.pop.error({
+    //             title:'错误信息',
+    //             text:res.message
+    //         })
+    //     })  
+        
+    // }
+
+    //获取合同附件
+    
 
     submitConfirm(param: number) {
 		let str:string
@@ -220,6 +280,7 @@ export class SpreadCheckComponent implements OnInit{
             this.submitting=false
         })
     }
+
 
     downEvent(){
         this.show=true;

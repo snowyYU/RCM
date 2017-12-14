@@ -26,6 +26,7 @@ export class SpreadService {
 		}).toPromise().then(res=>{
 			let data=res
 			if (data.status==200) {
+				data.body.records.unshift({label:'全部',value:'-1'})
 				return Promise.resolve(data)
 			}else{
 				return Promise.reject(data)
@@ -46,4 +47,8 @@ export class SpreadService {
 			}
 		})
     }
+
+   
+
+
 }

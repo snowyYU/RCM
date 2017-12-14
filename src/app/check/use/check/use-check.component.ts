@@ -5,7 +5,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { PopService } from 'dolphinng';
 import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { UseCheckService,SendData } from './use-check.service'
-import { GalleryComponent} from 'dolphinng';
+// import { GalleryComponent} from 'dolphinng';
 import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 
 import { PreviewerComponent } from '../../../../utils/previewer/previewer.component'
@@ -30,10 +30,11 @@ export class UseCheckComponent implements OnInit{
 	applyAmount	//申请金额：
 	approveAmount	//贷款金额：
 	productName	//贷款产品：
-	borrowHowlong	//贷款周期：
+	ratedCycle	//贷款周期：
 	repaymentWay	//还款方式：
 	rate:any=0	//利率：
 	rateType	//计息方式：
+	rateTypeDic
 
 	proveDataList:any[]=[]
     
@@ -47,9 +48,16 @@ export class UseCheckComponent implements OnInit{
 
 	attachment:object={}
 
+	checkResult
+
+	//小提示部分的变量
+	score
+	floatRate
+
+
 	//用于记录提交申请前的页面
     memberDetailDomain
-	@ViewChild(GalleryComponent) gallery:GalleryComponent;
+	// @ViewChild(GalleryComponent) gallery:GalleryComponent;
 	@ViewChild(PreviewerComponent) previewer:PreviewerComponent;
 
 	constructor(
@@ -74,16 +82,16 @@ export class UseCheckComponent implements OnInit{
 			.then(res=>{
 				this.getSecondLogList()
 			})
-			.then(res=>{
-				this.useCheck.getDicData_fbps("interest_type")
-					.then(res=>{
-						res.body.records.forEach(e=>{
-							if (e.value==this.rateType) {
-								this.rateType=e.label
-							}
-						})
-					})
-			})
+			// .then(res=>{
+			// 	this.useCheck.getDicData_fbps("interest_type")
+			// 		.then(res=>{
+			// 			res.body.records.forEach(e=>{
+			// 				if (e.value==this.rateType) {
+			// 					this.rateType=e.label
+			// 				}
+			// 			})
+			// 		})
+			// })
 			.then(res=>{
 				this.useCheck.getDicData_fbps("payment_way")
 					.then(res=>{
@@ -93,6 +101,24 @@ export class UseCheckComponent implements OnInit{
 							}
 						})
 					})
+			})
+			.then(res=>{
+				return this.memberDetailMain()
+			})
+			.then(res=>{
+				console.log("after memberDetailMain function,the response",res)
+				if (res.status==200) {
+					this.score=res.body.memberRatingGrate
+
+					return this.getScore(res.body.memberRatingGrate,res.body.appId)
+				}
+					
+			})
+			.then(res=>{
+				console.log(res)
+				if (res.status==200) {
+					this.floatRate=this.rateType?res.body.monthInterestUp:res.body.dayInterestUp
+				}
 			})
 		this.getProveDataList();
 				
@@ -113,6 +139,14 @@ export class UseCheckComponent implements OnInit{
 				})
 	}
 
+	memberDetailMain(){
+		return this.useCheck.memberDetailMain(this.memberId)
+	}
+	getScore(score,appId){
+		return this.useCheck.getScore(score,appId)
+	}
+
+
 	handle(res){
 		console.log(res)
 		this.borrowApplyId=res.body.borrowApplyId	//贷款单号：
@@ -125,10 +159,11 @@ export class UseCheckComponent implements OnInit{
 		this.applyAmount=res.body.applyAmount	//申请金额：
 		this.approveAmount=res.body.approveAmount	//贷款金额：
 		this.productName=res.body.productName	//贷款产品：
-		this.borrowHowlong=res.body.borrowHowlong	//贷款周期：
+		this.ratedCycle=res.body.ratedCycle	//贷款周期：
 		this.repaymentWay=res.body.paymentWay	//还款方式：
-		this.rate=res.body.rate?res.body.rate:0	//利率：
+		this.rate=res.body.rate?res.body.rate*100:0	//利率：
 		this.rateType=res.body.rateType	//计息方式：
+		this.rateTypeDic=res.body.rateTypeDic	//计息方式：
 
 	}
 
@@ -255,7 +290,7 @@ export class UseCheckComponent implements OnInit{
 		let data:SendData={
 			borrowApplyId:this.borrowApplyId,
 			approveAmount:this.approveAmount,
-			rate:this.rate,
+			rate:this.rate*0.01,
 			status:status,
 			remarks:this.secondCheckOpinion,
 			auditOneBy:this.auth.userName

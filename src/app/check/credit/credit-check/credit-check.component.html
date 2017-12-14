@@ -77,15 +77,15 @@
         <div class="form-group">
           <label class="control-label pull-left">会员评级：</label>
           <div class="pull-left">
-            <select name="memberRating" class="form-control" [(ngModel)]="memberRating">
+            <select name="memberRating" class="form-control" [(ngModel)]="memberRating" (change)="memberRatingChange()">
               <option *ngFor="let item of memberRatingL" [value]="item.value">{{item.label}}</option>
             </select>
           </div>
         </div>
         <div class="form-group no-b-margin form-inline">
-          <label class="control-label pull-left">会员评分：</label>
+          <label class="control-label pull-left w-lg">会员评分：</label>
           <div class="pull-left input-group">
-            <input type="text" name="memberRatingGrate" class="form-control" [(ngModel)]="memberRatingGrate">
+            <input type="number" name="memberRatingGrate" class="form-control" [(ngModel)]="memberRatingGrate" [placeholder]="memberRatingGrateLimit.placeholder" [max]="memberRatingGrateLimit.max" [min]="memberRatingGrateLimit.min" style="width: 200px">
             <span class="input-group-addon">分</span>
           </div>
         </div>
@@ -128,15 +128,15 @@
 
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def m-l btn-def-success" (click)="creditAuthApplyReply(1)">通过<i class="fa fa-check-circle-o"></i></button>
-        <button class="btn-def m-l btn-def-danger" (click)="creditAuthApplyReply(-1)">拒绝<i class="fa fa-ban"></i></button>
+        <button class="btn-def m-l" (click)="creditAuthApplyReply(1)">通过<i class="fa fa-check-circle-o text-success"></i></button>
+        <button class="btn-def m-l" (click)="creditAuthApplyReply(-1)">拒绝<i class="fa fa-ban text-danger"></i></button>
         <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
 
     </section>
   
-  <section class="bg-white clearfix productInfo pos-abt m-t-xl" style="height: 420px;overflow-y: scroll;">
-      <div class="col-md-12">
+  <section class="bg-white clearfix productInfo pos-abt m-t-xl row" style="height: 400px;overflow-y: scroll;">
+      <div class="col-md-12 no-padding">
           <table class="table showL b-t">
               <thead>
                   <tr>
@@ -149,7 +149,7 @@
    
               <tbody >
                   <tr *ngFor="let item of creditProductList;let i=index">
-                      <td>
+                      <td style="width: 120px">
                         <select name="productId_{{item.uniqueId}}" class="form-control" [(ngModel)]="item.productId" (change)="darkroom()">
                           <ng-container *ngFor="let option of productList">
                             <ng-container >
@@ -161,20 +161,20 @@
                               
                         </select>
                       </td>
-                      <td style="width: 200px">
-                        <input name="creditValue_{{item.uniqueId}}" type="text" [(ngModel)]="item.creditValue" class="form-control" >
+                      <td style="width: 140px">
+                        <input name="creditValue_{{item.uniqueId}}" type="number" [(ngModel)]="item.creditValue" (blur)="countCreditMount()" class="form-control" >
                       </td>
-                      <td style="width: 180px">
+                      <td style="width: 100px">
                         <div class="input-group">
                           
                           <div class="pull-left form-group">
-                            <datetime-picker [(value)]="item.expiryDateBegin" [max]="item.expiryDateEnd">
+                            <datetime-picker [(value)]="item.expiryDateBegin" [max]="item.expiryDateEnd" direction="bottom">
                               <input class="form-control" [(ngModel)]="item.expiryDateBegin" name="startTime_{{item.uniqueId}}" placeholder="开始日期" />
                             </datetime-picker>
                           </div>
                           
                           <div class="pull-left">
-                            <datetime-picker [(value)]="item.expiryDateEnd" [min]="item.expiryDateBegin">
+                            <datetime-picker [(value)]="item.expiryDateEnd" [min]="item.expiryDateBegin" direction="bottom">
                               <input class="form-control" [(ngModel)]="item.expiryDateEnd" name="endTime_{{item.uniqueId}}" placeholder="结束日期" />
                             </datetime-picker>
                             
@@ -182,14 +182,14 @@
                           </div>
                         </div>
                       </td>
-                      <td><a class="text-danger" *ngIf="creditProductList.length>1" (click)="deleteProductItem(i)">删除</a></td>
+                      <td style="width: 40px"><a class="text-danger" *ngIf="creditProductList.length>1" (click)="deleteProductItem(i)">删除</a></td>
                   </tr>
                   <tr *ngIf="!creditProductList||creditProductList.length===0">
                     <td colspan="4" class="text-disabled text-center"> 无</td>
                   </tr>
                   <tr>
                     <td colspan="4">
-                      <a class="text-info" (click)="addProductItem()">
+                      <a class="text-info" (click)="addProductItem()" [class.disabled]="disabled">
                       +添加
                       </a>
                     </td>
@@ -197,6 +197,12 @@
                   </tr>
 
               </tbody>
+              <tfoot>
+                <tr>
+                  <td class="text-center tfoot-style">合计：</td>
+                  <td class="text-left tfoot-style" colspan="3">{{totalCreditMount | yuanFormat:2:true | filterNull:false}} 元</td>
+                </tr>
+              </tfoot>
           </table>
       </div>
   </section>

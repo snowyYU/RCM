@@ -7,6 +7,7 @@ import { AuthRoleService } from '../../../../services/authRole/authRole.service'
 import { SessionStorageService } from '../../../../services/session-storage/session-storage.service'
 import { SubmitLoadingService } from '../../../../utils/submit-loading/submit-loading.service'
 import { LibraryService } from 'snowy-library-ng'
+import { config } from '../../../../services/config/app.config';
 @Component({
 	selector:'credit-check',
 	templateUrl:'./credit-check.component.html',
@@ -32,7 +33,7 @@ export class CreditCheckComponent implements OnInit{
 	auditBy:string;			//审核人
     auditRemark:string;		//审核意见
     auditDate:string;		//审核时间
-    memberRatingGrate=""
+    memberRatingGrate=null
 
     memberRating=""			//评级
     memberRatingL:any[]=[]
@@ -42,11 +43,24 @@ export class CreditCheckComponent implements OnInit{
     productList:any[]=[]
     productListKey={}
 
+	disabled:boolean=true//判断是否可以点击添加
 	
     uniqueL:any[]=[]
 
 
 	productLNotShow:any[]=[]
+
+	totalCreditMount:number=0
+
+	memberRatingGrateLimit:{
+		placeholder?
+		max?
+		min?
+	}={
+		placeholder:"",
+		max:null,
+		min:null
+	}
 
 	constructor(
 		private router:Router,
@@ -67,22 +81,31 @@ export class CreditCheckComponent implements OnInit{
 		this.getData();
 		this.auditBy=this.authRole.userName
 		this.submitLoading.show=false
-		this.getCreditProducts()
+		// this.getCreditProducts()
 		this.getMemberRatingL()
+		
 	}
 
 	getData(){
 		this.creditCheck.getData(this.route.params['value']['id'])
 						.then(res=>{
 							console.log(res)
+							let t=(new Date()).valueOf()
+							console.log("时间戳1",t)
 							this.handle(res)
 						})
 						.then(res=>{
+							console.log("test,you know",res)
+							console.log("时间戳3",(new Date()).valueOf())
+
+							this.getProductList()
+						})
+						.then(res=>{
+							console.log("时间戳2",(new Date()).valueOf())
 							this.getCreditProducts()
 						})
 						.then(res=>{
-							console.log("test,you know",res)
-							this.getProductList()
+							this.memberRatingChange()
 						})
 						.catch(res=>{
 							this.pop.error({
@@ -97,6 +120,9 @@ export class CreditCheckComponent implements OnInit{
 			.then((res)=>{
 				if (res.status==200) {
 					this.productList=res.body.records
+					if (this.productList&&this.productList.length>0) {
+						this.disabled=false
+					}
 					res.body.records.forEach(e=>{
 						this.productListKey[e.productId]=e
 					})
@@ -123,13 +149,21 @@ export class CreditCheckComponent implements OnInit{
 		this.creditCheck.getCreditProducts(this.memberId)
 			.then((res)=>{
 				if (res.status) {
-
 					this.creditProductList=res.arr
-					this.creditProductList.forEach(e=>{
-						e.uniqueId=this.libF.createUniqueId(this.uniqueL)
-					})
+					if (res.arr instanceof Array) {
+						if (res.arr[0]) {
+							this.creditProductList.forEach(e=>{
+								e.uniqueId=this.libF.createUniqueId(this.uniqueL)
+							})
+						}else{
+							this.addProductItem()
+						}
+							
+					}
+						
 					//关小黑屋
 					this.darkroom()
+						
 				}else{
 					this.pop.error({
 						title:"错误信息",
@@ -184,6 +218,18 @@ export class CreditCheckComponent implements OnInit{
 			return true
 		}
 	}
+	//会员评级改变触发函数
+	memberRatingChange(){
+		this.memberRatingGrate=null
+		this.creditCheck.getRateRange(this.memberRating)
+			.then(res=>{
+				if (res.status==200) {
+					this.memberRatingGrateLimit.max=res.body.maxValue
+					this.memberRatingGrateLimit.min=res.body.lowValue
+					this.memberRatingGrateLimit.placeholder="评分范围"+res.body.lowValue+"～"+res.body.maxValue
+				}
+			})
+	}
 
 	handle(res){
 		console.log(res)
@@ -206,12 +252,43 @@ export class CreditCheckComponent implements OnInit{
 	    this.memberRating=res.body.memberRating
 	}
 
+	countCreditMount(){
+		let count=0
+		this.creditProductList.forEach(e=>{
+			if (typeof e.creditValue == "number") {
+				count=count+e.creditValue
+			}
+		})
+		this.totalCreditMount=count
+	}
 
 	back(){
 		this.router.navigate(['check/credit'],{queryParams:{status:'1'}})
 	}
 
 	creditAuthApplyReply(result){
+		console.log(this.memberRatingGrateLimit)
+		//手动校验
+		if (result>0) {
+			if (this.memberRating) {
+				if ((this.memberRatingGrate>=this.memberRatingGrateLimit.min)&&(this.memberRatingGrate<=this.memberRatingGrateLimit.max)) {
+					
+				}else{
+					console.log(this.memberRatingGrateLimit.placeholder)
+					this.pop.info({
+						title:"提示信息",
+						text:this.memberRatingGrateLimit.placeholder
+					})
+					return
+				}
+			}else{
+				this.pop.info({
+					title:"提示信息",
+					text:"会员评级不能为空"
+				})
+				return
+			}
+		}
 
 		this.submitLoading.show=true
 
@@ -275,10 +352,15 @@ export class CreditCheckComponent implements OnInit{
 
 	addProductItem(){
 		if (this.creditProductList.length>=this.productList.length) {
-			this.pop.info({
-				title:"提示信息",
-				text:"产品数不能大于"+this.productList.length
-			})
+			// this.pop.info({
+			// 	title:"提示信息",
+			// 	text:"产品数不能大于"+this.productList.length
+			// })
+			if(this.disabled){
+				
+			}else{
+				this.disabled=true
+			}
 			return
 		}
 		let item:productItem={
@@ -296,6 +378,7 @@ export class CreditCheckComponent implements OnInit{
 	}
 	deleteProductItem(index){
 		this.creditProductList.splice(index,1)
+		this.countCreditMount()
 	}
 
 

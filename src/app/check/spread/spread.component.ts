@@ -29,7 +29,7 @@ export class SpreadComponent implements OnInit {
 	page:number=0
     count:number
     
-    qryStatus=2                     //请求状态
+    qryStatus=-1                     //请求状态
     keyWord                         //请求关键字
 
     dictList:any[]
@@ -39,7 +39,7 @@ export class SpreadComponent implements OnInit {
 
     thisPageRoute:string='check/spread'
     constructor(
-		private authList:SpreadService,
+		private spread:SpreadService,
 		private router:Router,
 		private route:ActivatedRoute,
 		private pop:PopService,
@@ -90,7 +90,7 @@ export class SpreadComponent implements OnInit {
     }
 
     getStatusList(){
-        this.authList.getStatusList()
+        this.spread.getStatusList()
         .then(res=>{
             this.loading=false
             console.log(res)
@@ -112,7 +112,7 @@ export class SpreadComponent implements OnInit {
             status:this.qryStatus,                  //请求状态
             companyName:this.keyWord,           //会员名称（支持模糊模糊匹配）
 		}
-		this.authList.getDataList(sendData)
+		this.spread.getDataList(sendData)
 			.then(res=>{
                 this.handleData(res)
 			})

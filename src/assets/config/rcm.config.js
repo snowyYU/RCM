@@ -29,10 +29,9 @@ env 全局环境变量
     },
     //生产访问地址
     prod:{
-      api:'',//api地址
-      oauth:'',//认证地址
-      fbps:'',//业务系统
-      file:''//文件服务器地址
+      api:'http://120.76.244.160:8082/rcm/',//api地址
+      oauth:'http://120.76.244.160:8082/ims/',//认证地址
+      file:'http://121.46.18.25:9090/oss/'//文件服务器地址
     }
   },
   //登录页系统列表
@@ -49,7 +48,7 @@ env 全局环境变量
     link:{//链接
       dev:'http://192.168.10.10:8091/fbps',
       test:'http://192.168.10.10:9091/fbps',
-      prod:''
+      prod:'http://fsmp.money56.com:8083/fbps'
     },
     active:false
   },{
@@ -57,7 +56,7 @@ env 全局环境变量
     link:{//链接
       dev:'http://192.168.10.10:8091/crm',
       test:'http://192.168.10.10:9091/crm',
-      prod:''
+      prod:'http://fsmp.money56.com:8083/crm'
     },
     active:false
   },{
@@ -65,15 +64,15 @@ env 全局环境变量
     link:{//链接
       dev:'http://192.168.10.10:8091/rcm',
       test:'http://192.168.10.10:9091/rcm',
-      prod:''
+      prod:'http://fsmp.money56.com:8083/rcm'
     },
-    active:true
+    active:false
   },{
     name:'银行账户管理系统',
     link:{//链接
       dev:'',
-      test:'',
-      prod:''
+      test:'http://192.168.10.10:9090/ams',
+      prod:'http://fsmp.money56.com:8082/ams'
     },
     active:false
   },{
@@ -81,9 +80,9 @@ env 全局环境变量
     link:{//链接
       dev:'http://192.168.10.10:8091/ims',
       test:'http://192.168.10.10:9091/ims',
-      prod:''
+      prod:'http://fsmp.money56.com:8083/ims'
     },
-    active:false
+    active:true
   }]
 };
 

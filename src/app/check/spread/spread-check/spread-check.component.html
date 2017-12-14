@@ -56,8 +56,7 @@
           <label class="control-label m-t-xs pull-left">批准还款日期：</label>
           <div class="pull-left form-control-static" >
              <input type="text" name="comfirmRolloverDate" class="form-control" datePicker required placeholder="请选择" [(ngModel)]="comfirmRolloverDate" 
-                   [opt-max]="maxDate" autocomplete="off"
-                   [HTML5Validate]="[[comfirmRolloverDate==='','请输入批准还款日期：！']]"
+                   autocomplete="off" [HTML5Validate]="[[comfirmRolloverDate==='','请输入批准还款日期：！']]"
               />
           </div>
         </div>
@@ -88,7 +87,39 @@
           </span>
         </div>
       </div>
-    </section >
+    </section>
+    <section class="panel-body group mar-b-sm" >
+      <div class="col-md-6 form-horizontal form-label-7">
+        <div class="form-group ">
+          <label class="control-label pull-left">展期合同：</label>
+          <div class="col-md-8 p-l-none form-control-static pull-left">
+            <div class="form-group" *ngFor="let item of contractList">
+              <div class="col-md-6" textMaxLength="140px">
+                {{item.fileName}}
+              </div>
+              <div class="col-md-6">
+                <preview-btn [fileId]="item.fileLoadId" (imgPreview)="previewer.open($event.event,$event.url,'img')" (pdfPreview)="previewer.open($event.event,$event.url,'file')">
+                  
+                </preview-btn>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 form-horizontal form-label-7">
+        <div class="form-group">
+          <label class="control-label pull-left">展期凭证：</label>
+          <div class="form-control-static" >
+            
+            <div class="col-md-6 p-l-none" *ngIf="rolloverData.fileLoadId">
+              <preview-btn [fileId]="rolloverData.fileLoadId" [showName]=true (imgPreview)="previewer.open($event.event,$event.url,'img')" (pdfPreview)="previewer.open($event.event,$event.url,'file')">
+                
+              </preview-btn>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="panel-body group mar-b-sm p-b-none" >
       <div class="form-group form-horizontal form-label-7 clearfix">
         <div class="col-md-6 p-l-none">
@@ -151,7 +182,7 @@
         <div class="form-group form-horizontal form-label-7 clearfix">
           <div class="col-md-12 p-l-none">
             <label class="control-label pull-left">还款计划：</label>
-            <div class="pull-left m-t-sm">
+            <div class="col-md-10 m-t-sm">
               <table class="table showL b-t">
                 <thead>
                     <tr>
@@ -163,15 +194,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of repaymentList" [class.bg-warning]="item.status==0">
+                  <tr *ngFor="let item of repaymentList">
                     <td class="text-center">{{'第'+item.currentPeriod+'期'}}</td>
                     <td class="text-center">{{item.repaymentDate | effDateFormat}}</td>
-                    <td class="text-right">{{item.repaymentCapital | yuanFormat:2:true}}</td>
-                    <td class="text-right">{{item.repaymentInterest | yuanFormat:2:true}}</td>
+                    <td class="text-right text-gold">{{item.repaymentCapital | yuanFormat:2:true}}</td>
+                    <td class="text-right text-gold">{{item.repaymentInterest | yuanFormat:2:true}}</td>
                     <td class="text-center">{{item.statusName}}</td>
                   </tr>
                   <tr *ngIf="!repaymentList||repaymentList.length===0">
-                    <td colspan="4" class="text-disabled text-center"> 无</td>
+                    <td colspan="5" class="text-disabled text-center"> 无</td>
                   </tr>
                 </tbody>
               </table>
@@ -219,11 +250,11 @@
     </section>
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def m-l btn-def-success" (click)="submitConfirm(3)">通过<i class="fa fa-check-circle-o"></i></button>
-        <button class="btn-def m-l btn-def-danger" (click)="submitConfirm(-3)">拒绝<i class="fa fa-ban"></i></button>
+        <button class="btn-def m-l" (click)="submitConfirm(3)">通过<i class="fa fa-check-circle-o text-success"></i></button>
+        <button class="btn-def m-l" (click)="submitConfirm(-3)">拒绝<i class="fa fa-ban text-danger"></i></button>
         <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
     </section>
   </form>
 </div>
-<gallery #gallery></gallery>
+<previewer #previewer></previewer> 

@@ -4,7 +4,7 @@
   <a class="page-location-item active">用款审批</a>
 </div>
 <div class="wrapper">
-  <form #form>
+  <form #form="ngForm" HTML5Validate (submit)="submitConfirm(checkResult)">
     <!-- <section class=" clearfix form-horizontal form-label-7  no-t-padding no-b-padding" style="border:1px solid transparent"> -->
       <section class="panel-body group mar-b-sm">
       <div class=" col-md-6 form-horizontal form-label-7">
@@ -36,24 +36,20 @@
         <div class="form-group ">
           <label class="control-label pull-left">企业名称：</label>
           <div class="form-control-static pull-left">
-            {{companyName|filterNull:false}} <span *ngIf="memberId">({{memberId}})</span>
-            <span *ngIf="memberId">
-              <!-- <a class="text-info" [routerLink]="['/memberM/memberManage/detail',memberId]">详情</a> -->
-              <!-- <a class="text-info" (click)="goToDetail()">详情</a> -->
-            </span>
+            {{companyName|filterNull:false}}
           </div>
         </div>
         
         <div class="form-group ">
           <label class="control-label pull-left">申请金额：</label>
           <div class="pull-left form-control-static" >
-            {{applyAmount|filterNull:false}}
+            {{applyAmount|filterNull:false}}元
           </div>
         </div>
         <div class="form-group ">
           <label class="control-label pull-left">贷款周期：</label>
           <div class="pull-left form-control-static" >
-            {{borrowHowlong|filterNull:false}}
+            {{ratedCycle|filterNull:false}}
           </div>
         </div>
         <!-- <div class="form-group ">
@@ -64,16 +60,19 @@
         </div> -->
         <div class="form-group form-inline">
           <label class="control-label pull-left m-t-xs">利率：</label>
-          <div class="form-control-static pull-left">
-            <input type="text" class="form-control" name="rate" [(ngModel)]="rate">
-            
+          <div class="form-control-static pull-left input-group">
+            <input type="number" class="form-control" name="rate" [(ngModel)]="rate" step="0.00001">
+            <span class="input-group-addon">%</span>
           </div>
         </div> 
+        <div class="form-group font-xs form-control-static">
+          <i class="icon icon-info"></i> 此会员信用评分为<span>{{score}}</span>分，建议浮动利率<span *ngIf="floatRate!=0">±</span><span>{{floatRate | percent}}</span>
+        </div>
         <div class="form-group form-inline">
           <label class="control-label pull-left m-t-xs">最终确认金额：</label>
-          <div class="form-control-static pull-left">
-            <input type="text" class="form-control" name="approveAmount" [(ngModel)]="approveAmount">
-            <span>元</span>
+          <div class="form-control-static pull-left input-group">
+            <input type="number" class="form-control" name="approveAmount" [(ngModel)]="approveAmount" required HTML5Validate step="0.01">
+            <span class="input-group-addon">元</span>
           </div>
         </div>   
       </div>
@@ -99,7 +98,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">计息方式：</label>
           <div class="pull-left form-control-static" >
-            {{rateType|filterNull:false}}
+            {{rateTypeDic|filterNull:false}}
           </div>
         </div>
       </div>
@@ -171,7 +170,7 @@
         <div class="form-group ">
           <label class="control-label pull-left">二审意见：</label>
           <div class="form-control-static pull-left">
-            <textarea name="secondCheckOpinion" class="form-control" cols="50" rows="5" [(ngModel)]="secondCheckOpinion"></textarea>
+            <textarea name="secondCheckOpinion" class="form-control" cols="50" rows="5" [(ngModel)]="secondCheckOpinion" placeholder="小于50字" maxlength="50"></textarea>
             
           </div>
         </div>  
@@ -181,8 +180,8 @@
     </section >
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def m-l btn-def-success" (click)="submitConfirm(3)">通过<i class="fa fa-check-circle-o"></i></button>
-        <button class="btn-def m-l btn-def-danger" (click)="submitConfirm(-3)">拒绝<i class="fa fa-ban"></i></button>
+        <button class="btn-def m-l" (click)="checkResult=3">通过<i class="fa fa-check-circle-o text-success"></i></button>
+        <button class="btn-def m-l" (click)="checkResult=-3">拒绝<i class="fa fa-ban text-danger"></i></button>
         <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
 

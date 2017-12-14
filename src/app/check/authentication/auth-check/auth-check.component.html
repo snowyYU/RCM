@@ -53,10 +53,10 @@
           <label class="control-label pull-left">会员类别：</label>
           <span class="form-control-static pull-left">  {{memberTypeDic | filterNull:false}}</span>
         </div>
-        <!-- <div class="form-group no-b-margin">
+        <div class="form-group no-b-margin">
           <label class="control-label pull-left">状态：</label>
           <span class="form-control-static pull-left">  {{statusDic | filterNull}}</span>
-        </div> -->
+        </div>
       </div>
     </section >
     <section class="mar-b-sm form-horizontal form-label-7 group clearfix">
@@ -79,12 +79,30 @@
             {{linkJob | filterNull:false}}
           </div>
         </div>
-        <div class="form-group">
+        <!-- <div class="form-group">
           <label  class="control-label pull-left">是否法人：</label>
           <div class="form-control-static pull-left">
             {{isLegalDic}}
           </div>
+        </div> -->
+        <div class="form-group">
+          <label  class="control-label pull-left">法人姓名：</label>
+          <div class="form-control-static pull-left">
+            {{legalName}}
+          </div>
         </div>
+        <div class="form-group">
+          <label  class="control-label pull-left">法人身份证：</label>
+          <div class="form-control-static pull-left">
+            {{legalIdcard}}
+          </div>
+        </div>
+        <!-- <div class="form-group" *ngIf="isLegalDic=='是'">
+          <label  class="control-label pull-left">法人身份证：</label>
+          <div class="form-control-static pull-left">
+            {{linkIdcard}}
+          </div>
+        </div> -->
       </div>
       <div class="col-md-6">
         <div class="form-group">
@@ -203,8 +221,8 @@
 
     <section class="wrapper clearfix">
       <div class="col-md-12 text-center">
-        <button class="btn-def m-l btn-def-success" (click)="submitConfirm(1)">通过<i class="fa fa-check-circle-o"></i></button>
-        <button class="btn-def m-l btn-def-danger" (click)="submitConfirm(-1)">拒绝<i class="fa fa-ban"></i></button>
+        <button class="btn-def m-l" (click)="submitConfirm(1)">通过<i class="fa fa-check-circle-o text-success"></i></button>
+        <button class="btn-def m-l" (click)="submitConfirm(-1)">拒绝<i class="fa fa-ban text-danger"></i></button>
         <a (click)="back()" class="btn-def m-l">放弃<i class="fa fa-arrow-circle-o-left"></i></a>
       </div>
     </section>
