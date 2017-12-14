@@ -28,7 +28,7 @@
           <p-column field="repaymentAmount" header="展期金额" [style]="{'width':'150px'}">
             <ng-template let-operation="rowData" pTemplate="body">
               <div class="text-right">
-                {{operation.repaymentAmount | yuanFormat:2:true}}
+                {{operation.repaymentCapital | yuanFormat:2:true}}
               </div>
             </ng-template>
           </p-column>
