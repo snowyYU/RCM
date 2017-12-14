@@ -105,11 +105,8 @@
         <div class="form-group">
           <label class="control-label pull-left">展期凭证：</label>
           <div class="form-control-static" >
-            <div class="col-md-6">
-              
-            </div>
             <div class="col-md-6" *ngIf="rolloverData.fileLoadId">
-              <preview-btn [fileId]="rolloverData.fileLoadId" (imgPreview)="previewer.open($event.event,$event.url,'img')" (pdfPreview)="previewer.open($event.event,$event.url,'file')">
+              <preview-btn [fileId]="rolloverData.fileLoadId" [showName]=true (imgPreview)="previewer.open($event.event,$event.url,'img')" (pdfPreview)="previewer.open($event.event,$event.url,'file')">
                 
               </preview-btn>
             </div>
