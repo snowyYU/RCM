@@ -9,7 +9,7 @@ env 全局环境变量
 测试环境 test
 测试环境 dev development
 */
-  env:'dev',
+  env:'prod',
   host:{
     //开发访问地址
     dev:{
@@ -29,9 +29,10 @@ env 全局环境变量
     },
     //生产访问地址
     prod:{
-      api:'http://120.76.244.160:8082/rcm/',//api地址
-      oauth:'http://120.76.244.160:8082/ims/',//认证地址
-      file:'http://121.46.18.25:9090/oss/'//文件服务器地址
+      api:'http://api.money56.com:8082/rcm/',//api地址
+      oauth:'http://api.money56.com:8082/ims/',//认证地址
+      fbps:'http://api.money56.com:8082/fbps/',
+      file:'http://oss.money56.com:8080/oss',//文件服务器地址
     }
   },
   //登录页系统列表
